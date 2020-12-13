@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">راديو القرآن</string>
+    <string name="quran_radio_icon_des">راديو القرآن</string>
+    <string name="radio_stations">محطات الراديو</string>
+    <string name="favourites">المفضلة</string>
+    <string name="settings">الإعدادات</string>
+    <string name="language">اللغة</string>
+    <string name="arabic">العربية</string>
+    <string name="english">الانجليزية</string>
+    <string name="french">الفرنسية</string>
+    <string name="dark_mode">الوضع الليلي</string>
+    <string name="settings_ok">تم</string>
+    <string name="settings_cancel">إلغاء</string>
+    <string name="stream_time">مدة البث</string>
+    <string name="forever">بدون مدة</string>
+    <string name="custom">مخصص</string>
+    <string name="current_stream_time">مدة البث الحالية</string>
+    <string name="toolbar_image_des">صورة</string>
+    <string name="recordings">التسجيلات</string>
+    <string name="no_internet">لا يوجد اتصال إنترنت الآن الرجاء الاتصال بالإنترنت أولاً أو</string>
+    <string name="go_to_recordings">انتقل إلى التسجيلات</string>
+    <string name="go_to_stations">اذهب إلى محطات الراديو</string>
+    <string name="no_recordings">لا توجد تسجيلات الآن ، يرجى تسجيل شيء ما أولاً</string>
+    <string name="no_fav">لا توجد محطات مفضلة الآن الرجاء إضافة المحطات المفضلة أولاً أو</string>
+    <string name="maintenance_msg">عذرًا يتم إجراء اصلاحات فى قاعدة البيانات، يرجى المحاولة في وقت لاحق خلال اليوم.</string>
+    <string name="remove_icon">مسح</string>
+    <string name="player_image_des">صورة المشغل</string>
+    <string name="previous_button">السابق</string>
+    <string name="play_button">تشغيل/توقيف</string>
+    <string name="next_button">التالي</string>
+    <string name="record_button">تسجيل</string>
+    <string name="seek_backward_btn">الى الخلف</string>
+    <string name="seek_forward_btn">الى الامام</string>
+    <string name="alert_dialog">حذف</string>
+    <string name="alert_msg">هل أنت متاكد من حذف هذا التسجيل؟</string>
+
+</resources>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.settings.SettingsActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <RadioGroup
+        android:id="@+id/lang_radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimen_8dp"
+        android:layout_marginTop="@dimen/dimen_16dp"
+        android:layout_marginEnd="@dimen/dimen_8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/language" />
+
+        <RadioButton
+            android:id="@+id/arabic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/arabic" />
+
+        <RadioButton
+            android:id="@+id/english"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/english" />
+
+        <RadioButton
+            android:id="@+id/french"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/french" />
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimen_8dp"
+        android:layout_marginTop="@dimen/dimen_8dp"
+        android:layout_marginEnd="@dimen/dimen_8dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dark_mode" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/dark_mode_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_16dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dimen_8dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dimen_16dp"
+            android:text="@string/stream_time" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/custom_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layoutDirection="ltr"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/hours_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/hours_hh"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            android:maxLength="2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/colon" />
+
+        <EditText
+            android:id="@+id/minutes_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/minutes_mm"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            android:maxLength="2" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/ok_btn"
+            style="@style/Theme.AppCompat.DayNight.Dialog"
+            android:layout_width="@dimen/dimen_0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen_4dp"
+            android:layout_weight="1"
+            android:text="@string/settings_ok" />
+
+        <Button
+            android:id="@+id/cancel_btn"
+            style="@style/Theme.AppCompat.DayNight.Dialog"
+            android:layout_width="@dimen/dimen_0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen_4dp"
+            android:layout_weight="1"
+            android:text="@string/settings_cancel" />
+    </LinearLayout>
+
+</LinearLayout>

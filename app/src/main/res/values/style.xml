@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="main_buttons_style" parent="@style/Widget.MaterialComponents.Button.Icon">
+        <item name="android:layout_width">@dimen/dimen_260dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/dimen_8dp</item>
+        <item name="android:layout_marginStart">@dimen/dimen_32dp</item>
+        <item name="android:layout_marginEnd">@dimen/dimen_32dp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">start</item>
+        <item name="android:textColor">@color/logo_text_color</item>
+        <item name="android:textSize">@dimen/textSize_18sp</item>
+    </style>
+    <style name="sw600main_buttons_style" parent="@style/Widget.MaterialComponents.Button.Icon">
+        <item name="android:layout_width">@dimen/dimen_450dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/dimen_8dp</item>
+        <item name="android:layout_marginStart">@dimen/dimen_32dp</item>
+        <item name="android:layout_marginEnd">@dimen/dimen_32dp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">start</item>
+        <item name="android:textColor">@color/logo_text_color</item>
+        <item name="android:textSize">@dimen/textSize_36sp</item>
+    </style>
+</resources>

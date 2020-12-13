@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Quran Radio</string>
+    <string name="quran_radio_icon_des">Quran Radio</string>
+    <string name="radio_stations">Stations de radio</string>
+    <string name="favourites">Favoris</string>
+    <string name="settings">Réglages</string>
+    <string name="language">Langue</string>
+    <string name="arabic">Arabe</string>
+    <string name="english">Anglais</string>
+    <string name="french">Français</string>
+    <string name="dark_mode">Mode sombre</string>
+    <string name="settings_ok">Bien</string>
+    <string name="settings_cancel">Annuler</string>
+    <string name="stream_time">Temps de diffusion</string>
+    <string name="forever">Pour toujours</string>
+    <string name="custom">Douane</string>
+    <string name="current_stream_time">heure actuelle du flux</string>
+    <string name="toolbar_image_des">image</string>
+    <string name="recordings">Enregistrements</string>
+    <string name="no_internet">Il n\'y a pas de connexion Internet maintenant Veuillez d\'abord vous connecter à Internet Ou</string>
+    <string name="go_to_recordings">Aller aux enregistrements</string>
+    <string name="go_to_stations">شller aux stations</string>
+    <string name="no_recordings">Il n\'y a aucun enregistrement pour le moment, veuillez d\'abord enregistrer quelque chose</string>
+    <string name="no_fav">Il n\'y a pas de favoris pour le moment, veuillez d\'abord ajouter des favoris ou</string>
+    <string name="maintenance_msg">La base de données est en cours de maintenance, veuillez réessayer plus tard dans la journée.</string>
+    <string name="remove_icon">supprimer l\'icône</string>
+    <string name="player_image_des">Image du lecteur audio</string>
+    <string name="previous_button">bouton précédent</string>
+    <string name="play_button">Bouton jouer</string>
+    <string name="next_button">bouton suivant</string>
+    <string name="record_button">bouton d\'enregistrement</string>
+    <string name="seek_backward_btn">chercher en arrière</string>
+    <string name="seek_forward_btn">chercher en avant</string>
+    <string name="alert_dialog">Supprimer l\'entrée</string>
+    <string name="alert_msg">Êtes-vous sûr de vouloir supprimer cette entrée?</string>
+
+</resources>

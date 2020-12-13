@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.main.MainActivity">
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gifImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/quran_radio_icon_des"
+        android:src="@drawable/quran"
+        app:layout_constraintBottom_toTopOf="@id/radio_stations_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textAllCaps="true"
+        android:textColor="@color/logo_text_color"
+        android:textSize="@dimen/textSize_48sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/radio_stations_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideline"
+        app:layout_constraintVertical_bias="0.62" />
+
+    <Button
+        android:id="@+id/radio_stations_btn"
+        style="@style/sw600main_buttons_style"
+        android:text="@string/radio_stations"
+        app:icon="@drawable/ic_baseline_radio_24"
+        app:iconPadding="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="@color/logo_text_color"
+        app:strokeWidth="2dp" />
+
+    <Button
+        android:id="@+id/favourites_btn"
+        style="@style/sw600main_buttons_style"
+        android:text="@string/favourites"
+        app:icon="@drawable/ic_baseline_favorite_white"
+        app:iconPadding="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radio_stations_btn"
+        app:strokeColor="@color/logo_text_color"
+        app:strokeWidth="2dp" />
+
+    <Button
+        android:id="@+id/records_btn"
+        style="@style/sw600main_buttons_style"
+        android:text="@string/recordings"
+        app:icon="@drawable/ic_baseline_keyboard_voice_24"
+        app:iconPadding="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/favourites_btn"
+        app:strokeColor="@color/logo_text_color"
+        app:strokeWidth="2dp" />
+
+    <Button
+        android:id="@+id/settings_btn"
+        style="@style/sw600main_buttons_style"
+        android:text="@string/settings"
+        app:icon="@drawable/ic_baseline_settings_24"
+        app:iconPadding="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/records_btn"
+        app:strokeColor="@color/logo_text_color"
+        app:strokeWidth="2dp" />
+
+    <TextView
+        android:id="@+id/version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dimen_4dp"
+        android:text="@string/v1_0_from"
+        android:textColor="@color/logo_text"
+        android:textSize="@dimen/textSize_28sp"
+        app:layout_constraintBottom_toBottomOf="@+id/gifImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/settings_btn"
+        app:layout_constraintVertical_bias="0.78" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/abdoroid"
+        android:textColor="@color/logo_text"
+        android:textSize="@dimen/textSize_40sp"
+        app:layout_constraintBottom_toBottomOf="@+id/gifImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/version" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="@dimen/dimen_389dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

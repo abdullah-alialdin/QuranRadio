@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="color_primary">#300657</color>
+    <color name="color_primary_variant">#37769C</color>
+    <color name="color_secondary">#D1AEF4</color>
+    <color name="color_secondary_variant">#62E6E5</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="vis_color">#AFD2F4</color>
+    <color name="logo_text_color">#FFFFFFFF</color>
+    <color name="card_view_back">#56585A</color>
+    <color name="list_item_color">#7228BC</color>
+    <color name="logo_text">#80ffffff</color>
+</resources>

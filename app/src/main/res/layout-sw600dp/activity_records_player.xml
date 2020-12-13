@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/player_background"
+    android:orientation="vertical"
+    tools:context=".ui.player.RecordsPlayerActivity">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_0dp"
+        android:layout_marginStart="@dimen/dimen_64dp"
+        android:layout_marginEnd="@dimen/dimen_64dp"
+        android:layout_marginTop="@dimen/dimen_64dp"
+        android:layout_marginBottom="@dimen/dimen_16dp"
+        app:cardBackgroundColor="@color/card_view_back"
+        app:strokeWidth="@dimen/dimen_2dp"
+        app:strokeColor="@color/logo_text_color"
+        app:cardCornerRadius="@dimen/dimen_40dp"
+        app:cardElevation="@dimen/dimen_8dp"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintBottom_toTopOf="@id/station_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/quran"
+            android:background="@color/holo_background"
+            android:contentDescription="@string/player_image_des" />
+        
+        <com.gauravk.audiovisualizer.visualizer.BarVisualizer
+            android:id="@+id/visualizer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dimen_24dp"
+            android:layout_marginRight="@dimen/dimen_12dp"
+            app:avColor="@color/vis_color"
+            app:avDensity="0.5"
+            app:avSpeed="normal"
+            app:avType="fill"
+            tools:ignore="RtlHardcoded" />
+        
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <TextView
+        android:id="@+id/station_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="@dimen/textSize_48sp"
+        android:fontFamily="cursive"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/mainView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.75"/>
+
+    <TextView
+        android:id="@+id/time_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="@dimen/textSize_120sp"
+        android:fontFamily="casual"
+        app:layout_constraintTop_toBottomOf="@id/station_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/mainView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layoutDirection="ltr"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:id="@+id/seek_bkd"
+            android:layout_width="@dimen/dimen_0dp"
+            android:layout_height="@dimen/dimen_100dp"
+            android:layout_weight="1"
+            android:background="@color/holo_background"
+            android:scaleType="fitCenter"
+            android:src="@drawable/seekb" 
+            android:contentDescription="@string/seek_backward_btn"/>
+
+        <ImageButton
+            android:id="@+id/previous"
+            android:layout_width="@dimen/dimen_0dp"
+            android:layout_height="@dimen/dimen_150dp"
+            android:layout_weight="1"
+            android:background="@color/holo_background"
+            android:scaleType="fitCenter"
+            android:src="@drawable/prev"
+            android:contentDescription="@string/previous_button" />
+
+        <ImageButton
+            android:id="@+id/play"
+            android:layout_width="@dimen/dimen_0dp"
+            android:layout_height="@dimen/dimen_200dp"
+            android:layout_weight="1.5"
+            android:background="@color/holo_background"
+            android:scaleType="fitCenter"
+            android:src="@drawable/play"
+            android:contentDescription="@string/play_button" />
+
+        <ImageButton
+            android:id="@+id/next"
+            android:layout_width="@dimen/dimen_0dp"
+            android:layout_height="@dimen/dimen_150dp"
+            android:layout_weight="1"
+            android:background="@color/holo_background"
+            android:scaleType="fitCenter"
+            android:src="@drawable/next"
+            android:contentDescription="@string/next_button" />
+
+        <ImageButton
+            android:id="@+id/seek_frd"
+            android:layout_width="@dimen/dimen_0dp"
+            android:layout_height="@dimen/dimen_100dp"
+            android:layout_weight="1"
+            android:background="@color/holo_background"
+            android:scaleType="fitCenter"
+            android:src="@drawable/seekf"
+            android:contentDescription="@string/seek_forward_btn" />
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
