@@ -1,7 +1,7 @@
 package abdoroid.quranradio.adapter;
+
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -16,7 +16,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import abdoroid.quranradio.R;
@@ -48,7 +47,7 @@ public class RecordsAdapter extends RecyclerView.Adapter<RecordsAdapter.RadioVie
     public void onBindViewHolder(@NonNull RadioViewHolder holder, int position) {
         editor = sharedPreferences.edit();
         holder.radioName.setText(radiosList.get(position).getName());
-        setFocusableInTouchModeByScreenSize(radiosList.get(position).getName().length(), holder.radioName);
+        holder.radioName.setSelected(true);
         Activity activity = (Activity) context;
         holder.radioName.setOnClickListener(view -> {
             Intent intent = new Intent(context.getApplicationContext(), RecordsPlayerActivity.class);
@@ -60,13 +59,13 @@ public class RecordsAdapter extends RecyclerView.Adapter<RecordsAdapter.RadioVie
         holder.removeIcon.setOnClickListener(v -> new AlertDialog.Builder(context)
                 .setTitle(R.string.alert_dialog)
                 .setMessage(R.string.alert_msg)
-                .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                .setPositiveButton(R.string.settings_ok, (dialog, which) -> {
                     removeItemAt(position);
                     editor.apply();
                     activity.finish();
                     activity.startActivity(activity.getIntent());
                 })
-                .setNegativeButton(android.R.string.no, null)
+                .setNegativeButton(R.string.settings_cancel, null)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show());
 
@@ -82,22 +81,10 @@ public class RecordsAdapter extends RecyclerView.Adapter<RecordsAdapter.RadioVie
         notifyDataSetChanged();
     }
 
-    private void setFocusableInTouchModeByScreenSize(int stringLength, View view){
-        int screenSize = context.getResources().getConfiguration().screenLayout &
-                Configuration.SCREENLAYOUT_SIZE_MASK;
+    static class RadioViewHolder extends RecyclerView.ViewHolder {
+        final TextView radioName;
+        final ImageView removeIcon;
 
-        if (screenSize == Configuration.SCREENLAYOUT_SIZE_NORMAL && (stringLength > 26)){
-            view.setFocusableInTouchMode(true);
-        }
-
-        if (screenSize == Configuration.SCREENLAYOUT_SIZE_SMALL && (stringLength > 17)){
-            view.setFocusableInTouchMode(true);
-        }
-    }
-
-    static class RadioViewHolder extends RecyclerView.ViewHolder{
-        TextView radioName;
-        ImageView removeIcon;
         public RadioViewHolder(@NonNull View itemView) {
             super(itemView);
             radioName = itemView.findViewById(R.id.radio_name);
@@ -105,9 +92,10 @@ public class RecordsAdapter extends RecyclerView.Adapter<RecordsAdapter.RadioVie
         }
     }
 
+    @SuppressWarnings("unused")
     public void removeItemAt(int position) {
         File file = new File(radiosList.get(position).getUrl());
-        if (file.exists()){
+        if (file.exists()) {
             boolean delete = file.delete();
         }
         editor.remove(radiosList.get(position).getName());

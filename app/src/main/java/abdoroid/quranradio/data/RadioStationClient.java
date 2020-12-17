@@ -1,7 +1,5 @@
 package abdoroid.quranradio.data;
 
-import android.util.Log;
-
 import java.util.Locale;
 
 import abdoroid.quranradio.pojo.Radios;
@@ -12,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RadioStationClient {
     private static final String BASE_URL = "https://api.mp3quran.net/radios/";
     private String query;
-    private RadioApi radioApi;
+    private final RadioApi radioApi;
     private static RadioStationClient INSTANCE;
 
     public RadioStationClient(){
@@ -33,12 +31,16 @@ public class RadioStationClient {
 
     public Call<Radios> getRadioStations(){
         String localeLang = Locale.getDefault().getDisplayLanguage();
-        if (localeLang.equals("العربية")){
-            query = "radio_arabic.json";
-        }else if (localeLang.equals("français")){
-            query = "radio_french.json";
-        }else if (localeLang.equals("English")){
-            query = "radio_english.json";
+        switch (localeLang) {
+            case "العربية":
+                query = "radio_arabic.json";
+                break;
+            case "français":
+                query = "radio_french.json";
+                break;
+            case "English":
+                query = "radio_english.json";
+                break;
         }
         return radioApi.getRadioStations(query);
     }

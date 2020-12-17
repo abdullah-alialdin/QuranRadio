@@ -1,8 +1,6 @@
 package abdoroid.quranradio.ui.favourites;
 
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,8 +8,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowInsets;
+import android.view.WindowInsetsController;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,10 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 import abdoroid.quranradio.R;
-import abdoroid.quranradio.pojo.RadioDataModel;
 import abdoroid.quranradio.adapter.RadioAdapter;
 import abdoroid.quranradio.ui.recordings.RecordsActivity;
 import abdoroid.quranradio.utils.BaseActivity;
@@ -34,11 +32,9 @@ public class FavouriteActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         LocaleHelper.setLocale(FavouriteActivity.this);
         AppCompatDelegate.setDefaultNightMode(Helper.setDarkMode(this));
-        Helper.setAnimation(this);
+        Helper.setAnimation(FavouriteActivity.this);
         setContentView(R.layout.activity_favourite);
         TextView toolbarTitle = findViewById(R.id.toolbar_title);
         toolbarTitle.setText(getString(R.string.favourites));
@@ -52,12 +48,12 @@ public class FavouriteActivity extends BaseActivity {
         });
         ProgressBar progressBar = findViewById(R.id.my_progressBar);
         progressBar.setVisibility(View.VISIBLE);
-        SharedPreferences sharedPreferences = this.getSharedPreferences("Abdullah", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = this.getSharedPreferences("StationList", Context.MODE_PRIVATE);
         FavouriteViewModel viewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.
                 getInstance(this.getApplication())).get(FavouriteViewModel.class);
         viewModel.getFavouriteStations();
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
-        if (!Helper.isNetworkConnected(this)){
+        if (Helper.isNetworkConnected(this)){
             noConnectionLayout.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.INVISIBLE);
             progressBar.setVisibility(View.GONE);

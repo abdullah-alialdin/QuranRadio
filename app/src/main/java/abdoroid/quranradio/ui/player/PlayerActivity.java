@@ -1,17 +1,23 @@
 package abdoroid.quranradio.ui.player;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.AnimationDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.View;
+import android.view.WindowInsets;
+import android.view.WindowInsetsController;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatDelegate;
@@ -29,6 +35,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import abdoroid.quranradio.R;
 import abdoroid.quranradio.pojo.RadioDataModel;
@@ -49,7 +56,8 @@ public class PlayerActivity extends BaseActivity implements View.OnClickListener
     public static final String Broadcast_PLAY_NEW_AUDIO = "abdoroid.quranradio.ui.player.PlayNewAudio";
     public static TextView timeText, titleText;
     public static BarVisualizer mVisualizer;
-    private ImageButton favBtn, recordBtn;
+    private ImageButton favBtn, recordBtn, previousBtn, nextBtn;
+    private ImageView recordAnmi;
     public static ImageButton playBtn;
     private SharedPreferences sharedPreferences;
     private static String fileUrl = null;
@@ -60,13 +68,14 @@ public class PlayerActivity extends BaseActivity implements View.OnClickListener
     private Thread thread;
     private SharedPreferences.Editor recordEditor;
     private SharedPreferences.Editor editor;
+    private AnimationDrawable recordAnimation;
+    public static boolean finishPlayer = false;
 
+    @SuppressLint("CommitPrefEdits")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        LocaleHelper.setLocale(this);
+        LocaleHelper.setLocale(PlayerActivity.this);
         AppCompatDelegate.setDefaultNightMode(Helper.setDarkMode(this));
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         setContentView(R.layout.activity_player);
@@ -80,13 +89,16 @@ public class PlayerActivity extends BaseActivity implements View.OnClickListener
             serviceBound = false;
         }
         playAudio();
-        sharedPreferences = this.getSharedPreferences("Abdullah", Context.MODE_PRIVATE);
+        sharedPreferences = this.getSharedPreferences("StationList", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        ImageButton previousBtn = findViewById(R.id.previous);
-        ImageButton nextBtn = findViewById(R.id.next);
+        previousBtn = findViewById(R.id.previous);
+        nextBtn = findViewById(R.id.next);
         playBtn = findViewById(R.id.play);
         favBtn = findViewById(R.id.fav);
         recordBtn = findViewById(R.id.record);
+        recordAnmi = findViewById(R.id.record_anmi_view);
+        recordAnmi.setBackgroundResource(R.drawable.record_animation);
+        recordAnimation = (AnimationDrawable) recordAnmi.getBackground();
         mVisualizer = findViewById(R.id.visualizer);
         if (!checkAudioPermission()){
             requestAudioPermission();
@@ -98,7 +110,7 @@ public class PlayerActivity extends BaseActivity implements View.OnClickListener
         audio_title = audioList.get(position).getName();
         checkFavourite(audio_url);
         Date c = Calendar.getInstance().getTime();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy_hh-mm-ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy_hh-mm-ss", Locale.getDefault());
         date = dateFormat.format(c);
         SharedPreferences recordPreferences = this.getSharedPreferences("RecordPreferences", Context.MODE_PRIVATE);
         recordEditor = recordPreferences.edit();
@@ -112,43 +124,36 @@ public class PlayerActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        int id = v.getId();
-        switch (id){
-            case R.id.play:
-                if (isPlaying()){
-                    pauseStation();
-                    playBtn.setImageResource(R.drawable.play);
-                }else {
-                    playStation();
-                    playBtn.setImageResource(R.drawable.pause);
-                }
-                break;
-            case R.id.next:
-                playNext();
-                audio_title = audioList.get(position).getName();
-                break;
-            case R.id.previous:
-                playPrev();
-                audio_title = audioList.get(position).getName();
-                break;
-            case R.id.record:
-                fileUrl = getExternalCacheDir().getAbsolutePath();
-                fileName = (audioList.get(position).getName() + " " + date);
-                fileUrl += fileName + ".mp3" ;
-                onRecord(mStartRecording);
-                mStartRecording = !mStartRecording;
-                break;
-            case R.id.fav:
-                if (!sharedPreferences.contains(audio_url)){
-                    favBtn.setImageResource(R.drawable.love_ok);
-                    editor.putString(audio_url, audio_title);
-                    editor.apply();
-                }else{
-                    favBtn.setImageResource(R.drawable.love);
-                    editor.remove(audio_url);
-                    editor.apply();
-                }
-                break;
+        if (playBtn.equals(v)) {
+            if (isPlaying()) {
+                pauseStation();
+                playBtn.setImageResource(R.drawable.play);
+            } else {
+                playStation();
+                playBtn.setImageResource(R.drawable.pause);
+            }
+        } else if (nextBtn.equals(v)) {
+            playNext();
+            audio_title = audioList.get(position).getName();
+        } else if (previousBtn.equals(v)) {
+            playPrev();
+            audio_title = audioList.get(position).getName();
+        } else if (recordBtn.equals(v)) {
+            fileUrl = getExternalCacheDir().getAbsolutePath();
+            fileName = (audioList.get(position).getName() + " " + date);
+            fileUrl += fileName + ".mp3";
+            onRecord(mStartRecording);
+            mStartRecording = !mStartRecording;
+        } else if (favBtn.equals(v)) {
+            if (!sharedPreferences.contains(audio_url)) {
+                favBtn.setImageResource(R.drawable.love_ok);
+                editor.putString(audio_url, audio_title);
+                editor.apply();
+            } else {
+                favBtn.setImageResource(R.drawable.love);
+                editor.remove(audio_url);
+                editor.apply();
+            }
         }
 
     }
@@ -201,6 +206,9 @@ public class PlayerActivity extends BaseActivity implements View.OnClickListener
         @Override
         public void onServiceDisconnected(ComponentName name) {
             serviceBound = false;
+            if (finishPlayer){
+                finish();
+            }
         }
     };
 
@@ -228,11 +236,13 @@ public class PlayerActivity extends BaseActivity implements View.OnClickListener
 
     private void startRecording(){
         recordBtn.setImageResource(R.drawable.stop_record);
+        recordAnmi.setVisibility(View.VISIBLE);
+        recordAnimation.start();
         thread = new Thread(runnable);
         thread.start();
     }
 
-    Runnable runnable = new Runnable() {
+    final Runnable runnable = new Runnable() {
         @Override
         public void run() {
             URL url = null;
@@ -270,6 +280,8 @@ public class PlayerActivity extends BaseActivity implements View.OnClickListener
     private void stopRecording(){
         thread.interrupt();
         recordBtn.setImageResource(R.drawable.record);
+        recordAnmi.setVisibility(View.INVISIBLE);
+        recordAnimation.stop();
         recordEditor.putString(fileName, fileUrl);
         recordEditor.apply();
     }
@@ -316,5 +328,14 @@ public class PlayerActivity extends BaseActivity implements View.OnClickListener
     public void onBackPressed() {
         Helper.reloadActivity = true;
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (finishPlayer){
+            finish();
+            finishPlayer = false;
+        }
     }
 }

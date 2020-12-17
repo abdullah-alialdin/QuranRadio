@@ -15,7 +15,6 @@
     <string name="stream_time">مدة البث</string>
     <string name="forever">بدون مدة</string>
     <string name="custom">مخصص</string>
-    <string name="current_stream_time">مدة البث الحالية</string>
     <string name="toolbar_image_des">صورة</string>
     <string name="recordings">التسجيلات</string>
     <string name="no_internet">لا يوجد اتصال إنترنت الآن الرجاء الاتصال بالإنترنت أولاً أو</string>
@@ -34,5 +33,8 @@
     <string name="seek_forward_btn">الى الامام</string>
     <string name="alert_dialog">حذف</string>
     <string name="alert_msg">هل أنت متاكد من حذف هذا التسجيل؟</string>
+    <string name="record_animation">Record animation</string>
+    <string name="splash_icon">splash icon</string>
+    <string name="main_background">main background</string>
 
 </resources>

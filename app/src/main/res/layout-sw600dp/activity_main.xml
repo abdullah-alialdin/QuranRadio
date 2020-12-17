@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.main.MainActivity">
 
-    <pl.droidsonroids.gif.GifImageView
+    <ImageView
         android:id="@+id/gifImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/background"
+        android:contentDescription="@string/main_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +45,7 @@
         android:id="@+id/radio_stations_btn"
         style="@style/sw600main_buttons_style"
         android:text="@string/radio_stations"
-        app:icon="@drawable/ic_baseline_radio_24"
+        app:icon="@drawable/ic_baseline_radio"
         app:iconPadding="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -71,7 +70,7 @@
         android:id="@+id/records_btn"
         style="@style/sw600main_buttons_style"
         android:text="@string/recordings"
-        app:icon="@drawable/ic_baseline_keyboard_voice_24"
+        app:icon="@drawable/ic_baseline_record"
         app:iconPadding="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -83,7 +82,7 @@
         android:id="@+id/settings_btn"
         style="@style/sw600main_buttons_style"
         android:text="@string/settings"
-        app:icon="@drawable/ic_baseline_settings_24"
+        app:icon="@drawable/ic_baseline_settings"
         app:iconPadding="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

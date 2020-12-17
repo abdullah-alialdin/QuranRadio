@@ -24,13 +24,13 @@ import android.os.Binder;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.RemoteException;
+import android.os.Looper;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
-import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -39,9 +39,11 @@ import androidx.core.app.NotificationManagerCompat;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import abdoroid.quranradio.R;
 import abdoroid.quranradio.pojo.RadioDataModel;
+import abdoroid.quranradio.utils.LocaleHelper;
 import abdoroid.quranradio.utils.PlaybackStatus;
 import abdoroid.quranradio.ui.player.RecordsPlayerActivity;
 import abdoroid.quranradio.utils.Helper;
@@ -71,10 +73,9 @@ public class RecordsPlayerService extends Service implements MediaPlayer.OnCompl
     private MediaControllerCompat.TransportControls transportControls;
     private static final int NOTIFICATION_ID = 101;
     private final String CHANNEL_ID = "Notification Channel Id";
-    private boolean isPlaying, isPaused;
-    final static String SENDMESAGGE = "passMessage";
+    private boolean isPaused;
     private long selectedStreamTime;
-    private final Handler myHandler = new Handler();
+    private final Handler myHandler = new Handler(Looper.getMainLooper());
     private AudioFocusRequest focusRequest;
     private AudioAttributes audioAttributes;
 
@@ -118,13 +119,8 @@ public class RecordsPlayerService extends Service implements MediaPlayer.OnCompl
             stopSelf();
         }
         if (mediaSessionManager == null) {
-            try {
-                initMediaSession();
-                initMediaPlayer();
-            } catch (RemoteException e) {
-                e.printStackTrace();
-                stopSelf();
-            }
+            initMediaSession();
+            initMediaPlayer();
             buildNotification(PlaybackStatus.PLAYING);
         }
         handleIncomingActions(intent);
@@ -213,13 +209,17 @@ public class RecordsPlayerService extends Service implements MediaPlayer.OnCompl
     public boolean onError(MediaPlayer mp, int what, int extra) {
         switch (what) {
             case MediaPlayer.MEDIA_ERROR_NOT_VALID_FOR_PROGRESSIVE_PLAYBACK:
-                Log.d("MediaPlayer Error", "MEDIA ERROR NOT VALID FOR PROGRESSIVE PLAYBACK " + extra);
+                Toast.makeText(getApplicationContext(),
+                        "MEDIA ERROR NOT VALID FOR PROGRESSIVE PLAYBACK " + extra,
+                        Toast.LENGTH_SHORT).show();
                 break;
             case MediaPlayer.MEDIA_ERROR_SERVER_DIED:
-                Log.d("MediaPlayer Error", "MEDIA ERROR SERVER DIED " + extra);
+                Toast.makeText(getApplicationContext(),
+                        "MEDIA ERROR SERVER DIED " + extra, Toast.LENGTH_SHORT).show();
                 break;
             case MediaPlayer.MEDIA_ERROR_UNKNOWN:
-                Log.d("MediaPlayer Error", "MEDIA ERROR UNKNOWN " + extra);
+                Toast.makeText(getApplicationContext(),
+                        "MEDIA ERROR UNKNOWN " + extra, Toast.LENGTH_SHORT).show();
                 break;
         }
         return false;
@@ -243,7 +243,6 @@ public class RecordsPlayerService extends Service implements MediaPlayer.OnCompl
     public void onAudioFocusChange(int focusState) {
         switch (focusState) {
             case AudioManager.AUDIOFOCUS_GAIN:
-                Log.d("Abdullah", "gain" + isPaused);
                 if (!isPaused){
                     if (mediaPlayer == null) {
                         initMediaPlayer();
@@ -254,7 +253,6 @@ public class RecordsPlayerService extends Service implements MediaPlayer.OnCompl
                 mediaPlayer.setVolume(1.0f, 1.0f);
                 break;
             case AudioManager.AUDIOFOCUS_LOSS:
-                Log.d("Abdullah", "loss" + isPaused);
                 if (isPng()) {
                     mediaPlayer.stop();
                 }
@@ -263,13 +261,11 @@ public class RecordsPlayerService extends Service implements MediaPlayer.OnCompl
                 mediaPlayer = null;
                 break;
             case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
-                Log.d("Abdullah", "loss trans" + isPaused);
                 if (isPng()) {
                     mediaPlayer.pause();
                 }
                 break;
             case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
-                Log.d("Abdullah", "can duck" + isPaused);
                 if (mediaPlayer.isPlaying()) mediaPlayer.setVolume(0.1f, 0.1f);
                 break;
         }
@@ -362,7 +358,7 @@ public class RecordsPlayerService extends Service implements MediaPlayer.OnCompl
         registerReceiver(playNewAudio, intentFilter);
     }
 
-    private void initMediaSession() throws RemoteException{
+    private void initMediaSession() {
         if (mediaSessionManager != null) return;
         mediaSessionManager = (MediaSessionManager) getSystemService(Context.MEDIA_SESSION_SERVICE);
         mediaSession = new MediaSessionCompat(this, "MediaPlayerService");
@@ -489,8 +485,8 @@ public class RecordsPlayerService extends Service implements MediaPlayer.OnCompl
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             CharSequence name = "Media playback";
             String des = "Media playback controls";
-            int importance = NotificationManagerCompat.IMPORTANCE_HIGH;
-            NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, name, importance);
+            NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, name,
+                    NotificationManager.IMPORTANCE_HIGH);
             notificationChannel.setDescription(des);
             notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
@@ -543,7 +539,8 @@ public class RecordsPlayerService extends Service implements MediaPlayer.OnCompl
 
     private String convertMillisecToTimeString(long time){
         int[] allTimes = Helper.getTimeFromMilliseconds(time);
-        return (String.format("%02d:%02d:%02d", allTimes[0],allTimes[1],allTimes[2]));
+        Locale locale = Locale.getDefault();
+        return (String.format(locale, "%02d:%02d:%02d", allTimes[0],allTimes[1],allTimes[2]));
     }
 
     private final Runnable UpdateSongTime = new Runnable() {

@@ -120,15 +120,6 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/ok_btn"
-            style="@style/Theme.AppCompat.DayNight.Dialog"
-            android:layout_width="@dimen/dimen_0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dimen_4dp"
-            android:layout_weight="1"
-            android:text="@string/settings_ok" />
-
-        <Button
             android:id="@+id/cancel_btn"
             style="@style/Theme.AppCompat.DayNight.Dialog"
             android:layout_width="@dimen/dimen_0dp"
@@ -136,6 +127,14 @@
             android:layout_margin="@dimen/dimen_4dp"
             android:layout_weight="1"
             android:text="@string/settings_cancel" />
+        <Button
+            android:id="@+id/ok_btn"
+            style="@style/Theme.AppCompat.DayNight.Dialog"
+            android:layout_width="@dimen/dimen_0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen_4dp"
+            android:layout_weight="1"
+            android:text="@string/settings_ok" />
     </LinearLayout>
 
 </LinearLayout>

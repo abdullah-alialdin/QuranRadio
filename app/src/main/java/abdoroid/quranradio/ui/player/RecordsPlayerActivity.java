@@ -4,10 +4,12 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.util.Log;
 import android.view.View;
+import android.view.WindowInsets;
+import android.view.WindowInsetsController;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -24,12 +26,12 @@ import abdoroid.quranradio.pojo.RadioDataModel;
 import abdoroid.quranradio.services.RecordsPlayerService;
 import abdoroid.quranradio.utils.BaseActivity;
 import abdoroid.quranradio.utils.Helper;
+import abdoroid.quranradio.utils.LocaleHelper;
 
 public class RecordsPlayerActivity extends BaseActivity implements View.OnClickListener {
 
     public static final String LIST_POSITION = "124";
     public static final String AUDIO_LIST = "list";
-    private static final int PERM_REQ_CODE = 23;
     private RecordsPlayerService player;
     private boolean serviceBound;
     private ArrayList<RadioDataModel> audioList = new ArrayList<>();
@@ -38,15 +40,15 @@ public class RecordsPlayerActivity extends BaseActivity implements View.OnClickL
     public static TextView timeText, titleText;
     public static BarVisualizer mVisualizer;
     public static ImageButton playBtn;
-    private String audio_title;
+    private ImageButton previousBtn, nextBtn, seekFdBtn, seekBkBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         AppCompatDelegate.setDefaultNightMode(Helper.setDarkMode(this));
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        Helper.setAnimation(RecordsPlayerActivity.this);
+        LocaleHelper.setLocale(RecordsPlayerActivity.this);
         setContentView(R.layout.activity_records_player);
         Intent intent = getIntent();
         audioList = intent.getParcelableArrayListExtra(AUDIO_LIST);
@@ -59,11 +61,11 @@ public class RecordsPlayerActivity extends BaseActivity implements View.OnClickL
         }
         playAudio();
 
-        ImageButton previousBtn = findViewById(R.id.previous);
-        ImageButton nextBtn = findViewById(R.id.next);
+        previousBtn = findViewById(R.id.previous);
+        nextBtn = findViewById(R.id.next);
         playBtn = findViewById(R.id.play);
-        ImageButton seekFdBtn = findViewById(R.id.seek_frd);
-        ImageButton seekBkBtn = findViewById(R.id.seek_bkd);
+        seekFdBtn = findViewById(R.id.seek_frd);
+        seekBkBtn = findViewById(R.id.seek_bkd);
         mVisualizer = findViewById(R.id.visualizer);
         titleText = findViewById(R.id.station_title);
         titleText.setText(audioList.get(position).getName());
@@ -86,31 +88,22 @@ public class RecordsPlayerActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        int id = v.getId();
-        switch (id){
-            case R.id.play:
-                if (isPlaying()){
-                    pauseStation();
-                    playBtn.setImageResource(R.drawable.play);
-                }else {
-                    playStation();
-                    playBtn.setImageResource(R.drawable.pause);
-                }
-                break;
-            case R.id.next:
-                playNext();
-                audio_title = audioList.get(position).getName();
-                break;
-            case R.id.previous:
-                playPrev();
-                audio_title = audioList.get(position).getName();
-                break;
-            case R.id.seek_frd:
-                seekForward();
-                break;
-            case R.id.seek_bkd:
-                seekBackward();
-                break;
+        if (playBtn.equals(v)) {
+            if (isPlaying()) {
+                pauseStation();
+                playBtn.setImageResource(R.drawable.play);
+            } else {
+                playStation();
+                playBtn.setImageResource(R.drawable.pause);
+            }
+        } else if (nextBtn.equals(v)) {
+            playNext();
+        } else if (previousBtn.equals(v)) {
+            playPrev();
+        } else if (seekFdBtn.equals(v)) {
+            seekForward();
+        } else if (seekBkBtn.equals(v)) {
+            seekBackward();
         }
     }
 
@@ -177,7 +170,6 @@ public class RecordsPlayerActivity extends BaseActivity implements View.OnClickL
     };
 
     private void playAudio() {
-        Log.d("Abdullah", "serviceBound " + serviceBound);
         if (!serviceBound) {
             Intent playerIntent = new Intent(this, RecordsPlayerService.class);
             playerIntent.putExtra("mediaList", audioList);

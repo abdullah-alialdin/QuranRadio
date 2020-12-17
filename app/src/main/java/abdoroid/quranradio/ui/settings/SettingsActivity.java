@@ -2,8 +2,8 @@ package abdoroid.quranradio.ui.settings;
 
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
-import androidx.appcompat.widget.Toolbar;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,10 +12,10 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -31,76 +31,65 @@ import abdoroid.quranradio.utils.LocaleHelper;
 
 public class SettingsActivity extends BaseActivity {
 
-    private RadioGroup langGroup;
-    private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
-    private Button okBtn, cancelBtn;
-    private Toolbar toolbar;
-    private SwitchCompat switchCompat;
     private EditText timeInputHours, timeInputMinutes;
     private int hours, minutes;
-    private Spinner spinner;
     private LinearLayout customTimeView;
     private long streamingTime;
     private boolean reload = false;
-    private TextView toolbarTitle;
-    private ImageView toolbarImage;
+    private boolean isChecked;
+    private RadioButton arabic, english, french;
+    private String lang;
 
 
+    @SuppressLint("CommitPrefEdits")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LocaleHelper.setLocale(this);
+        LocaleHelper.setLocale(SettingsActivity.this);
         AppCompatDelegate.setDefaultNightMode(Helper.setDarkMode(this));
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_settings);
-        toolbar = findViewById(R.id.my_toolbar);
-        toolbarTitle = findViewById(R.id.toolbar_title);
+        TextView toolbarTitle = findViewById(R.id.toolbar_title);
         toolbarTitle.setText(getString(R.string.settings));
-        toolbarImage =  findViewById(R.id.toolbar_image);
-        toolbarImage.setImageResource(R.drawable.ic_baseline_settings_24);
-        preferences = this.getSharedPreferences("Language", Context.MODE_PRIVATE);
+        ImageView toolbarImage = findViewById(R.id.toolbar_image);
+        toolbarImage.setImageResource(R.drawable.ic_baseline_settings);
+        SharedPreferences preferences = this.getSharedPreferences("Language", Context.MODE_PRIVATE);
         editor = preferences.edit();
-        String lang = preferences.getString(LocaleHelper.SELECTED_LANGUAGE, Locale.getDefault().getLanguage());
-        langGroup = findViewById(R.id.lang_radio_group);
+        lang = preferences.getString(LocaleHelper.SELECTED_LANGUAGE, Locale.getDefault().getLanguage());
+        RadioGroup langGroup = findViewById(R.id.lang_radio_group);
+        arabic = findViewById(R.id.arabic);
+        english = findViewById(R.id.english);
+        french = findViewById(R.id.french);
         langGroup.check(getCheckedId(lang));
-        langGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                switch (i){
-                    case R.id.arabic:
-                        selectLanguage("ar");
-                        reload = true;
-                        break;
-                    case R.id.english:
-                        selectLanguage("en");
-                        reload = true;
-                        break;
-                    case R.id.french:
-                        selectLanguage("fr");
-                        reload = true;
-                        break;
-                }
-
-            }
-        });
-        boolean isChecked = preferences.getBoolean("darkMode", true);
-        switchCompat = findViewById(R.id.dark_mode_switch);
-        switchCompat.setChecked(isChecked);
-        switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                darkModeIsChecked(b);
+        langGroup.setOnCheckedChangeListener((radioGroup, i) -> {
+            View view = findViewById(i);
+            if (arabic.equals(view)) {
+                selectLanguage("ar");
+                reload = true;
+            } else if (english.equals(view)) {
+                selectLanguage("en");
+                reload = true;
+            } else if (french.equals(view)) {
+                selectLanguage("fr");
                 reload = true;
             }
+
+        });
+        isChecked = preferences.getBoolean("darkMode", true);
+        SwitchCompat switchCompat = findViewById(R.id.dark_mode_switch);
+        switchCompat.setChecked(isChecked);
+        switchCompat.setOnCheckedChangeListener((compoundButton, b) -> {
+            isChecked = b;
+            reload = true;
         });
 
         streamingTime = preferences.getLong("StreamTime", 0);
         int[] timeInHours = Helper.getTimeFromMilliseconds(streamingTime);
 
-        spinner = findViewById(R.id.spinner);
+        Spinner spinner = findViewById(R.id.spinner);
         String[] spinnerChoices = {getString(R.string.forever), getString(R.string.custom)};
-        ArrayAdapter<String> spinAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinnerChoices);
+        ArrayAdapter<String> spinAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, spinnerChoices);
         spinAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinAdapter);
         customTimeView = findViewById(R.id.custom_time);
@@ -124,42 +113,42 @@ public class SettingsActivity extends BaseActivity {
             }
         });
 
+        Locale locale = Locale.getDefault();
         timeInputHours = findViewById(R.id.hours_edit_text);
-        timeInputHours.setText(String.format("%02d", timeInHours[0]));
+        timeInputHours.setText(String.format(locale, "%02d", timeInHours[0]));
 
         timeInputMinutes = findViewById(R.id.minutes_edit_text);
-        timeInputMinutes.setText(String.format("%02d", timeInHours[1]));
+        timeInputMinutes.setText(String.format(locale,"%02d", timeInHours[1]));
 
-        okBtn = findViewById(R.id.ok_btn);
-        okBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        Button okBtn = findViewById(R.id.ok_btn);
+        okBtn.setOnClickListener(view -> {
 
-                if (customTimeView.getVisibility() == View.VISIBLE){
-                    if (timeInputHours.getText().toString().length() > 0){
-                        hours = Integer.valueOf(timeInputHours.getText().toString());
-                    }
-                    if (timeInputMinutes.getText().toString().length() > 0){
-                        minutes = Integer.valueOf(timeInputMinutes.getText().toString());
-                    }
-                    streamingTime = TimeUnit.SECONDS.toMillis(TimeUnit.HOURS.toSeconds(hours) + TimeUnit.MINUTES.toSeconds(minutes));
-                    setStreamTime(streamingTime);
-                }else {
-                    setStreamTime(streamingTime);
+            darkModeIsChecked(isChecked);
+            if (customTimeView.getVisibility() == View.VISIBLE){
+                if (timeInputHours.getText().toString().length() > 0){
+                    hours = Integer.parseInt(timeInputHours.getText().toString());
                 }
-
-                if (reload){
-                    MainActivity.needReloaded = true;
+                if (timeInputMinutes.getText().toString().length() > 0){
+                    minutes = Integer.parseInt(timeInputMinutes.getText().toString());
                 }
-                finish();
+                streamingTime = TimeUnit.SECONDS.toMillis(TimeUnit.HOURS.toSeconds(hours) + TimeUnit.MINUTES.toSeconds(minutes));
+                setStreamTime(streamingTime);
+            }else {
+                setStreamTime(streamingTime);
             }
+
+            if (reload){
+                MainActivity.needReloaded = true;
+            }
+            finish();
         });
-        cancelBtn = findViewById(R.id.cancel_btn);
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
+        Button cancelBtn = findViewById(R.id.cancel_btn);
+        cancelBtn.setOnClickListener(view -> {
+            if (reload){
+                reload = false;
             }
+            selectLanguage(lang);
+            finish();
         });
 
     }

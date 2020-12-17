@@ -7,6 +7,7 @@
         <item name="android:layout_marginStart">@dimen/dimen_32dp</item>
         <item name="android:layout_marginEnd">@dimen/dimen_32dp</item>
         <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
         <item name="android:gravity">start</item>
         <item name="android:textColor">@color/logo_text_color</item>
         <item name="android:textSize">@dimen/textSize_18sp</item>
@@ -18,8 +19,16 @@
         <item name="android:layout_marginStart">@dimen/dimen_32dp</item>
         <item name="android:layout_marginEnd">@dimen/dimen_32dp</item>
         <item name="android:ellipsize">end</item>
+        <item name="maxLines">1</item>
         <item name="android:gravity">start</item>
         <item name="android:textColor">@color/logo_text_color</item>
         <item name="android:textSize">@dimen/textSize_36sp</item>
     </style>
+
+    <!-- Splash Screen theme. -->
+    <style name="SplashTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@color/color_secondary_variant</item>
+    </style>
+
 </resources>

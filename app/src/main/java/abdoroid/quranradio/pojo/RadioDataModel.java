@@ -2,12 +2,11 @@ package abdoroid.quranradio.pojo;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.widget.RadioGroup;
 
 public class RadioDataModel implements Parcelable {
 
-    private String name;
-    private String radio_url;
+    private final String name;
+    private final String radio_url;
 
     public RadioDataModel(String name, String url) {
         this.name = name;
@@ -38,7 +37,7 @@ public class RadioDataModel implements Parcelable {
         parcel.writeString(radio_url);
     }
 
-    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+    public static final Parcelable.Creator<RadioDataModel> CREATOR = new Parcelable.Creator<RadioDataModel>() {
         public RadioDataModel createFromParcel(Parcel in) {
             return new RadioDataModel(in);
         }

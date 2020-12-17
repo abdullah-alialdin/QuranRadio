@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.QuranRadio" parent="Theme.MaterialComponents.DayNight">
+    <style name="Theme.QuranRadio" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryVariant">@color/color_primary_variant</item>
@@ -12,8 +12,9 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@drawable/player_background</item>
         <item name="android:windowContentTransitions">true</item>
-        <item name="windowNoTitle">true</item>
-        <item name="windowActionBar">false</item>
     </style>
+
 </resources>

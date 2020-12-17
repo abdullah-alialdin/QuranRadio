@@ -12,4 +12,5 @@
     <color name="list_item_color">#D7DCDD</color>
     <color name="logo_text">#80CCC2C2</color>
     <color name="holo_background">#00000000</color>
+    <color name="link_color">#084CF8</color>
 </resources>

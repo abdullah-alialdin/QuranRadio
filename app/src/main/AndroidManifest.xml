@@ -24,14 +24,17 @@
         tools:targetApi="n">
         <activity
             android:name=".ui.player.RecordsPlayerActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".ui.recordings.RecordsActivity"
             android:parentActivityName=".ui.main.MainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".ui.player.PlayerActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:parentActivityName=".ui.main.MainActivity"
@@ -40,10 +43,17 @@
         <activity
             android:name=".ui.favourites.FavouriteActivity"
             android:parentActivityName=".ui.main.MainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".ui.main.MainActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask">
+        </activity>
+        <activity android:name=".ui.splash.SplashScreen"
+            android:screenOrientation="portrait"
+            android:noHistory="true"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -53,7 +63,8 @@
         <activity
             android:name=".ui.stations.StationsActivity"
             android:parentActivityName=".ui.main.MainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
 
         <service
             android:name=".services.MediaPlayerService"

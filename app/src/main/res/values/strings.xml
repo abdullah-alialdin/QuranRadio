@@ -19,7 +19,6 @@
     <string name="minutes_mm" translatable="false">mm</string>
     <string name="forever">Forever</string>
     <string name="custom">Custom</string>
-    <string name="current_stream_time">current stream time</string>
     <string name="toolbar_image_des">toolbar image</string>
     <string name="recordings">Recordings</string>
     <string name="no_internet">There is no Internet Connection now, Please connect to the Internet first Or</string>
@@ -38,4 +37,7 @@
     <string name="seek_forward_btn">seek forward</string>
     <string name="alert_dialog">Delete entry</string>
     <string name="alert_msg">Are you sure you want to delete this entry?</string>
+    <string name="record_animation">Record animation</string>
+    <string name="splash_icon">splash icon</string>
+    <string name="main_background">main background</string>
 </resources>

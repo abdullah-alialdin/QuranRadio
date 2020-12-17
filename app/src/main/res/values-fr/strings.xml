@@ -10,17 +10,16 @@
     <string name="english">Anglais</string>
     <string name="french">Français</string>
     <string name="dark_mode">Mode sombre</string>
-    <string name="settings_ok">Bien</string>
+    <string name="settings_ok">OK</string>
     <string name="settings_cancel">Annuler</string>
     <string name="stream_time">Temps de diffusion</string>
     <string name="forever">Pour toujours</string>
     <string name="custom">Douane</string>
-    <string name="current_stream_time">heure actuelle du flux</string>
     <string name="toolbar_image_des">image</string>
     <string name="recordings">Enregistrements</string>
     <string name="no_internet">Il n\'y a pas de connexion Internet maintenant Veuillez d\'abord vous connecter à Internet Ou</string>
     <string name="go_to_recordings">Aller aux enregistrements</string>
-    <string name="go_to_stations">شller aux stations</string>
+    <string name="go_to_stations">aller aux stations</string>
     <string name="no_recordings">Il n\'y a aucun enregistrement pour le moment, veuillez d\'abord enregistrer quelque chose</string>
     <string name="no_fav">Il n\'y a pas de favoris pour le moment, veuillez d\'abord ajouter des favoris ou</string>
     <string name="maintenance_msg">La base de données est en cours de maintenance, veuillez réessayer plus tard dans la journée.</string>
@@ -34,5 +33,8 @@
     <string name="seek_forward_btn">chercher en avant</string>
     <string name="alert_dialog">Supprimer l\'entrée</string>
     <string name="alert_msg">Êtes-vous sûr de vouloir supprimer cette entrée?</string>
+    <string name="record_animation">Record animation</string>
+    <string name="splash_icon">splash icon</string>
+    <string name="main_background">main background</string>
 
 </resources>

@@ -49,6 +49,7 @@
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/link_color"
             android:text="@string/go_to_recordings"
             android:textSize="@dimen/textSize_24sp"
             android:textAllCaps="false"/>

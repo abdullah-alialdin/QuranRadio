@@ -1,9 +1,6 @@
 package abdoroid.quranradio.ui.recordings;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,9 +8,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.view.WindowInsets;
+import android.view.WindowInsetsController;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -21,11 +20,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 import abdoroid.quranradio.R;
 import abdoroid.quranradio.adapter.RecordsAdapter;
-import abdoroid.quranradio.pojo.RadioDataModel;
 import abdoroid.quranradio.ui.stations.StationsActivity;
 import abdoroid.quranradio.utils.BaseActivity;
 import abdoroid.quranradio.utils.Helper;
@@ -37,8 +33,6 @@ public class RecordsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         LocaleHelper.setLocale(RecordsActivity.this);
         AppCompatDelegate.setDefaultNightMode(Helper.setDarkMode(this));
         Helper.setAnimation(this);
@@ -46,7 +40,7 @@ public class RecordsActivity extends BaseActivity {
         TextView toolbarTitle = findViewById(R.id.toolbar_title);
         toolbarTitle.setText(getString(R.string.recordings));
         ImageView toolbarImage = findViewById(R.id.toolbar_image);
-        toolbarImage.setImageResource(R.drawable.ic_baseline_keyboard_voice_24);
+        toolbarImage.setImageResource(R.drawable.ic_baseline_record);
         LinearLayout noConnectionLayout = findViewById(R.id.no_connection_layout);
         Button noConnectionBtn = findViewById(R.id.no_connection_btn);
         noConnectionBtn.setOnClickListener(v -> {
