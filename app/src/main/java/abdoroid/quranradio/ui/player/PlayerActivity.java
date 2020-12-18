@@ -9,13 +9,11 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.AnimationDrawable;
-import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.view.View;
-import android.view.WindowInsets;
-import android.view.WindowInsetsController;
-import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,7 +21,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 
-import com.gauravk.audiovisualizer.visualizer.BarVisualizer;
+import com.gauravk.audiovisualizer.visualizer.CircleLineVisualizer;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -43,6 +41,7 @@ import abdoroid.quranradio.services.MediaPlayerService;
 import abdoroid.quranradio.utils.BaseActivity;
 import abdoroid.quranradio.utils.Helper;
 import abdoroid.quranradio.utils.LocaleHelper;
+import abdoroid.quranradio.utils.StorageUtils;
 
 public class PlayerActivity extends BaseActivity implements View.OnClickListener {
 
@@ -54,12 +53,13 @@ public class PlayerActivity extends BaseActivity implements View.OnClickListener
     private ArrayList<RadioDataModel> audioList = new ArrayList<>();
     private int position;
     public static final String Broadcast_PLAY_NEW_AUDIO = "abdoroid.quranradio.ui.player.PlayNewAudio";
-    public static TextView timeText, titleText;
-    public static BarVisualizer mVisualizer;
+    private TextView timeText, titleText;
+    public static CircleLineVisualizer mVisualizer;
     private ImageButton favBtn, recordBtn, previousBtn, nextBtn;
     private ImageView recordAnmi;
-    public static ImageButton playBtn;
+    private ImageButton playBtn;
     private SharedPreferences sharedPreferences;
+    private final Handler handler = new Handler(Looper.getMainLooper());
     private static String fileUrl = null;
     private boolean mStartRecording = true;
     private String fileName, date;
@@ -69,7 +69,7 @@ public class PlayerActivity extends BaseActivity implements View.OnClickListener
     private SharedPreferences.Editor recordEditor;
     private SharedPreferences.Editor editor;
     private AnimationDrawable recordAnimation;
-    public static boolean finishPlayer = false;
+    private long selectedStreamTime;
 
     @SuppressLint("CommitPrefEdits")
     @Override
@@ -91,6 +91,8 @@ public class PlayerActivity extends BaseActivity implements View.OnClickListener
         playAudio();
         sharedPreferences = this.getSharedPreferences("StationList", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences("Language", Context.MODE_PRIVATE);
+        selectedStreamTime = preferences.getLong("StreamTime", 0);
         previousBtn = findViewById(R.id.previous);
         nextBtn = findViewById(R.id.next);
         playBtn = findViewById(R.id.play);
@@ -127,10 +129,8 @@ public class PlayerActivity extends BaseActivity implements View.OnClickListener
         if (playBtn.equals(v)) {
             if (isPlaying()) {
                 pauseStation();
-                playBtn.setImageResource(R.drawable.play);
             } else {
                 playStation();
-                playBtn.setImageResource(R.drawable.pause);
             }
         } else if (nextBtn.equals(v)) {
             playNext();
@@ -167,6 +167,8 @@ public class PlayerActivity extends BaseActivity implements View.OnClickListener
         if (!mStartRecording){
             stopRecording();
         }
+        audio_url = audioList.get(position).getUrl();
+        checkFavourite(audio_url);
     }
 
     private void playPrev(){
@@ -178,6 +180,8 @@ public class PlayerActivity extends BaseActivity implements View.OnClickListener
         if (!mStartRecording){
             stopRecording();
         }
+        audio_url = audioList.get(position).getUrl();
+        checkFavourite(audio_url);
     }
 
     private void playStation(){
@@ -201,27 +205,29 @@ public class PlayerActivity extends BaseActivity implements View.OnClickListener
             MediaPlayerService.LocalBinder binder = (MediaPlayerService.LocalBinder) service;
             player = binder.getService();
             serviceBound = true;
+            handler.postDelayed(mRunnable, 100);
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
             serviceBound = false;
-            if (finishPlayer){
-                finish();
-            }
         }
     };
 
     private void playAudio() {
         if (!serviceBound) {
+            StorageUtils storageUtils = new StorageUtils(getApplicationContext());
+            storageUtils.storeAudio(audioList);
+            storageUtils.storeAudioIndex(position);
+
             Intent playerIntent = new Intent(this, MediaPlayerService.class);
-            playerIntent.putExtra("mediaList", audioList);
-            playerIntent.putExtra("position", position);
             startService(playerIntent);
             bindService(playerIntent, serviceConnection, Context.BIND_AUTO_CREATE);
         } else {
+            StorageUtils storage = new StorageUtils(getApplicationContext());
+            storage.storeAudioIndex(position);
+
             Intent broadcastIntent = new Intent(Broadcast_PLAY_NEW_AUDIO);
-            broadcastIntent.putExtra("position", position);
             sendBroadcast(broadcastIntent);
         }
     }
@@ -322,6 +328,7 @@ public class PlayerActivity extends BaseActivity implements View.OnClickListener
         if (!mStartRecording){
             stopRecording();
         }
+        handler.removeCallbacks(mRunnable);
     }
 
     @Override
@@ -330,12 +337,35 @@ public class PlayerActivity extends BaseActivity implements View.OnClickListener
         super.onBackPressed();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (finishPlayer){
-            finish();
-            finishPlayer = false;
-        }
+    private String convertMilliSecToTimeString(long time) {
+        int[] allTimes = Helper.getTimeFromMilliseconds(time);
+        Locale locale = Locale.getDefault();
+        return (String.format(locale, "%02d:%02d:%02d", allTimes[0], allTimes[1], allTimes[2]));
     }
+
+    private void updateUi(){
+        long liveStreamTime = player.getMediaPosition();
+        timeText.setText(convertMilliSecToTimeString(liveStreamTime));
+        if (selectedStreamTime != 0) {
+            if (convertMilliSecToTimeString(liveStreamTime)
+                    .equals(convertMilliSecToTimeString(selectedStreamTime))) {
+                pauseStation();
+                liveStreamTime += 2000;
+            }
+        }
+        if (player.isPaused){
+            playBtn.setImageResource(R.drawable.play);
+        }else {
+            playBtn.setImageResource(R.drawable.pause);
+        }
+        titleText.setText(player.getPlayingNow());
+    }
+
+    private final Runnable mRunnable = new Runnable() {
+        @Override
+        public void run() {
+            updateUi();
+            handler.postDelayed(mRunnable, 100);
+        }
+    };
 }

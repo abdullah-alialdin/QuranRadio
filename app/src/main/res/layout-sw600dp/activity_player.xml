@@ -32,12 +32,10 @@
             android:contentDescription="@string/player_image_des"
             android:src="@drawable/quran" />
 
-        <com.gauravk.audiovisualizer.visualizer.BarVisualizer
+        <com.gauravk.audiovisualizer.visualizer.CircleLineVisualizer
             android:id="@+id/visualizer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/dimen_12dp"
-            android:layout_marginRight="@dimen/dimen_6dp"
             app:avColor="@color/vis_color"
             app:avDensity="0.5"
             app:avSpeed="normal"

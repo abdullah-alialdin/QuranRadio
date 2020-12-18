@@ -4,13 +4,11 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.view.View;
-import android.view.WindowInsets;
-import android.view.WindowInsetsController;
-import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +18,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import com.gauravk.audiovisualizer.visualizer.BarVisualizer;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import abdoroid.quranradio.R;
 import abdoroid.quranradio.pojo.RadioDataModel;
@@ -27,6 +26,7 @@ import abdoroid.quranradio.services.RecordsPlayerService;
 import abdoroid.quranradio.utils.BaseActivity;
 import abdoroid.quranradio.utils.Helper;
 import abdoroid.quranradio.utils.LocaleHelper;
+import abdoroid.quranradio.utils.StorageUtils;
 
 public class RecordsPlayerActivity extends BaseActivity implements View.OnClickListener {
 
@@ -35,11 +35,12 @@ public class RecordsPlayerActivity extends BaseActivity implements View.OnClickL
     private RecordsPlayerService player;
     private boolean serviceBound;
     private ArrayList<RadioDataModel> audioList = new ArrayList<>();
+    private final Handler handler = new Handler(Looper.getMainLooper());
     private int position;
     public static final String Broadcast_PLAY_NEW_AUDIO = "abdoroid.quranradio.ui.player.PlayNewAudio";
-    public static TextView timeText, titleText;
+    private TextView timeText, titleText;
     public static BarVisualizer mVisualizer;
-    public static ImageButton playBtn;
+    private ImageButton playBtn;
     private ImageButton previousBtn, nextBtn, seekFdBtn, seekBkBtn;
 
     @Override
@@ -161,6 +162,7 @@ public class RecordsPlayerActivity extends BaseActivity implements View.OnClickL
             RecordsPlayerService.LocalBinder binder = (RecordsPlayerService.LocalBinder) service;
             player = binder.getService();
             serviceBound = true;
+            handler.postDelayed(mRunnable, 100);
         }
 
         @Override
@@ -171,14 +173,18 @@ public class RecordsPlayerActivity extends BaseActivity implements View.OnClickL
 
     private void playAudio() {
         if (!serviceBound) {
+            StorageUtils storageUtils = new StorageUtils(getApplicationContext());
+            storageUtils.storeAudio(audioList);
+            storageUtils.storeAudioIndex(position);
+
             Intent playerIntent = new Intent(this, RecordsPlayerService.class);
-            playerIntent.putExtra("mediaList", audioList);
-            playerIntent.putExtra("position", position);
             startService(playerIntent);
             bindService(playerIntent, serviceConnection, Context.BIND_AUTO_CREATE);
         } else {
+            StorageUtils storage = new StorageUtils(getApplicationContext());
+            storage.storeAudioIndex(position);
+
             Intent broadcastIntent = new Intent(Broadcast_PLAY_NEW_AUDIO);
-            broadcastIntent.putExtra("position", position);
             sendBroadcast(broadcastIntent);
         }
     }
@@ -198,7 +204,32 @@ public class RecordsPlayerActivity extends BaseActivity implements View.OnClickL
             player.stopSelf();
         }
         if (mVisualizer != null) mVisualizer.release();
+        handler.removeCallbacks(mRunnable);
     }
+
+    private void updateUi(){
+        if (player.isPaused){
+            playBtn.setImageResource(R.drawable.play);
+        }else {
+            playBtn.setImageResource(R.drawable.pause);
+        }
+        timeText.setText(convertMilliSecToTimeString(player.getMediaPosition()));
+        titleText.setText(player.getPlayingNow());
+    }
+
+    private String convertMilliSecToTimeString(long time){
+        int[] allTimes = Helper.getTimeFromMilliseconds(time);
+        Locale locale = Locale.getDefault();
+        return (String.format(locale, "%02d:%02d:%02d", allTimes[0],allTimes[1],allTimes[2]));
+    }
+
+    private final Runnable mRunnable = new Runnable() {
+        @Override
+        public void run() {
+            updateUi();
+            handler.postDelayed(mRunnable, 100);
+        }
+    };
 
 
 }
