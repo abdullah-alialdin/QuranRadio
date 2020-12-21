@@ -97,7 +97,7 @@
             android:layout_width="@dimen/dimen_0dp"
             android:layout_height="@dimen/dimen_100dp"
             android:layout_weight="1"
-            android:background="@color/holo_background"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/favourites"
             android:scaleType="fitCenter"
             android:src="@drawable/love" />
@@ -107,7 +107,7 @@
             android:layout_width="@dimen/dimen_0dp"
             android:layout_height="@dimen/dimen_150dp"
             android:layout_weight="1"
-            android:background="@color/holo_background"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/previous_button"
             android:scaleType="fitCenter"
             android:src="@drawable/prev" />
@@ -117,7 +117,7 @@
             android:layout_width="@dimen/dimen_0dp"
             android:layout_height="@dimen/dimen_200dp"
             android:layout_weight="1.5"
-            android:background="@color/holo_background"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/play_button"
             android:scaleType="fitCenter"
             android:src="@drawable/play" />
@@ -127,7 +127,7 @@
             android:layout_width="@dimen/dimen_0dp"
             android:layout_height="@dimen/dimen_150dp"
             android:layout_weight="1"
-            android:background="@color/holo_background"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/next_button"
             android:scaleType="fitCenter"
             android:src="@drawable/next" />
@@ -137,7 +137,7 @@
             android:layout_width="@dimen/dimen_0dp"
             android:layout_height="@dimen/dimen_100dp"
             android:layout_weight="1"
-            android:background="@color/holo_background"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/record_button"
             android:scaleType="fitCenter"
             android:src="@drawable/record" />
