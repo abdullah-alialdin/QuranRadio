@@ -1,10 +1,13 @@
 package abdoroid.quranradio.pojo;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 
 import abdoroid.quranradio.pojo.RadioDataModel;
 
 public class Radios {
+    @SerializedName("radios")
     private final ArrayList<RadioDataModel> radios;
 
     @SuppressWarnings("unused")

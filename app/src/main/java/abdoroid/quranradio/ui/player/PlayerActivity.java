@@ -350,7 +350,7 @@ public class PlayerActivity extends BaseActivity implements View.OnClickListener
             if (convertMilliSecToTimeString(liveStreamTime)
                     .equals(convertMilliSecToTimeString(selectedStreamTime))) {
                 pauseStation();
-                liveStreamTime += 2000;
+                liveStreamTime += 4000;
             }
         }
         if (player.isPaused){

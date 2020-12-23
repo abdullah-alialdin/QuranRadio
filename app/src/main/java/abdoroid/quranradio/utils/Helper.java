@@ -47,15 +47,21 @@ public class Helper {
     }
 
     @SuppressWarnings( "deprecation" )
-    public static boolean isNetworkConnected(Context  context) {
+    public static boolean isNetworkConnected(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         android.net.NetworkInfo activeNetworkInfo = cm.getActiveNetworkInfo();
+        boolean result = false;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             NetworkCapabilities capabilities = cm.getNetworkCapabilities(cm.getActiveNetwork());
-            return !capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) &&
-                    !capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) &&
-                    !capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR);
-        } else return activeNetworkInfo == null || !activeNetworkInfo.isConnectedOrConnecting();
+            if (capabilities != null){
+                result =  (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI))
+                        ||(capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR))
+                        ||(capabilities.hasTransport(NetworkCapabilities.TRANSPORT_VPN));
+            }
+        } else {
+            result = !(activeNetworkInfo == null || !activeNetworkInfo.isConnectedOrConnecting());
+        }
+        return !result;
     }
 
 }

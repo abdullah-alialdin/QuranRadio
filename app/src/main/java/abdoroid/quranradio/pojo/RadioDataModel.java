@@ -3,9 +3,14 @@ package abdoroid.quranradio.pojo;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 public class RadioDataModel implements Parcelable {
 
+
+    @SerializedName("name")
     private final String name;
+    @SerializedName("radio_url")
     private final String radio_url;
 
     public RadioDataModel(String name, String url) {
