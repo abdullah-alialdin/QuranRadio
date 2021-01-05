@@ -22,6 +22,8 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 
 import com.gauravk.audiovisualizer.visualizer.CircleLineVisualizer;
+import com.huawei.hms.ads.AdParam;
+import com.huawei.hms.ads.banner.BannerView;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -79,6 +81,11 @@ public class PlayerActivity extends BaseActivity implements View.OnClickListener
         AppCompatDelegate.setDefaultNightMode(Helper.setDarkMode(this));
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         setContentView(R.layout.activity_player);
+
+        BannerView bannerView = findViewById(R.id.hw_banner_view);
+        AdParam adParam = new AdParam.Builder().build();
+        bannerView.loadAd(adParam);
+
         Intent intent = getIntent();
         audioList = intent.getParcelableArrayListExtra(AUDIO_LIST);
         position = intent.getIntExtra(LIST_POSITION, 0);

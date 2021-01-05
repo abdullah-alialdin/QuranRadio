@@ -16,6 +16,9 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.huawei.hms.ads.AdParam;
+import com.huawei.hms.ads.banner.BannerView;
+
 import abdoroid.quranradio.R;
 import abdoroid.quranradio.adapter.RadioAdapter;
 import abdoroid.quranradio.ui.recordings.RecordsActivity;
@@ -32,6 +35,11 @@ public class FavouriteActivity extends BaseActivity {
         AppCompatDelegate.setDefaultNightMode(Helper.setDarkMode(this));
         Helper.setAnimation(FavouriteActivity.this);
         setContentView(R.layout.activity_favourite);
+
+        BannerView bannerView = findViewById(R.id.hw_banner_view);
+        AdParam adParam = new AdParam.Builder().build();
+        bannerView.loadAd(adParam);
+
         TextView toolbarTitle = findViewById(R.id.toolbar_title);
         toolbarTitle.setText(getString(R.string.favourites));
         ImageView toolbarImage = findViewById(R.id.toolbar_image);

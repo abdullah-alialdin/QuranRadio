@@ -40,4 +40,6 @@
     <string name="record_animation">Record animation</string>
     <string name="splash_icon">splash icon</string>
     <string name="main_background">main background</string>
+    <string name="banner_ad_id" translatable="false">testw6vs28auh3</string>
+    <string name="interstitial_ad_id" translatable="false">teste9ih9j0rc3</string>
 </resources>

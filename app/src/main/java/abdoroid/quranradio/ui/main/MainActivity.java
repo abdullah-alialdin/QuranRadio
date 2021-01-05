@@ -14,6 +14,9 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatDelegate;
 
+import com.huawei.hms.ads.AdParam;
+import com.huawei.hms.ads.InterstitialAd;
+
 import abdoroid.quranradio.R;
 import abdoroid.quranradio.ui.favourites.FavouriteActivity;
 import abdoroid.quranradio.ui.recordings.RecordsActivity;
@@ -28,6 +31,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     public static boolean needReloaded = false;
     private Button stationsBtn, favBtn, settingBtn, recordsBtn;
+    private InterstitialAd interstitialAd;
 
     @Override
     @SuppressWarnings("deprecation")
@@ -47,6 +51,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     WindowManager.LayoutParams.FLAG_FULLSCREEN
             );
         }
+
+        interstitialAd = new InterstitialAd(this);
+        interstitialAd.setAdId(getString(R.string.interstitial_ad_id));
+        loadInterstitialAd();
 
         ImageView background = findViewById(R.id.gifImageView);
         background.setBackgroundResource(R.drawable.main_background);
@@ -71,18 +79,33 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         ActivityOptions options =
                 ActivityOptions.makeSceneTransitionAnimation(MainActivity.this);
         if (stationsBtn.equals(v)) {
+            showInterstitialAd();
             Intent stationIntent = new Intent(MainActivity.this, StationsActivity.class);
             startActivity(stationIntent, options.toBundle());
         } else if (favBtn.equals(v)) {
+            showInterstitialAd();
             Intent favIntent = new Intent(MainActivity.this, FavouriteActivity.class);
             startActivity(favIntent, options.toBundle());
         } else if (recordsBtn.equals(v)) {
+            showInterstitialAd();
             Intent recordsIntent = new Intent(MainActivity.this, RecordsActivity.class);
             startActivity(recordsIntent, options.toBundle());
         } else if (settingBtn.equals(v)) {
             startActivity(new Intent(MainActivity.this, SettingsActivity.class));
         }
     }
+
+    private void showInterstitialAd() {
+        if (interstitialAd != null && interstitialAd.isLoaded()) {
+            interstitialAd.show();
+        }
+    }
+
+    private void loadInterstitialAd() {
+        AdParam adParam = new AdParam.Builder().build();
+        interstitialAd.loadAd(adParam);
+    }
+
 
     @Override
     protected void onResume() {

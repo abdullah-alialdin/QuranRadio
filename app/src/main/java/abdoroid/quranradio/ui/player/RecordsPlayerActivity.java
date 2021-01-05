@@ -16,6 +16,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.gauravk.audiovisualizer.visualizer.BarVisualizer;
+import com.huawei.hms.ads.AdParam;
+import com.huawei.hms.ads.banner.BannerView;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -51,6 +53,11 @@ public class RecordsPlayerActivity extends BaseActivity implements View.OnClickL
         Helper.setAnimation(RecordsPlayerActivity.this);
         LocaleHelper.setLocale(RecordsPlayerActivity.this);
         setContentView(R.layout.activity_records_player);
+
+        BannerView bannerView = findViewById(R.id.hw_banner_view);
+        AdParam adParam = new AdParam.Builder().build();
+        bannerView.loadAd(adParam);
+
         Intent intent = getIntent();
         audioList = intent.getParcelableArrayListExtra(AUDIO_LIST);
         position = intent.getIntExtra(LIST_POSITION, 0);

@@ -16,6 +16,9 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.huawei.hms.ads.AdParam;
+import com.huawei.hms.ads.banner.BannerView;
+
 import abdoroid.quranradio.R;
 import abdoroid.quranradio.adapter.RecordsAdapter;
 import abdoroid.quranradio.ui.stations.StationsActivity;
@@ -33,6 +36,11 @@ public class RecordsActivity extends BaseActivity {
         AppCompatDelegate.setDefaultNightMode(Helper.setDarkMode(this));
         Helper.setAnimation(this);
         setContentView(R.layout.activity_records);
+
+        BannerView bannerView = findViewById(R.id.hw_banner_view);
+        AdParam adParam = new AdParam.Builder().build();
+        bannerView.loadAd(adParam);
+
         TextView toolbarTitle = findViewById(R.id.toolbar_title);
         toolbarTitle.setText(getString(R.string.recordings));
         ImageView toolbarImage = findViewById(R.id.toolbar_image);
