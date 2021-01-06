@@ -21,6 +21,9 @@
         android:theme="@style/Theme.QuranRadio"
         android:usesCleartextTraffic="true"
         tools:ignore="UnusedAttribute">
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3940256099942544~3347511713"/>
         <activity
             android:name=".ui.player.RecordsPlayerActivity"
             android:screenOrientation="portrait"

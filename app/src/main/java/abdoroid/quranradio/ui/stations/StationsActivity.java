@@ -18,8 +18,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.huawei.hms.ads.AdParam;
-import com.huawei.hms.ads.banner.BannerView;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import abdoroid.quranradio.R;
 import abdoroid.quranradio.adapter.RadioAdapter;
@@ -39,9 +39,9 @@ public class StationsActivity extends BaseActivity {
         LocaleHelper.setLocale(StationsActivity.this);
         setContentView(R.layout.activity_stations);
 
-        BannerView bannerView = findViewById(R.id.hw_banner_view);
-        AdParam adParam = new AdParam.Builder().build();
-        bannerView.loadAd(adParam);
+        AdView mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         TextView toolbarTitle = findViewById(R.id.toolbar_title);
         toolbarTitle.setText(getString(R.string.radio_stations));

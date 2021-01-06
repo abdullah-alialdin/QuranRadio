@@ -1,6 +1,5 @@
 package abdoroid.quranradio.ui.main;
 
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
@@ -14,8 +13,10 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatDelegate;
 
-import com.huawei.hms.ads.AdParam;
-import com.huawei.hms.ads.InterstitialAd;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.LoadAdError;
 
 import abdoroid.quranradio.R;
 import abdoroid.quranradio.ui.favourites.FavouriteActivity;
@@ -31,7 +32,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     public static boolean needReloaded = false;
     private Button stationsBtn, favBtn, settingBtn, recordsBtn;
-    private InterstitialAd interstitialAd;
+    private InterstitialAd mInterstitialAd;
 
     @Override
     @SuppressWarnings("deprecation")
@@ -52,8 +53,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             );
         }
 
-        interstitialAd = new InterstitialAd(this);
-        interstitialAd.setAdId(getString(R.string.interstitial_ad_id));
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId(getString(R.string.interstitial_ad_id));
         loadInterstitialAd();
 
         ImageView background = findViewById(R.id.gifImageView);
@@ -76,40 +77,47 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        ActivityOptions options =
-                ActivityOptions.makeSceneTransitionAnimation(MainActivity.this);
+
         if (stationsBtn.equals(v)) {
-            showInterstitialAd();
             Intent stationIntent = new Intent(MainActivity.this, StationsActivity.class);
-            startActivity(stationIntent, options.toBundle());
+            showInterstitialAd(stationIntent);
         } else if (favBtn.equals(v)) {
-            showInterstitialAd();
             Intent favIntent = new Intent(MainActivity.this, FavouriteActivity.class);
-            startActivity(favIntent, options.toBundle());
+            showInterstitialAd(favIntent);
         } else if (recordsBtn.equals(v)) {
-            showInterstitialAd();
             Intent recordsIntent = new Intent(MainActivity.this, RecordsActivity.class);
-            startActivity(recordsIntent, options.toBundle());
+            showInterstitialAd(recordsIntent);
         } else if (settingBtn.equals(v)) {
             startActivity(new Intent(MainActivity.this, SettingsActivity.class));
         }
     }
 
-    private void showInterstitialAd() {
-        if (interstitialAd != null && interstitialAd.isLoaded()) {
-            interstitialAd.show();
+    private void showInterstitialAd(Intent intent) {
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+            handleAdListener(intent);
+        }else {
+            startActivity(intent);
         }
     }
 
     private void loadInterstitialAd() {
-        AdParam adParam = new AdParam.Builder().build();
-        interstitialAd.loadAd(adParam);
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
     }
 
+    private void handleAdListener(Intent intent){
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                startActivity(intent);
+            }
+        });
+    }
 
     @Override
     protected void onResume() {
         super.onResume();
+        loadInterstitialAd();
         if (needReloaded) {
             finish();
             startActivity(new Intent(MainActivity.this, SplashScreen.class));

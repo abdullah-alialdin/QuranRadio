@@ -6,7 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.huawei.hms.ads.HwAds;
+import com.google.android.gms.ads.MobileAds;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -15,16 +15,9 @@ public class BaseActivity extends AppCompatActivity {
         super.attachBaseContext(LocaleHelper.onAttach(newBase));
     }
 
-//    @Override
-//    public void onCreate() {
-//        super.onCreate();
-//        HwAds.init(this);
-//    }
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        HwAds.init(this);
+        MobileAds.initialize(this);
     }
 }

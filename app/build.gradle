@@ -47,5 +47,5 @@ dependencies {
     implementation 'com.gauravk.audiovisualizer:audiovisualizer:0.9.2'
     implementation "androidx.media:media:1.2.1"
     implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'com.huawei.hms:ads-lite:13.4.37.300'
+    implementation 'com.google.android.gms:play-services-ads:19.6.0'
 }
