@@ -36,5 +36,13 @@
     <string name="record_animation">Record animation</string>
     <string name="splash_icon">splash icon</string>
     <string name="main_background">main background</string>
+    <string name="german">ألماني</string>
+    <string name="spanish">إسباني</string>
+    <string name="indonesian">إندونيسي</string>
+    <string name="portuguese">برتغالي</string>
+    <string name="russian">روسي</string>
+    <string name="swahili">سواحيلى</string>
+    <string name="turkish">تركي</string>
+    <string name="chinese">صيني</string>
 
 </resources>

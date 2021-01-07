@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Koran Radio</string>
+    <string name="splash_icon">Begrüßungssymbol</string>
+    <string name="quran_radio_icon_des">Quran Radio Icon</string>
+    <string name="radio_stations">Radiostationen</string>
+    <string name="favourites">Favoriten</string>
+    <string name="settings">Einstellungen</string>
+    <string name="language">Sprache</string>
+    <string name="arabic">Arabisch</string>
+    <string name="english">Englisch</string>
+    <string name="french">Französisch</string>
+    <string name="dark_mode">Dunkler Modus</string>
+    <string name="settings_ok">in Ordnung</string>
+    <string name="settings_cancel">Stornieren</string>
+    <string name="stream_time">Stream-Zeit</string>
+    <string name="forever">Für immer</string>
+    <string name="custom">Benutzerdefiniert</string>
+    <string name="toolbar_image_des">Symbolleistenbild</string>
+    <string name="recordings">Aufnahmen</string>
+    <string name="no_internet">Es besteht derzeit keine Internetverbindung. Bitte stellen Sie zuerst eine Verbindung zum Internet her</string>
+    <string name="go_to_recordings">gehe zu Aufnahmen</string>
+    <string name="go_to_stations">zu Stationen gehen</string>
+    <string name="no_recordings">Derzeit gibt es keine Aufnahmen. Bitte nehmen Sie zuerst etwas auf</string>
+    <string name="no_fav">Derzeit gibt es keine Favoriten. Bitte fügen Sie zuerst Favoriten hinzu oder</string>
+    <string name="maintenance_msg">Die Datenbank wird gerade gewartet. Bitte versuchen Sie es später am Tag erneut.</string>
+    <string name="remove_icon">Symbol entfernen</string>
+    <string name="player_image_des">Spielerbild</string>
+    <string name="previous_button">vorherige Schaltfläche</string>
+    <string name="play_button">Wiedergabetaste</string>
+    <string name="next_button">nächster Knopf</string>
+    <string name="record_button">Aufnahmetaste</string>
+    <string name="seek_backward_btn">rückwärts suchen</string>
+    <string name="seek_forward_btn">vorwärts suchen</string>
+    <string name="alert_dialog">Eintrag löschen</string>
+    <string name="alert_msg">Möchten Sie diesen Eintrag wirklich löschen?</string>
+    <string name="record_animation">Animation aufnehmen</string>
+    <string name="main_background">Haupthintergrund</string>
+    <string name="turkish">Türkisch</string>
+    <string name="german">Deutsche</string>
+    <string name="spanish">Spanisch</string>
+    <string name="indonesian">Indonesisch</string>
+    <string name="portuguese">Portugiesisch</string>
+    <string name="russian">Russisch</string>
+    <string name="swahili">Swahili</string>
+    <string name="chinese">Chinesisch</string>
+</resources>

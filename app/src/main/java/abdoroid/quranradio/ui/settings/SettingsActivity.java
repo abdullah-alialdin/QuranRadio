@@ -57,25 +57,92 @@ public class SettingsActivity extends BaseActivity {
         SharedPreferences preferences = this.getSharedPreferences("Language", Context.MODE_PRIVATE);
         editor = preferences.edit();
         lang = preferences.getString(LocaleHelper.SELECTED_LANGUAGE, Locale.getDefault().getLanguage());
-        RadioGroup langGroup = findViewById(R.id.lang_radio_group);
-        arabic = findViewById(R.id.arabic);
-        english = findViewById(R.id.english);
-        french = findViewById(R.id.french);
-        langGroup.check(getCheckedId(lang));
-        langGroup.setOnCheckedChangeListener((radioGroup, i) -> {
-            View view = findViewById(i);
-            if (arabic.equals(view)) {
-                selectLanguage("ar");
-                reload = true;
-            } else if (english.equals(view)) {
-                selectLanguage("en");
-                reload = true;
-            } else if (french.equals(view)) {
-                selectLanguage("fr");
-                reload = true;
+        Spinner languageSpinner = findViewById(R.id.language_spinner);
+        String[] languageSpinnerChoices = {getString(R.string.arabic), getString(R.string.english),
+                getString(R.string.german), getString(R.string.spanish),
+                getString(R.string.french), getString(R.string.indonesian),
+                getString(R.string.portuguese), getString(R.string.russian),
+                getString(R.string.swahili), getString(R.string.turkish),
+                getString(R.string.chinese)};
+        ArrayAdapter<String> langSpinAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, languageSpinnerChoices);
+        langSpinAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        languageSpinner.setAdapter(langSpinAdapter);
+        languageSpinner.setSelection(getCheckedId(lang));
+        languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position){
+                    case 0:
+                        selectLanguage("ar");
+                        reload = true;
+                        break;
+                    case 1:
+                        selectLanguage("en");
+                        reload = true;
+                        break;
+                    case 2:
+                        selectLanguage("de");
+                        reload = true;
+                        break;
+                    case 3:
+                        selectLanguage("es");
+                        reload = true;
+                        break;
+                    case 4:
+                        selectLanguage("fr");
+                        reload = true;
+                        break;
+                    case 5:
+                        selectLanguage("in");
+                        reload = true;
+                        break;
+                    case 6:
+                        selectLanguage("pt");
+                        reload = true;
+                        break;
+                    case 7:
+                        selectLanguage("ru");
+                        reload = true;
+                        break;
+                    case 8:
+                        selectLanguage("sw");
+                        reload = true;
+                        break;
+                    case 9:
+                        selectLanguage("tr");
+                        reload = true;
+                        break;
+                    case 10:
+                        selectLanguage("zh");
+                        reload = true;
+                        break;
+                }
             }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
         });
+//        RadioGroup langGroup = findViewById(R.id.lang_radio_group);
+//        arabic = findViewById(R.id.arabic);
+//        english = findViewById(R.id.english);
+//        french = findViewById(R.id.french);
+//        langGroup.check(getCheckedId(lang));
+//        langGroup.setOnCheckedChangeListener((radioGroup, i) -> {
+//            View view = findViewById(i);
+//            if (arabic.equals(view)) {
+//                selectLanguage("ar");
+//                reload = true;
+//            } else if (english.equals(view)) {
+//                selectLanguage("en");
+//                reload = true;
+//            } else if (french.equals(view)) {
+//                selectLanguage("fr");
+//                reload = true;
+//            }
+//
+//        });
         isChecked = preferences.getBoolean("darkMode", true);
         SwitchCompat switchCompat = findViewById(R.id.dark_mode_switch);
         switchCompat.setChecked(isChecked);
@@ -166,11 +233,27 @@ public class SettingsActivity extends BaseActivity {
     private int getCheckedId(String lang){
         switch (lang){
             case "ar":
-                return R.id.arabic;
+                return 0;
+            case "zh":
+                return 10;
+            case "de":
+                return 2;
+            case "es":
+                return 3;
             case "fr":
-                return R.id.french;
+                return 4;
+            case "in":
+                return 5;
+            case "pt":
+                return 6;
+            case "ru":
+                return 7;
+            case "sw":
+                return 8;
+            case "tr":
+                return 9;
             default:
-                return R.id.english;
+                return 1;
         }
     }
 

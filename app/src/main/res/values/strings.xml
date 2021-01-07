@@ -13,7 +13,7 @@
     <string name="dark_mode">Dark Mode</string>
     <string name="settings_ok">OK</string>
     <string name="settings_cancel">Cancel</string>
-    <string name="stream_time">Stream time</string>
+    <string name="stream_time">Streaming time</string>
     <string name="hours_hh" translatable="false">hh</string>
     <string name="colon" translatable="false">:</string>
     <string name="minutes_mm" translatable="false">mm</string>
@@ -22,7 +22,7 @@
     <string name="toolbar_image_des">toolbar image</string>
     <string name="recordings">Recordings</string>
     <string name="no_internet">There is no Internet Connection now, Please connect to the Internet first Or</string>
-    <string name="go_to_recordings">Go to Recordings</string>
+    <string name="go_to_recordings">go to recordings</string>
     <string name="go_to_stations">go to stations</string>
     <string name="no_recordings">There is no recordings right now, please record something first</string>
     <string name="no_fav">There is no favorites right now please add favorites first or</string>
@@ -40,6 +40,14 @@
     <string name="record_animation">Record animation</string>
     <string name="splash_icon">splash icon</string>
     <string name="main_background">main background</string>
-    <string name="banner_ad_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="interstitial_ad_id" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="banner_ad_id" translatable="false">ca-app-pub-7820301890422502/1571533556</string>
+    <string name="interstitial_ad_id" translatable="false">ca-app-pub-7820301890422502/5555010599</string>
+    <string name="german">German</string>
+    <string name="spanish">Spanish</string>
+    <string name="indonesian">Indonesian</string>
+    <string name="portuguese">Portuguese</string>
+    <string name="russian">Russian</string>
+    <string name="swahili">Swahili</string>
+    <string name="turkish">Turkish</string>
+    <string name="chinese">Chinese</string>
 </resources>

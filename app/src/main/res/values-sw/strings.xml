@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Redio ya Quran</string>
+    <string name="splash_icon">ikoni ya mwanya</string>
+    <string name="quran_radio_icon_des">Ikoni ya Redio ya Quran</string>
+    <string name="radio_stations">Vituo vya Redio</string>
+    <string name="favourites">Unayopendelea</string>
+    <string name="settings">Mipangilio</string>
+    <string name="language">Lugha</string>
+    <string name="arabic">Kiarabu</string>
+    <string name="english">Kiingereza</string>
+    <string name="french">Kifaransa</string>
+    <string name="dark_mode">Njia Nyeusi</string>
+    <string name="settings_ok">Sawa</string>
+    <string name="settings_cancel">Ghairi</string>
+    <string name="stream_time">kipindi cha mkondo</string>
+    <string name="forever">Milele</string>
+    <string name="custom">Desturi</string>
+    <string name="toolbar_image_des">taswira ya mwambaa zana</string>
+    <string name="recordings">Rekodi</string>
+    <string name="no_internet">Hakuna Uunganisho wa Mtandaoni sasa, Tafadhali unganisha kwenye Mtandao kwanza Au</string>
+    <string name="go_to_recordings">nenda kwenye rekodi</string>
+    <string name="go_to_stations">nenda kwenye vituo</string>
+    <string name="no_recordings">Hakuna rekodi sasa hivi, tafadhali rekodi kitu cha kwanza</string>
+    <string name="no_fav">Hakuna vipendwa hivi sasa tafadhali ongeza vipendwa kwanza au</string>
+    <string name="maintenance_msg">Hifadhidata iko chini ya Matengenezo, Tafadhali jaribu tena baadaye wakati wa mchana.</string>
+    <string name="remove_icon">ondoa ikoni</string>
+    <string name="player_image_des">Picha ya Mchezaji</string>
+    <string name="previous_button">kitufe kilichopita</string>
+    <string name="play_button">kitufe cha kucheza</string>
+    <string name="next_button">kitufe kinachofuata</string>
+    <string name="record_button">kitufe cha rekodi</string>
+    <string name="seek_backward_btn">tafuta nyuma</string>
+    <string name="seek_forward_btn">tafuta mbele</string>
+    <string name="alert_dialog">Futa kipengee</string>
+    <string name="alert_msg">Una uhakika unataka kufuta kipengee hiki?</string>
+    <string name="record_animation">Rekodi uhuishaji</string>
+    <string name="main_background">msingi kuu</string>
+    <string name="chinese">Kichina</string>
+    <string name="german">Kijerumani</string>
+    <string name="spanish">Kihispania</string>
+    <string name="indonesian">Kiindonesia</string>
+    <string name="portuguese">Kireno</string>
+    <string name="russian">Kirusi</string>
+    <string name="swahili">Kiswahili</string>
+    <string name="turkish">Kituruki</string>
+</resources>

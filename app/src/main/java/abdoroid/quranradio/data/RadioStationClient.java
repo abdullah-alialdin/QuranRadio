@@ -1,5 +1,7 @@
 package abdoroid.quranradio.data;
 
+import android.util.Log;
+
 import java.util.Locale;
 
 import abdoroid.quranradio.pojo.Radios;
@@ -31,6 +33,7 @@ public class RadioStationClient {
 
     public Call<Radios> getRadioStations(){
         String localeLang = Locale.getDefault().getDisplayLanguage();
+        Log.d("Language", localeLang);
         switch (localeLang) {
             case "العربية":
                 query = "radio_arabic.json";
@@ -40,6 +43,30 @@ public class RadioStationClient {
                 break;
             case "English":
                 query = "radio_english.json";
+                break;
+            case "Deutsch":
+                query = "radio_german.json";
+                break;
+            case "español":
+                query = "radio_spanish.json";
+                break;
+            case "Bahasa Indonesia":
+                query = "radio_indonesian.json";
+                break;
+            case "português":
+                query = "radio_portuguese.json";
+                break;
+            case "русский":
+                query = "radio_russian.json";
+                break;
+            case "Kenya":
+                query = "radio_swahili.json";
+                break;
+            case "Türkçe":
+                query = "radio_turkish.json";
+                break;
+            case "中文":
+                query = "radio_chinese.json";
                 break;
         }
         return radioApi.getRadioStations(query);

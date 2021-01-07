@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Rádio Alcorão</string>
+    <string name="main_background">fundo principal</string>
+    <string name="quran_radio_icon_des">Ícone de rádio do Alcorão</string>
+    <string name="radio_stations">Estações de rádio</string>
+    <string name="favourites">Favoritos</string>
+    <string name="settings">Configurações</string>
+    <string name="language">Língua</string>
+    <string name="arabic">árabe</string>
+    <string name="english">Inglês</string>
+    <string name="french">Francês</string>
+    <string name="dark_mode">Modo escuro</string>
+    <string name="settings_ok">Está bem</string>
+    <string name="settings_cancel">Cancelar</string>
+    <string name="stream_time">Tempo de transmissão</string>
+    <string name="forever">Para sempre</string>
+    <string name="custom">Personalizados</string>
+    <string name="recordings">Gravações</string>
+    <string name="toolbar_image_des">imagem da barra de ferramentas</string>
+    <string name="no_internet">Não há conexão com a Internet agora, conecte-se à Internet primeiro ou</string>
+    <string name="go_to_recordings">ir para as gravações</string>
+    <string name="go_to_stations">ir para as estações</string>
+    <string name="no_recordings">Não há gravações no momento, grave algo primeiro</string>
+    <string name="no_fav">Não há favoritos no momento, adicione favoritos primeiro ou</string>
+    <string name="maintenance_msg">O banco de dados está em manutenção, tente novamente mais tarde durante o dia.</string>
+    <string name="remove_icon">remover ícone</string>
+    <string name="player_image_des">Imagem do jogador</string>
+    <string name="previous_button">botão anterior</string>
+    <string name="play_button">botão play</string>
+    <string name="next_button">Próximo botão</string>
+    <string name="record_button">botão de gravação</string>
+    <string name="seek_backward_btn">procurar para trás</string>
+    <string name="seek_forward_btn">buscar em frente</string>
+    <string name="alert_dialog">Excluir entrada</string>
+    <string name="alert_msg">Tem certeza de que deseja excluir esta entrada?</string>
+    <string name="record_animation">Gravar animação</string>
+    <string name="splash_icon">ícone de respingo</string>
+    <string name="turkish">Turco</string>
+    <string name="german">Alemão</string>
+    <string name="spanish">Espanhol</string>
+    <string name="indonesian">Indonésio</string>
+    <string name="portuguese">Português</string>
+    <string name="russian">Russo</string>
+    <string name="swahili">Suaíli</string>
+    <string name="chinese">Chinês</string>
+</resources>

@@ -22,5 +22,3 @@
 
 -keep public class abdoroid.quranradio.pojo.RadioDataModel {*;}
 -keep public class abdoroid.quranradio.pojo.Radios {*;}
--keep class com.huawei.openalliance.ad.** { *; }
--keep class com.huawei.hms.ads.** { *; }

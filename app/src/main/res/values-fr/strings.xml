@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Quran Radio</string>
-    <string name="quran_radio_icon_des">Quran Radio</string>
+    <string name="app_name">Radio Coran</string>
+    <string name="quran_radio_icon_des">Radio Coran</string>
     <string name="radio_stations">Stations de radio</string>
     <string name="favourites">Favoris</string>
     <string name="settings">Réglages</string>
@@ -36,5 +36,13 @@
     <string name="record_animation">Record animation</string>
     <string name="splash_icon">splash icon</string>
     <string name="main_background">main background</string>
+    <string name="chinese">Chinois</string>
+    <string name="german">Allemand</string>
+    <string name="spanish">Espagnol</string>
+    <string name="indonesian">Indonésien</string>
+    <string name="portuguese">Portugais</string>
+    <string name="russian">russe</string>
+    <string name="swahili">Swahili</string>
+    <string name="turkish">Turc</string>
 
 </resources>

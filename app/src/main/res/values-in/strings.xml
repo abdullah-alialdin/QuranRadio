@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Radio Quran</string>
+    <string name="quran_radio_icon_des">Ikon Radio Quran</string>
+    <string name="radio_stations">Stasiun Radio</string>
+    <string name="favourites">Favorit</string>
+    <string name="settings">Pengaturan</string>
+    <string name="language">Bahasa</string>
+    <string name="arabic">Arab</string>
+    <string name="english">Inggris</string>
+    <string name="french">Perancis</string>
+    <string name="dark_mode">Mode Gelap</string>
+    <string name="settings_ok">Beres</string>
+    <string name="settings_cancel">Membatalkan</string>
+    <string name="stream_time">Waktu streaming</string>
+    <string name="forever">Selama-lamanya</string>
+    <string name="custom">Adat</string>
+    <string name="toolbar_image_des">gambar toolbar</string>
+    <string name="recordings">Rekaman</string>
+    <string name="no_internet">Tidak ada Koneksi Internet sekarang, Harap sambungkan ke Internet terlebih dahulu Atau</string>
+    <string name="go_to_recordings">Pergi ke Rekaman</string>
+    <string name="go_to_stations">pergi ke stasiun radio</string>
+    <string name="no_recordings">Tidak ada rekaman saat ini, harap rekam sesuatu terlebih dahulu</string>
+    <string name="no_fav">Tidak ada favorit saat ini, tambahkan favorit dulu atau</string>
+    <string name="maintenance_msg">Basis data sedang dalam Pemeliharaan, Harap coba lagi nanti di siang hari.</string>
+    <string name="remove_icon">ikon hapus</string>
+    <string name="player_image_des">Gambar Pemain</string>
+    <string name="previous_button">tombol sebelumnya</string>
+    <string name="play_button">tombol putar</string>
+    <string name="next_button">tombol selanjutnya</string>
+    <string name="record_button">tombol rekam</string>
+    <string name="seek_backward_btn">mencari ke belakang</string>
+    <string name="seek_forward_btn">mencari ke depan</string>
+    <string name="alert_dialog">Hapus entri</string>
+    <string name="alert_msg">Anda yakin ingin menghapus entri ini?</string>
+    <string name="record_animation">Rekam animasi</string>
+    <string name="splash_icon">ikon percikan</string>
+    <string name="main_background">latar belakang utama</string>
+    <string name="chinese">Cina</string>
+    <string name="german">Jerman</string>
+    <string name="spanish">Spanyol</string>
+    <string name="indonesian">bahasa Indonesia</string>
+    <string name="portuguese">Portugis</string>
+    <string name="russian">Rusia</string>
+    <string name="swahili">Swahili</string>
+    <string name="turkish">Turki</string>
+</resources>
