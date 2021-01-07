@@ -6,9 +6,6 @@
     <string name="favourites">Favorit</string>
     <string name="settings">Pengaturan</string>
     <string name="language">Bahasa</string>
-    <string name="arabic">Arab</string>
-    <string name="english">Inggris</string>
-    <string name="french">Perancis</string>
     <string name="dark_mode">Mode Gelap</string>
     <string name="settings_ok">Beres</string>
     <string name="settings_cancel">Membatalkan</string>
@@ -36,12 +33,4 @@
     <string name="record_animation">Rekam animasi</string>
     <string name="splash_icon">ikon percikan</string>
     <string name="main_background">latar belakang utama</string>
-    <string name="chinese">Cina</string>
-    <string name="german">Jerman</string>
-    <string name="spanish">Spanyol</string>
-    <string name="indonesian">bahasa Indonesia</string>
-    <string name="portuguese">Portugis</string>
-    <string name="russian">Rusia</string>
-    <string name="swahili">Swahili</string>
-    <string name="turkish">Turki</string>
 </resources>

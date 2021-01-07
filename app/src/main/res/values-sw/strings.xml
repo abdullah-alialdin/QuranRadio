@@ -7,9 +7,6 @@
     <string name="favourites">Unayopendelea</string>
     <string name="settings">Mipangilio</string>
     <string name="language">Lugha</string>
-    <string name="arabic">Kiarabu</string>
-    <string name="english">Kiingereza</string>
-    <string name="french">Kifaransa</string>
     <string name="dark_mode">Njia Nyeusi</string>
     <string name="settings_ok">Sawa</string>
     <string name="settings_cancel">Ghairi</string>
@@ -36,12 +33,4 @@
     <string name="alert_msg">Una uhakika unataka kufuta kipengee hiki?</string>
     <string name="record_animation">Rekodi uhuishaji</string>
     <string name="main_background">msingi kuu</string>
-    <string name="chinese">Kichina</string>
-    <string name="german">Kijerumani</string>
-    <string name="spanish">Kihispania</string>
-    <string name="indonesian">Kiindonesia</string>
-    <string name="portuguese">Kireno</string>
-    <string name="russian">Kirusi</string>
-    <string name="swahili">Kiswahili</string>
-    <string name="turkish">Kituruki</string>
 </resources>

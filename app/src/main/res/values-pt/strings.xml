@@ -7,9 +7,6 @@
     <string name="favourites">Favoritos</string>
     <string name="settings">Configurações</string>
     <string name="language">Língua</string>
-    <string name="arabic">árabe</string>
-    <string name="english">Inglês</string>
-    <string name="french">Francês</string>
     <string name="dark_mode">Modo escuro</string>
     <string name="settings_ok">Está bem</string>
     <string name="settings_cancel">Cancelar</string>
@@ -36,12 +33,4 @@
     <string name="alert_msg">Tem certeza de que deseja excluir esta entrada?</string>
     <string name="record_animation">Gravar animação</string>
     <string name="splash_icon">ícone de respingo</string>
-    <string name="turkish">Turco</string>
-    <string name="german">Alemão</string>
-    <string name="spanish">Espanhol</string>
-    <string name="indonesian">Indonésio</string>
-    <string name="portuguese">Português</string>
-    <string name="russian">Russo</string>
-    <string name="swahili">Suaíli</string>
-    <string name="chinese">Chinês</string>
 </resources>

@@ -6,9 +6,6 @@
     <string name="favourites">Избранное</string>
     <string name="settings">Настройки</string>
     <string name="language">Язык</string>
-    <string name="arabic">Арабский\'</string>
-    <string name="english">английский</string>
-    <string name="french">французский язык</string>
     <string name="dark_mode">Темный режим</string>
     <string name="settings_ok">Хорошо</string>
     <string name="settings_cancel">Отменить</string>
@@ -36,12 +33,4 @@
     <string name="record_animation">Запись анимации</string>
     <string name="splash_icon">значок всплеска</string>
     <string name="main_background">основной фон</string>
-    <string name="chinese">китайский</string>
-    <string name="german">Немецкий</string>
-    <string name="spanish">испанский</string>
-    <string name="indonesian">индонезийский</string>
-    <string name="portuguese">португальский</string>
-    <string name="russian">русский</string>
-    <string name="swahili">суахили</string>
-    <string name="turkish">турецкий</string>
 </resources>

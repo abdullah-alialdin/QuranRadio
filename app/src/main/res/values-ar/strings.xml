@@ -6,9 +6,6 @@
     <string name="favourites">المفضلة</string>
     <string name="settings">الإعدادات</string>
     <string name="language">اللغة</string>
-    <string name="arabic">العربية</string>
-    <string name="english">الانجليزية</string>
-    <string name="french">الفرنسية</string>
     <string name="dark_mode">الوضع الليلي</string>
     <string name="settings_ok">تم</string>
     <string name="settings_cancel">إلغاء</string>
@@ -36,13 +33,5 @@
     <string name="record_animation">Record animation</string>
     <string name="splash_icon">splash icon</string>
     <string name="main_background">main background</string>
-    <string name="german">ألماني</string>
-    <string name="spanish">إسباني</string>
-    <string name="indonesian">إندونيسي</string>
-    <string name="portuguese">برتغالي</string>
-    <string name="russian">روسي</string>
-    <string name="swahili">سواحيلى</string>
-    <string name="turkish">تركي</string>
-    <string name="chinese">صيني</string>
 
 </resources>
