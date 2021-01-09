@@ -59,7 +59,7 @@ public class RadioStationClient {
             case "русский":
                 query = "radio_russian.json";
                 break;
-            case "Kenya":
+            case "Kiswahili":
                 query = "radio_swahili.json";
                 break;
             case "Türkçe":

@@ -20,19 +20,19 @@
            <KeyAttribute
                motion:motionTarget="@+id/splash_icon"
                motion:framePosition="20"
-               android:scaleX="0.7" />
+               android:scaleX="0.4" />
            <KeyAttribute
                motion:motionTarget="@+id/splash_icon"
                motion:framePosition="20"
-               android:scaleY="0.7" />
+               android:scaleY="0.4" />
            <KeyAttribute
                motion:motionTarget="@+id/splash_icon"
                motion:framePosition="40"
-               android:scaleX="0.7" />
+               android:scaleX="0.4" />
            <KeyAttribute
                motion:motionTarget="@+id/splash_icon"
                motion:framePosition="40"
-               android:scaleY="0.7" />
+               android:scaleY="0.4" />
            <KeyAttribute
                motion:motionTarget="@+id/splash_icon"
                motion:framePosition="100"

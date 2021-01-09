@@ -4,7 +4,7 @@
     <string name="radio_stations">Radio Stations</string>
     <string name="favourites">Favorites</string>
     <string name="settings">Settings</string>
-    <string name="v1_0_from" translatable="false">v1.0 From</string>
+    <string name="v1_0_from" translatable="false">v1.4 From</string>
     <string name="abdoroid" translatable="false">ABDOROID</string>
     <string name="language">Language</string>
     <string name="dark_mode">Dark Mode</string>
@@ -37,8 +37,6 @@
     <string name="record_animation">Record animation</string>
     <string name="splash_icon">splash icon</string>
     <string name="main_background">main background</string>
-    <string name="banner_ad_id" translatable="false">ca-app-pub-7820301890422502/1571533556</string>
-    <string name="interstitial_ad_id" translatable="false">ca-app-pub-7820301890422502/5555010599</string>
     <string name="arabic" translatable="false">العربية</string>
     <string name="english" translatable="false">English</string>
     <string name="french" translatable="false">Français</string>

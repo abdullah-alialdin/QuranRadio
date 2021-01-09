@@ -16,9 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-
 import abdoroid.quranradio.R;
 import abdoroid.quranradio.adapter.RecordsAdapter;
 import abdoroid.quranradio.ui.stations.StationsActivity;
@@ -36,10 +33,6 @@ public class RecordsActivity extends BaseActivity {
         AppCompatDelegate.setDefaultNightMode(Helper.setDarkMode(this));
         Helper.setAnimation(this);
         setContentView(R.layout.activity_records);
-
-        AdView mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
 
         TextView toolbarTitle = findViewById(R.id.toolbar_title);
         toolbarTitle.setText(getString(R.string.recordings));
