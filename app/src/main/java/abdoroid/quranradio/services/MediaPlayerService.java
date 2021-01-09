@@ -125,10 +125,16 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             stopSelf();
         }
         if (mediaSessionManager == null) {
-            initMediaSession();
-            initMediaPlayer();
-            buildNotification(PlaybackStatus.PLAYING);
+            try{
+                initMediaPlayer();
+                initMediaSession();
+                buildNotification(PlaybackStatus.PLAYING);
+            }catch (NullPointerException e){
+                e.printStackTrace();
+                stopSelf();
+            }
         }
+
         handleIncomingActions(intent);
         return super.onStartCommand(intent, flags, startId);
     }
@@ -211,7 +217,13 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         playMedia();
         if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.RECORD_AUDIO)
                 == PackageManager.PERMISSION_GRANTED) {
-            PlayerActivity.mVisualizer.setAudioSessionId(getSessionId());
+            try {
+                PlayerActivity.mVisualizer.setAudioSessionId(getSessionId());
+            }catch(NullPointerException e){
+                e.printStackTrace();
+                stopSelf();
+            }
+
         }
     }
 

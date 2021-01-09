@@ -16,7 +16,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -38,7 +37,6 @@ public class SettingsActivity extends BaseActivity {
     private long streamingTime;
     private boolean reload = false;
     private boolean isChecked;
-    private RadioButton arabic, english, french;
     private String lang;
 
 

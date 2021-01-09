@@ -16,7 +16,6 @@ import androidx.appcompat.app.AppCompatDelegate;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.ads.LoadAdError;
 
 import abdoroid.quranradio.R;
 import abdoroid.quranradio.ui.favourites.FavouriteActivity;
