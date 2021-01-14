@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Kuran Radyosu</string>
+    <string name="app_name_inside">Kuran Radyosu</string>
     <string name="quran_radio_icon_des">Kuran Radyo Simgesi</string>
     <string name="radio_stations">Radyo istasyonları</string>
     <string name="favourites">Favoriler</string>
@@ -33,4 +33,5 @@
     <string name="record_animation">Animasyon kaydet</string>
     <string name="splash_icon">sıçrama simgesi</string>
     <string name="main_background">ana arka plan</string>
+    <string name="app_name">Kuran Radyosu (Altın)</string>
 </resources>

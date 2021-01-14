@@ -15,7 +15,7 @@
         android:layout_height="@dimen/dimen_200dp"
         android:scaleType="fitCenter"
         android:contentDescription="@string/splash_icon"
-        android:src="@drawable/smallicon"
+        android:src="@drawable/quran"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

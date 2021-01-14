@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Redio ya Quran</string>
+    <string name="app_name_inside">Redio ya Quran</string>
     <string name="splash_icon">ikoni ya mwanya</string>
     <string name="quran_radio_icon_des">Ikoni ya Redio ya Quran</string>
     <string name="radio_stations">Vituo vya Redio</string>
@@ -33,4 +33,5 @@
     <string name="alert_msg">Una uhakika unataka kufuta kipengee hiki?</string>
     <string name="record_animation">Rekodi uhuishaji</string>
     <string name="main_background">msingi kuu</string>
+    <string name="app_name">Redio ya Quran (Dhahabu)</string>
 </resources>

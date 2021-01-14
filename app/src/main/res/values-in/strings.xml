@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Radio Quran</string>
+    <string name="app_name_inside">Radio Quran</string>
     <string name="quran_radio_icon_des">Ikon Radio Quran</string>
     <string name="radio_stations">Stasiun Radio</string>
     <string name="favourites">Favorit</string>
@@ -33,4 +33,5 @@
     <string name="record_animation">Rekam animasi</string>
     <string name="splash_icon">ikon percikan</string>
     <string name="main_background">latar belakang utama</string>
+    <string name="app_name">Radio Quran (Emas)</string>
 </resources>

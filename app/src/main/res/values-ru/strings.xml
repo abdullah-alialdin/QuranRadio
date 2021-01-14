@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Коран Радио</string>
+    <string name="app_name_inside">Коран Радио</string>
     <string name="quran_radio_icon_des">Коран радио значок</string>
     <string name="radio_stations">Радио станция</string>
     <string name="favourites">Избранное</string>
@@ -33,4 +33,5 @@
     <string name="record_animation">Запись анимации</string>
     <string name="splash_icon">значок всплеска</string>
     <string name="main_background">основной фон</string>
+    <string name="app_name">Коран Радио (золото)</string>
 </resources>

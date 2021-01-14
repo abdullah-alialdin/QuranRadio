@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">古兰经电台</string>
+    <string name="app_name_inside">古兰经电台</string>
     <string name="quran_radio_icon_des">古兰经电台图标</string>
     <string name="radio_stations">广播电台</string>
     <string name="favourites">收藏夹</string>
@@ -33,4 +33,5 @@
     <string name="record_animation">录制动画</string>
     <string name="splash_icon">初始图标</string>
     <string name="main_background">主要背景</string>
+    <string name="app_name">古兰经电台（黄金）</string>
 </resources>

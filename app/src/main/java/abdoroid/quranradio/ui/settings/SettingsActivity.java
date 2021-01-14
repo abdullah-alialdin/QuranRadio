@@ -36,7 +36,7 @@ public class SettingsActivity extends BaseActivity {
     private long streamingTime;
     private boolean reload = false;
     private boolean isChecked;
-    private String lang;
+    private String lang, newLang;
 
 
     @SuppressLint("CommitPrefEdits")
@@ -71,47 +71,47 @@ public class SettingsActivity extends BaseActivity {
                 switch (position){
                     case 0:
                         selectLanguage("ar");
-                        reload = true;
+                        newLang = "ar";
                         break;
                     case 1:
                         selectLanguage("en");
-                        reload = true;
+                        newLang = "en";
                         break;
                     case 2:
                         selectLanguage("de");
-                        reload = true;
+                        newLang = "de";
                         break;
                     case 3:
                         selectLanguage("es");
-                        reload = true;
+                        newLang = "es";
                         break;
                     case 4:
                         selectLanguage("fr");
-                        reload = true;
+                        newLang = "fr";
                         break;
                     case 5:
                         selectLanguage("in");
-                        reload = true;
+                        newLang = "in";
                         break;
                     case 6:
                         selectLanguage("pt");
-                        reload = true;
+                        newLang = "pt";
                         break;
                     case 7:
                         selectLanguage("ru");
-                        reload = true;
+                        newLang = "ru";
                         break;
                     case 8:
                         selectLanguage("sw");
-                        reload = true;
+                        newLang = "sw";
                         break;
                     case 9:
                         selectLanguage("tr");
-                        reload = true;
+                        newLang = "tr";
                         break;
                     case 10:
                         selectLanguage("zh");
-                        reload = true;
+                        newLang = "zh";
                         break;
                 }
             }
@@ -121,25 +121,6 @@ public class SettingsActivity extends BaseActivity {
 
             }
         });
-//        RadioGroup langGroup = findViewById(R.id.lang_radio_group);
-//        arabic = findViewById(R.id.arabic);
-//        english = findViewById(R.id.english);
-//        french = findViewById(R.id.french);
-//        langGroup.check(getCheckedId(lang));
-//        langGroup.setOnCheckedChangeListener((radioGroup, i) -> {
-//            View view = findViewById(i);
-//            if (arabic.equals(view)) {
-//                selectLanguage("ar");
-//                reload = true;
-//            } else if (english.equals(view)) {
-//                selectLanguage("en");
-//                reload = true;
-//            } else if (french.equals(view)) {
-//                selectLanguage("fr");
-//                reload = true;
-//            }
-//
-//        });
         isChecked = preferences.getBoolean("darkMode", true);
         SwitchCompat switchCompat = findViewById(R.id.dark_mode_switch);
         switchCompat.setChecked(isChecked);
@@ -186,7 +167,9 @@ public class SettingsActivity extends BaseActivity {
 
         Button okBtn = findViewById(R.id.ok_btn);
         okBtn.setOnClickListener(view -> {
-
+            if (!lang.equals(newLang)){
+                reload = true;
+            }
             darkModeIsChecked(isChecked);
             if (customTimeView.getVisibility() == View.VISIBLE){
                 if (timeInputHours.getText().toString().length() > 0){

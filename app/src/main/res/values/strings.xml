@@ -1,10 +1,11 @@
 <resources>
-    <string name="app_name">Quran Radio</string>
+    <string name="app_name">Quran Radio (Gold)</string>
+    <string name="app_name_inside">Quran Radio</string>
     <string name="quran_radio_icon_des">Quran Radio Icon</string>
     <string name="radio_stations">Radio Stations</string>
     <string name="favourites">Favorites</string>
     <string name="settings">Settings</string>
-    <string name="v1_0_from" translatable="false">v1.4 From</string>
+    <string name="v1_0_from" translatable="false">v1.3 From</string>
     <string name="abdoroid" translatable="false">ABDOROID</string>
     <string name="language">Language</string>
     <string name="dark_mode">Dark Mode</string>

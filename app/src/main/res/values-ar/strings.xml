@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">راديو القرآن</string>
+    <string name="app_name_inside">راديو القرآن</string>
     <string name="quran_radio_icon_des">راديو القرآن</string>
     <string name="radio_stations">محطات الراديو</string>
     <string name="favourites">المفضلة</string>
@@ -33,5 +33,6 @@
     <string name="record_animation">Record animation</string>
     <string name="splash_icon">splash icon</string>
     <string name="main_background">main background</string>
+    <string name="app_name">راديو القرآن (الذهبي)</string>
 
 </resources>

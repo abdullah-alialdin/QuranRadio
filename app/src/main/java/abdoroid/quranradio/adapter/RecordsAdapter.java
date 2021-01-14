@@ -55,7 +55,7 @@ public class RecordsAdapter extends RecyclerView.Adapter<RecordsAdapter.RadioVie
             activity.startActivity(intent);
         });
 
-        holder.removeIcon.setOnClickListener(v -> new AlertDialog.Builder(context)
+        holder.removeIcon.setOnClickListener(v -> new AlertDialog.Builder(context, R.style.DialogTheme)
                 .setTitle(R.string.alert_dialog)
                 .setMessage(R.string.alert_msg)
                 .setPositiveButton(R.string.settings_ok, (dialog, which) -> {

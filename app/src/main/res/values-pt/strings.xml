@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Rádio Alcorão</string>
+    <string name="app_name_inside">Rádio Alcorão</string>
     <string name="main_background">fundo principal</string>
     <string name="quran_radio_icon_des">Ícone de rádio do Alcorão</string>
     <string name="radio_stations">Estações de rádio</string>
@@ -33,4 +33,5 @@
     <string name="alert_msg">Tem certeza de que deseja excluir esta entrada?</string>
     <string name="record_animation">Gravar animação</string>
     <string name="splash_icon">ícone de respingo</string>
+    <string name="app_name">Rádio Alcorão (Ouro)</string>
 </resources>

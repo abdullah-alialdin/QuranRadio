@@ -23,7 +23,7 @@
         tools:ignore="UnusedAttribute">
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-yourId"/>
+            android:value="ca-app-pub-appId"/>
         <activity
             android:name=".ui.player.RecordsPlayerActivity"
             android:screenOrientation="portrait"

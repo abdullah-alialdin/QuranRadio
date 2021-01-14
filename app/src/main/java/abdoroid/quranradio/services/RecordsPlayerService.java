@@ -120,9 +120,7 @@ public class RecordsPlayerService extends Service implements MediaPlayer.OnCompl
         } catch (NullPointerException e) {
             stopSelf();
         }
-        if (!requestAudioFocus()) {
-            stopSelf();
-        }
+        requestAudioFocus();
         if (mediaSessionManager == null) {
             initMediaSession();
             initMediaPlayer();
@@ -151,15 +149,25 @@ public class RecordsPlayerService extends Service implements MediaPlayer.OnCompl
     }
 
     public void playMedia() {
-        if (!mediaPlayer.isPlaying()) {
+        if (!isPng() && mediaPlayer != null) {
             mediaPlayer.start();
             isPaused = false;
             buildNotification(PlaybackStatus.PLAYING);
         }
+        if (isDestroyed()){
+            updateMetaData();
+            requestAudioFocus();
+            buildNotification(PlaybackStatus.PLAYING);
+            stopMedia();
+            if (mediaPlayer != null){
+                mediaPlayer.reset();
+            }
+            initMediaPlayer();
+        }
     }
 
     public void pauseMedia() {
-        if (mediaPlayer.isPlaying()) {
+        if (isPng()) {
             mediaPlayer.pause();
             isPaused = true;
             if (stopCode != 1) buildNotification(PlaybackStatus.PAUSED);
@@ -168,7 +176,7 @@ public class RecordsPlayerService extends Service implements MediaPlayer.OnCompl
 
     public void stopMedia() {
         if (mediaPlayer == null) return;
-        if (mediaPlayer.isPlaying()) {
+        if (isPng()) {
             mediaPlayer.stop();
         }
     }
@@ -198,7 +206,11 @@ public class RecordsPlayerService extends Service implements MediaPlayer.OnCompl
     }
 
     public boolean isPng(){
-        return mediaPlayer.isPlaying();
+        if (mediaPlayer != null){
+            return mediaPlayer.isPlaying();
+        }else {
+            return false;
+        }
     }
 
 
@@ -258,11 +270,11 @@ public class RecordsPlayerService extends Service implements MediaPlayer.OnCompl
                 mediaPlayer.setVolume(1.0f, 1.0f);
                 break;
             case AudioManager.AUDIOFOCUS_LOSS:
-                if (isPng()) {
-                    mediaPlayer.stop();
+                if (mediaPlayer != null) {
+                    mediaPlayer.release();
+                    mediaPlayer = null;
+                    isPaused = true;
                 }
-                mediaPlayer.release();
-                mediaPlayer = null;
                 break;
             case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
                 if (isPng()) {
@@ -271,15 +283,15 @@ public class RecordsPlayerService extends Service implements MediaPlayer.OnCompl
                 }
                 break;
             case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
-                if (mediaPlayer.isPlaying()) mediaPlayer.setVolume(0.1f, 0.1f);
+                if (isPng()) mediaPlayer.setVolume(0.1f, 0.1f);
                 break;
         }
     }
 
     @SuppressWarnings( "deprecation" )
-    private boolean requestAudioFocus() {
+    private void requestAudioFocus() {
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        int result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+        audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O){
             focusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
                     .setAcceptsDelayedFocusGain(true)
@@ -287,9 +299,8 @@ public class RecordsPlayerService extends Service implements MediaPlayer.OnCompl
                     .setOnAudioFocusChangeListener(this)
                     .setAudioAttributes(audioAttributes)
                     .build();
-            result = audioManager.requestAudioFocus(focusRequest);
+            audioManager.requestAudioFocus(focusRequest);
         }
-        return result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED;
     }
 
     @SuppressWarnings( "deprecation" )
@@ -351,7 +362,9 @@ public class RecordsPlayerService extends Service implements MediaPlayer.OnCompl
                 stopSelf();
             }
             stopMedia();
-            mediaPlayer.reset();
+            if (mediaPlayer != null){
+                mediaPlayer.reset();
+            }
             initMediaPlayer();
             updateMetaData();
             buildNotification(PlaybackStatus.PLAYING);
@@ -421,7 +434,7 @@ public class RecordsPlayerService extends Service implements MediaPlayer.OnCompl
         updateMetaData();
         buildNotification(PlaybackStatus.PLAYING);
         stopMedia();
-        mediaPlayer.reset();
+        if (mediaPlayer != null)mediaPlayer.reset();
         initMediaPlayer();
     }
 
@@ -436,12 +449,12 @@ public class RecordsPlayerService extends Service implements MediaPlayer.OnCompl
         updateMetaData();
         buildNotification(PlaybackStatus.PLAYING);
         stopMedia();
-        mediaPlayer.reset();
+        if (mediaPlayer != null) mediaPlayer.reset();
         initMediaPlayer();
     }
 
     public int getSessionId(){
-        if (mediaPlayer.isPlaying()){
+        if (isPng()){
             return mediaPlayer.getAudioSessionId();
         }
         return 0;
@@ -551,7 +564,15 @@ public class RecordsPlayerService extends Service implements MediaPlayer.OnCompl
     }
 
     public long getMediaPosition(){
-        return mediaPlayer.getCurrentPosition();
+        if (isPng()) {
+            return mediaPlayer.getCurrentPosition();
+        }else {
+            return 0;
+        }
+    }
+
+    public boolean isDestroyed(){
+        return mediaPlayer == null;
     }
 
     @Override

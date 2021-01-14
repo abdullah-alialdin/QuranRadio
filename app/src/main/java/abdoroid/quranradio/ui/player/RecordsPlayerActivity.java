@@ -232,5 +232,4 @@ public class RecordsPlayerActivity extends BaseActivity implements View.OnClickL
         }
     };
 
-
 }

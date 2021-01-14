@@ -71,8 +71,8 @@
 
     <ImageView
         android:id="@+id/record_anmi_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/dimen_450dp"
+        android:layout_height="@dimen/dimen_100dp"
         android:layout_marginBottom="@dimen/dimen_8dp"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"

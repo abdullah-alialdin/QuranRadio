@@ -227,7 +227,6 @@ public class PlayerActivity extends BaseActivity implements View.OnClickListener
         } else {
             StorageUtils storage = new StorageUtils(getApplicationContext());
             storage.storeAudioIndex(position);
-
             Intent broadcastIntent = new Intent(Broadcast_PLAY_NEW_AUDIO);
             sendBroadcast(broadcastIntent);
         }
@@ -369,4 +368,5 @@ public class PlayerActivity extends BaseActivity implements View.OnClickListener
             handler.postDelayed(mRunnable, 100);
         }
     };
+
 }

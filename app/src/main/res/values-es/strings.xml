@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Radio Corán</string>
+    <string name="app_name_inside">Radio Corán</string>
     <string name="main_background">fondo principal</string>
     <string name="quran_radio_icon_des">Icono de radio Corán</string>
     <string name="radio_stations">Estaciones de radio</string>
@@ -33,4 +33,5 @@
     <string name="alert_msg">¿Está seguro de que desea eliminar esta entrada?</string>
     <string name="record_animation">Grabar animación</string>
     <string name="splash_icon">icono de bienvenida</string>
+    <string name="app_name">Radio Corán (Oro)</string>
 </resources>
