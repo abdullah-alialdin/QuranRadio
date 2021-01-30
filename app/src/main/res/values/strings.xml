@@ -5,7 +5,7 @@
     <string name="radio_stations">Radio Stations</string>
     <string name="favourites">Favorites</string>
     <string name="settings">Settings</string>
-    <string name="v1_0_from" translatable="false">v1.3 From</string>
+    <string name="v1_0_from" translatable="false">v2.0 From</string>
     <string name="abdoroid" translatable="false">ABDOROID</string>
     <string name="language">Language</string>
     <string name="dark_mode">Dark Mode</string>
@@ -20,11 +20,10 @@
     <string name="toolbar_image_des">toolbar image</string>
     <string name="recordings">Recordings</string>
     <string name="no_internet">There is no Internet Connection now, Please connect to the Internet first Or</string>
-    <string name="go_to_recordings">go to recordings</string>
-    <string name="go_to_stations">go to stations</string>
+    <string name="go_to_recordings"><u>go to recordings</u></string>
+    <string name="go_to_stations"><u>go to stations</u></string>
     <string name="no_recordings">There is no recordings right now, please record something first</string>
     <string name="no_fav">There is no favorites right now please add favorites first or</string>
-    <string name="maintenance_msg">The database is under Maintenance, Please try again later during the day.</string>
     <string name="remove_icon">remove icon</string>
     <string name="player_image_des">Player Image</string>
     <string name="previous_button">previous button</string>
@@ -49,4 +48,5 @@
     <string name="swahili" translatable="false">Kiswahili</string>
     <string name="turkish" translatable="false">Türkçe</string>
     <string name="chinese" translatable="false">中文</string>
+    <string name="change_time">Change streaming time via settings</string>
 </resources>

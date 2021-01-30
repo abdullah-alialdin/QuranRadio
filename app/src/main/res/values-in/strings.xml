@@ -15,11 +15,10 @@
     <string name="toolbar_image_des">gambar toolbar</string>
     <string name="recordings">Rekaman</string>
     <string name="no_internet">Tidak ada Koneksi Internet sekarang, Harap sambungkan ke Internet terlebih dahulu Atau</string>
-    <string name="go_to_recordings">Pergi ke Rekaman</string>
-    <string name="go_to_stations">pergi ke stasiun radio</string>
+    <string name="go_to_recordings"><u>Pergi ke Rekaman</u></string>
+    <string name="go_to_stations"><u>pergi ke stasiun radio</u></string>
     <string name="no_recordings">Tidak ada rekaman saat ini, harap rekam sesuatu terlebih dahulu</string>
     <string name="no_fav">Tidak ada favorit saat ini, tambahkan favorit dulu atau</string>
-    <string name="maintenance_msg">Basis data sedang dalam Pemeliharaan, Harap coba lagi nanti di siang hari.</string>
     <string name="remove_icon">ikon hapus</string>
     <string name="player_image_des">Gambar Pemain</string>
     <string name="previous_button">tombol sebelumnya</string>
@@ -34,4 +33,5 @@
     <string name="splash_icon">ikon percikan</string>
     <string name="main_background">latar belakang utama</string>
     <string name="app_name">Radio Quran (Emas)</string>
+    <string name="change_time">Ubah waktu siaran melalui pengaturan</string>
 </resources>

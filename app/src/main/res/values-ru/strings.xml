@@ -15,11 +15,10 @@
     <string name="toolbar_image_des">изображение панели инструментов</string>
     <string name="recordings">Записи</string>
     <string name="no_internet">В данный момент нет подключения к Интернету, сначала подключитесь к Интернету, или</string>
-    <string name="go_to_recordings">Перейти к записям</string>
-    <string name="go_to_stations">пойти на радиостанции</string>
+    <string name="go_to_recordings"><u>Перейти к записям</u></string>
+    <string name="go_to_stations"><u>пойти на радиостанции</u></string>
     <string name="no_recordings">Сейчас нет записей, пожалуйста, сначала запишите что-нибудь</string>
     <string name="no_fav">Сейчас нет избранного, пожалуйста, сначала добавьте избранное или</string>
-    <string name="maintenance_msg">База данных находится на обслуживании. Повторите попытку позже в течение дня.</string>
     <string name="remove_icon">удалить значок</string>
     <string name="player_image_des">Изображение игрока</string>
     <string name="previous_button">предыдущая кнопка</string>
@@ -34,4 +33,5 @@
     <string name="splash_icon">значок всплеска</string>
     <string name="main_background">основной фон</string>
     <string name="app_name">Коран Радио (золото)</string>
+    <string name="change_time">Измените время потоковой передачи в настройках.</string>
 </resources>

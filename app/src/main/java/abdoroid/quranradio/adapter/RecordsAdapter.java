@@ -3,7 +3,6 @@ package abdoroid.quranradio.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,18 +18,19 @@ import java.util.ArrayList;
 
 import abdoroid.quranradio.R;
 import abdoroid.quranradio.pojo.RadioDataModel;
-import abdoroid.quranradio.ui.player.RecordsPlayerActivity;
+import abdoroid.quranradio.ui.player.PlayerActivity;
+import abdoroid.quranradio.utils.StorageUtils;
 
 public class RecordsAdapter extends RecyclerView.Adapter<RecordsAdapter.RadioViewHolder> {
 
-    private ArrayList<RadioDataModel> radiosList = new ArrayList<>();
+    private final ArrayList<RadioDataModel> radiosList;
     private final Context context;
-    private final SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
+    private final StorageUtils storageUtils;
 
-    public RecordsAdapter(Context context, SharedPreferences sharedPreferences) {
+    public RecordsAdapter(Context context) {
         this.context = context;
-        this.sharedPreferences = sharedPreferences;
+        storageUtils = new StorageUtils(context);
+        radiosList = storageUtils.loadRecordings();
     }
 
 
@@ -44,14 +44,14 @@ public class RecordsAdapter extends RecyclerView.Adapter<RecordsAdapter.RadioVie
 
     @Override
     public void onBindViewHolder(@NonNull RadioViewHolder holder, int position) {
-        editor = sharedPreferences.edit();
         holder.radioName.setText(radiosList.get(position).getName());
         holder.radioName.setSelected(true);
         Activity activity = (Activity) context;
         holder.radioName.setOnClickListener(view -> {
-            Intent intent = new Intent(context.getApplicationContext(), RecordsPlayerActivity.class);
-            intent.putExtra(RecordsPlayerActivity.LIST_POSITION, position);
-            intent.putExtra(RecordsPlayerActivity.AUDIO_LIST, radiosList);
+            Intent intent = new Intent(context.getApplicationContext(), PlayerActivity.class);
+            storageUtils.setPlayerType(storageUtils.RECORDINGS_PLAYER);
+            storageUtils.storeAudio(radiosList);
+            storageUtils.storeAudioIndex(position);
             activity.startActivity(intent);
         });
 
@@ -60,7 +60,6 @@ public class RecordsAdapter extends RecyclerView.Adapter<RecordsAdapter.RadioVie
                 .setMessage(R.string.alert_msg)
                 .setPositiveButton(R.string.settings_ok, (dialog, which) -> {
                     removeItemAt(position);
-                    editor.apply();
                     activity.finish();
                     activity.startActivity(activity.getIntent());
                 })
@@ -73,11 +72,6 @@ public class RecordsAdapter extends RecyclerView.Adapter<RecordsAdapter.RadioVie
     @Override
     public int getItemCount() {
         return radiosList.size();
-    }
-
-    public void setRadiosList(ArrayList<RadioDataModel> radiosList) {
-        this.radiosList = radiosList;
-        notifyDataSetChanged();
     }
 
     static class RadioViewHolder extends RecyclerView.ViewHolder {
@@ -97,7 +91,7 @@ public class RecordsAdapter extends RecyclerView.Adapter<RecordsAdapter.RadioVie
         if (file.exists()) {
             boolean delete = file.delete();
         }
-        editor.remove(radiosList.get(position).getName());
+        storageUtils.removeRecordings(radiosList.get(position).getUrl());
         radiosList.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, radiosList.size());

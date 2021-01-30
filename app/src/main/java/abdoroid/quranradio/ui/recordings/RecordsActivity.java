@@ -1,27 +1,25 @@
 package abdoroid.quranradio.ui.recordings;
 
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import abdoroid.quranradio.R;
 import abdoroid.quranradio.adapter.RecordsAdapter;
+import abdoroid.quranradio.ui.main.MainActivity;
 import abdoroid.quranradio.ui.stations.StationsActivity;
 import abdoroid.quranradio.utils.BaseActivity;
 import abdoroid.quranradio.utils.Helper;
 import abdoroid.quranradio.utils.LocaleHelper;
+import abdoroid.quranradio.utils.StorageUtils;
 
 
 public class RecordsActivity extends BaseActivity {
@@ -44,26 +42,21 @@ public class RecordsActivity extends BaseActivity {
             startActivity(new Intent(RecordsActivity.this, StationsActivity.class));
             finish();
         });
-        ProgressBar progressBar = findViewById(R.id.my_progressBar);
-        progressBar.setVisibility(View.VISIBLE);
-        SharedPreferences sharedPreferences = this.getSharedPreferences("RecordPreferences", Context.MODE_PRIVATE);
-        RecordsViewModel viewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.
-                getInstance(this.getApplication())).get(RecordsViewModel.class);
-        viewModel.getRecordedStations();
+        StorageUtils storageUtils = new StorageUtils(this);
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
-        RecordsAdapter adapter = new RecordsAdapter(this, sharedPreferences);
+        RecordsAdapter adapter = new RecordsAdapter(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-        viewModel.recordings.observe(this, radioDataModels -> {
-            if (radioDataModels.size() == 0){
-                progressBar.setVisibility(View.GONE);
-                noConnectionLayout.setVisibility(View.VISIBLE);
-                recyclerView.setVisibility(View.INVISIBLE);
-            }else{
-                adapter.setRadiosList(radioDataModels);
-                adapter.notifyDataSetChanged();
-                progressBar.setVisibility(View.GONE);
-            }
-        });
+        if (storageUtils.loadRecordings().size() == 0){
+            noConnectionLayout.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.INVISIBLE);
+        }
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 }

@@ -3,7 +3,6 @@ package abdoroid.quranradio.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,16 +19,18 @@ import java.util.ArrayList;
 import abdoroid.quranradio.R;
 import abdoroid.quranradio.pojo.RadioDataModel;
 import abdoroid.quranradio.ui.player.PlayerActivity;
+import abdoroid.quranradio.utils.StorageUtils;
 
 public class RadioAdapter extends RecyclerView.Adapter<RadioAdapter.RadioViewHolder> {
 
     private ArrayList<RadioDataModel> radiosList = new ArrayList<>();
     private final Context context;
-    private final SharedPreferences sharedPreferences;
+    private StorageUtils storageUtils;
+    private final String radioType;
 
-    public RadioAdapter(Context context, SharedPreferences sharedPreferences) {
+    public RadioAdapter(Context context, String radioType) {
         this.context = context;
-        this.sharedPreferences = sharedPreferences;
+        this.radioType = radioType;
     }
 
     @NonNull
@@ -41,30 +42,36 @@ public class RadioAdapter extends RecyclerView.Adapter<RadioAdapter.RadioViewHol
 
     @Override
     public void onBindViewHolder(@NonNull RadioAdapter.RadioViewHolder holder, int position) {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        holder.radioName.setText(radiosList.get(position).getName());
+        storageUtils = new StorageUtils(context);
+        String url = radiosList.get(position).getUrl();
+        String title = radiosList.get(position).getName();
+        holder.radioName.setText(title);
         holder.radioName.setSelected(true);
         holder.cardItem.setOnClickListener(view -> {
             Activity activity = (Activity) context;
             Intent intent = new Intent(context.getApplicationContext(), PlayerActivity.class);
-            intent.putExtra(PlayerActivity.LIST_POSITION, position);
-            intent.putExtra(PlayerActivity.AUDIO_LIST, radiosList);
+            if (radioType.equals(storageUtils.FAVOURITES_PLAYER)){
+                storageUtils.setPlayerType(storageUtils.FAVOURITES_PLAYER);
+            }else {
+                storageUtils.setPlayerType(storageUtils.STATION_PLAYER);
+            }
+            storageUtils.storeAudio(radiosList);
+            storageUtils.storeAudioIndex(position);
             activity.startActivity(intent);
+            activity.finish();
         });
-        String url = radiosList.get(position).getUrl();
+
         holder.favIcon.setImageResource(R.drawable.ic_baseline_favorite_white);
         holder.favIcon.setOnClickListener(view -> {
-            if (sharedPreferences.contains(url)){
+            if (storageUtils.checkFavourites(url)){
                 holder.favIcon.setImageResource(R.drawable.ic_baseline_favorite_white);
-                editor.remove(url);
-                editor.apply();
+                storageUtils.removeFavourites(url);
             }else{
                 holder.favIcon.setImageResource(R.drawable.ic_baseline_favorite_red);
-                editor.putString(url, radiosList.get(position).getName());
-                editor.apply();
+                storageUtils.storeFavourite(url, title);
             }
         });
-        if (sharedPreferences.contains(url)) {
+        if (storageUtils.checkFavourites(url)) {
             holder.favIcon.setImageResource(R.drawable.ic_baseline_favorite_red);
         }
 

@@ -1,41 +1,28 @@
 package abdoroid.quranradio.utils;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
 
 import java.util.Locale;
 
 public class LocaleHelper {
-    public static final String SELECTED_LANGUAGE = "Locale.Helper.Selected.Language";
 
     public static Context onAttach(Context context) {
-        String lang = getPersistedData(context, Locale.getDefault().getLanguage());
-        return setLocale(context, lang);
+        StorageUtils storageUtils = new StorageUtils(context);
+        return setLocale(context, storageUtils.loadLanguage());
     }
 
     public static Context setLocale(Context context, String language) {
-        persist(context, language);
+        StorageUtils storageUtils = new StorageUtils(context);
+        storageUtils.storeLanguage(language);
         return updateResources(context, language);
     }
 
     public static void setLocale(Context context) {
-        SharedPreferences preferences = context.getSharedPreferences("Language", Context.MODE_PRIVATE);
-        String language = preferences.getString(SELECTED_LANGUAGE, Locale.getDefault().getLanguage());
+        StorageUtils storageUtils = new StorageUtils(context);
+        String language = storageUtils.loadLanguage();
         updateResources(context, language);
-    }
-
-    private static String getPersistedData(Context context, String defaultLanguage) {
-        SharedPreferences preferences = context.getSharedPreferences("Language", Context.MODE_PRIVATE);
-        return preferences.getString(SELECTED_LANGUAGE, defaultLanguage);
-    }
-
-    private static void persist(Context context, String language) {
-        SharedPreferences preferences = context.getSharedPreferences("Language", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(SELECTED_LANGUAGE, language);
-        editor.apply();
     }
 
     @SuppressWarnings("deprecation")

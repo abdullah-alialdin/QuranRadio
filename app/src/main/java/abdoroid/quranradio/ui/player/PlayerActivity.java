@@ -1,27 +1,24 @@
 package abdoroid.quranradio.ui.player;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
 import android.os.Looper;
+import android.support.v4.media.MediaBrowserCompat;
+import android.support.v4.media.MediaMetadataCompat;
+import android.support.v4.media.session.MediaControllerCompat;
+import android.support.v4.media.session.MediaSessionCompat;
+import android.support.v4.media.session.PlaybackStateCompat;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.app.ActivityCompat;
-
-import com.gauravk.audiovisualizer.visualizer.CircleLineVisualizer;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -37,7 +34,10 @@ import java.util.Locale;
 
 import abdoroid.quranradio.R;
 import abdoroid.quranradio.pojo.RadioDataModel;
-import abdoroid.quranradio.services.MediaPlayerService;
+import abdoroid.quranradio.services.MediaPlaybackService;
+import abdoroid.quranradio.ui.favourites.FavouriteActivity;
+import abdoroid.quranradio.ui.recordings.RecordsActivity;
+import abdoroid.quranradio.ui.stations.StationsActivity;
 import abdoroid.quranradio.utils.BaseActivity;
 import abdoroid.quranradio.utils.Helper;
 import abdoroid.quranradio.utils.LocaleHelper;
@@ -45,20 +45,15 @@ import abdoroid.quranradio.utils.StorageUtils;
 
 public class PlayerActivity extends BaseActivity implements View.OnClickListener {
 
-    public static final String LIST_POSITION = "124";
-    public static final String AUDIO_LIST = "list";
-    private static final int PERM_REQ_CODE = 23;
-    private MediaPlayerService player;
-    private boolean serviceBound;
+    private MediaBrowserCompat mediaBrowser;
+    private MediaControllerCallback mediaControllerCallback;
+    private MediaControllerCompat controller;
     private ArrayList<RadioDataModel> audioList = new ArrayList<>();
     private int position;
-    public static final String Broadcast_PLAY_NEW_AUDIO = "abdoroid.quranradio.ui.player.PlayNewAudio";
-    private TextView timeText, titleText;
-    public static CircleLineVisualizer mVisualizer;
-    private ImageButton favBtn, recordBtn, previousBtn, nextBtn;
+    private TextView timeView, titleText, selectedTimeView;
+    private ImageButton favBtn, recordBtn, backwardBtn, forwardBtn, seekForward, seekBackward;
     private ImageView recordAnmi;
-    private ImageButton playBtn;
-    private SharedPreferences sharedPreferences;
+    private ImageButton playToggleButton;
     private final Handler handler = new Handler(Looper.getMainLooper());
     private static String fileUrl = null;
     private boolean mStartRecording = true;
@@ -66,10 +61,10 @@ public class PlayerActivity extends BaseActivity implements View.OnClickListener
     private String audio_url, audio_title;
     private InputStream inputStream;
     private Thread thread;
-    private SharedPreferences.Editor recordEditor;
-    private SharedPreferences.Editor editor;
     private AnimationDrawable recordAnimation;
     private long selectedStreamTime;
+    private StorageUtils storageUtils;
+    private AnimationDrawable playerAnimation;
 
     @SuppressLint("CommitPrefEdits")
     @Override
@@ -79,66 +74,68 @@ public class PlayerActivity extends BaseActivity implements View.OnClickListener
         AppCompatDelegate.setDefaultNightMode(Helper.setDarkMode(this));
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         setContentView(R.layout.activity_player);
-
-        Intent intent = getIntent();
-        audioList = intent.getParcelableArrayListExtra(AUDIO_LIST);
-        position = intent.getIntExtra(LIST_POSITION, 0);
-        timeText = findViewById(R.id.time_view);
-        if (savedInstanceState != null){
-            serviceBound = savedInstanceState.getBoolean("ServiceState");
+        ImageView playerAnim = findViewById(R.id.player_animation_view);
+        playerAnimation = (AnimationDrawable) playerAnim.getBackground();
+        playerAnimation.start();
+        storageUtils = new StorageUtils(this);
+        audioList = storageUtils.loadAudio();
+        position = storageUtils.loadAudioIndex();
+        timeView = findViewById(R.id.time_view);
+        selectedTimeView = findViewById(R.id.selected_time_view);
+        initMediaBrowser();
+        if (mediaBrowser.isConnected()){
+            if (MediaControllerCompat.getMediaController(this) == null){
+                registerMediaController(mediaBrowser.getSessionToken());
+            }
         }else {
-            serviceBound = false;
+            mediaBrowser.connect();
         }
-        playAudio();
-        sharedPreferences = this.getSharedPreferences("StationList", Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
-        SharedPreferences preferences = getApplicationContext().getSharedPreferences("Language", Context.MODE_PRIVATE);
-        selectedStreamTime = preferences.getLong("StreamTime", 0);
-        previousBtn = findViewById(R.id.previous);
-        nextBtn = findViewById(R.id.next);
-        playBtn = findViewById(R.id.play);
+        selectedStreamTime = storageUtils.loadSelectedTime();
+        backwardBtn = findViewById(R.id.previous);
+        forwardBtn = findViewById(R.id.next);
+        playToggleButton = findViewById(R.id.play);
+        seekForward = findViewById(R.id.seek_frd);
+        seekBackward = findViewById(R.id.seek_bkd);
         favBtn = findViewById(R.id.fav);
         recordBtn = findViewById(R.id.record);
         recordAnmi = findViewById(R.id.record_anmi_view);
         recordAnmi.setBackgroundResource(R.drawable.record_animation);
         recordAnimation = (AnimationDrawable) recordAnmi.getBackground();
-        mVisualizer = findViewById(R.id.visualizer);
-        if (!checkAudioPermission()){
-            requestAudioPermission();
+        if (storageUtils.getPlayerType().equals(storageUtils.RECORDINGS_PLAYER)){
+            favBtn.setVisibility(View.GONE);
+            recordBtn.setVisibility(View.GONE);
+            seekBackward.setVisibility(View.VISIBLE);
+            seekForward.setVisibility(View.VISIBLE);
         }
         titleText = findViewById(R.id.station_title);
-        titleText.setText(audioList.get(position).getName());
-
         audio_url = audioList.get(position).getUrl();
         audio_title = audioList.get(position).getName();
         checkFavourite(audio_url);
+        titleText.setText(audio_title);
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy_hh-mm-ss", Locale.getDefault());
         date = dateFormat.format(c);
-        SharedPreferences recordPreferences = this.getSharedPreferences("RecordPreferences", Context.MODE_PRIVATE);
-        recordEditor = recordPreferences.edit();
-
         favBtn.setOnClickListener(this);
-        playBtn.setOnClickListener(this);
-        previousBtn.setOnClickListener(this);
-        nextBtn.setOnClickListener(this);
+        playToggleButton.setOnClickListener(this);
+        backwardBtn.setOnClickListener(this);
+        forwardBtn.setOnClickListener(this);
         recordBtn.setOnClickListener(this);
+        seekBackward.setOnClickListener(this);
+        seekForward.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        if (playBtn.equals(v)) {
-            if (isPlaying()) {
-                pauseStation();
-            } else {
-                playStation();
+        if (playToggleButton.equals(v)) {
+            togglePlayPause();
+        } else if (forwardBtn.equals(v)) {
+            if (controller != null){
+                controller.getTransportControls().skipToNext();
             }
-        } else if (nextBtn.equals(v)) {
-            playNext();
-            audio_title = audioList.get(position).getName();
-        } else if (previousBtn.equals(v)) {
-            playPrev();
-            audio_title = audioList.get(position).getName();
+        } else if (backwardBtn.equals(v)) {
+            if (controller != null){
+                controller.getTransportControls().skipToPrevious();
+            }
         } else if (recordBtn.equals(v)) {
             fileUrl = getExternalCacheDir().getAbsolutePath();
             fileName = (audioList.get(position).getName() + " " + date);
@@ -146,90 +143,97 @@ public class PlayerActivity extends BaseActivity implements View.OnClickListener
             onRecord(mStartRecording);
             mStartRecording = !mStartRecording;
         } else if (favBtn.equals(v)) {
-            if (!sharedPreferences.contains(audio_url)) {
+            if (!storageUtils.checkFavourites(audio_url)) {
                 favBtn.setImageResource(R.drawable.love_ok);
-                editor.putString(audio_url, audio_title);
-                editor.apply();
+                storageUtils.storeFavourite(audio_url, audio_title);
             } else {
                 favBtn.setImageResource(R.drawable.love);
-                editor.remove(audio_url);
-                editor.apply();
+                storageUtils.removeFavourites(audio_url);
+            }
+        }else if (seekForward.equals(v)){
+            seekBy(5);
+        }else if (seekBackward.equals(v)){
+            seekBy(-5);
+        }
+
+    }
+    private void togglePlayPause(){
+        controller = MediaControllerCompat.getMediaController(PlayerActivity.this);
+        if (controller.getPlaybackState() != null){
+            if (controller.getPlaybackState().getState() == PlaybackStateCompat.STATE_PLAYING){
+                controller.getTransportControls().pause();
+            }else {
+                controller.getTransportControls().play();
+            }
+        }else {
+            controller.getTransportControls().play();
+        }
+    }
+
+    private void startPlayerAnimator(boolean animatePlayer){
+        if (animatePlayer){
+            playerAnimation.start();
+        } else {
+            playerAnimation.stop();
+        }
+    }
+
+    private void seekBy(int seconds){
+        MediaControllerCompat controller =
+                MediaControllerCompat.getMediaController(this);
+        long newPosition = controller.getPlaybackState().getPosition() + seconds*1000;
+        controller.getTransportControls().seekTo(newPosition);
+    }
+
+    private void playAgain(){
+        controller = MediaControllerCompat.getMediaController(PlayerActivity.this);
+        controller.getTransportControls().play();
+        startPlayerAnimator(true);
+        playToggleButton.setActivated(true);
+        if (controller.getPlaybackState() != null) {
+            if (controller.getPlaybackState().getState() == PlaybackStateCompat.STATE_PLAYING) {
+                updateUiViews(PlaybackStateCompat.STATE_PLAYING);
             }
         }
-
     }
 
-    private void playNext(){
-        player.skipToNext();
-        position++;
-        if (position > audioList.size()-1){
-            position = 0;
-        }
-        if (!mStartRecording){
-            stopRecording();
-        }
-        audio_url = audioList.get(position).getUrl();
-        checkFavourite(audio_url);
+    private void updateUiViews(int state){
+        boolean isPlaying = (state == PlaybackStateCompat.STATE_PLAYING);
+        playToggleButton.setActivated(isPlaying);
+        startPlayerAnimator(isPlaying);
+        handler.post(timeViewSetting);
+        titleText.setText(controller.getMetadata().getString(MediaMetadataCompat.METADATA_KEY_TITLE));
+        position = storageUtils.loadAudioIndex();
+        checkFavourite(audioList.get(position).getUrl());
     }
 
-    private void playPrev(){
-        player.skipToPrevious();
-        position--;
-        if (position < 0){
-            position = audioList.size()-1;
-        }
-        if (!mStartRecording){
-            stopRecording();
-        }
-        audio_url = audioList.get(position).getUrl();
-        checkFavourite(audio_url);
-    }
-
-    private void playStation(){
-       player.playMedia();
-    }
-
-    private void pauseStation(){
-        player.pauseMedia();
-        if (!mStartRecording){
-            stopRecording();
-        }
-    }
-
-    private boolean isPlaying(){
-        return player.isPng();
-    }
-
-    private final ServiceConnection serviceConnection = new ServiceConnection() {
+    final Runnable timeViewSetting = new Runnable() {
         @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            MediaPlayerService.LocalBinder binder = (MediaPlayerService.LocalBinder) service;
-            player = binder.getService();
-            serviceBound = true;
-            handler.postDelayed(mRunnable, 100);
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            serviceBound = false;
+        public void run() {
+            long time = controller.getPlaybackState().getPosition();
+            if (selectedStreamTime != 0) {
+                if (DateUtils.formatElapsedTime(time/1000)
+                        .equals(DateUtils.formatElapsedTime(selectedStreamTime/1000))) {
+                    controller.getTransportControls().stop();
+                    selectedTimeView.setVisibility(View.VISIBLE);
+                    handler.removeCallbacks(timeViewSetting);
+                }
+            }
+            timeView.setText(DateUtils.formatElapsedTime(time/1000));
+            handler.post(timeViewSetting);
         }
     };
 
-    private void playAudio() {
-        if (!serviceBound) {
-            StorageUtils storageUtils = new StorageUtils(getApplicationContext());
-            storageUtils.storeAudio(audioList);
-            storageUtils.storeAudioIndex(position);
+    private void registerMediaController(MediaSessionCompat.Token token){
+        MediaControllerCompat mediaController = new MediaControllerCompat(PlayerActivity.this, token);
+        MediaControllerCompat.setMediaController(PlayerActivity.this, mediaController);
+        mediaControllerCallback = new MediaControllerCallback();
+        mediaController.registerCallback(mediaControllerCallback);
+    }
 
-            Intent playerIntent = new Intent(this, MediaPlayerService.class);
-            startService(playerIntent);
-            bindService(playerIntent, serviceConnection, Context.BIND_AUTO_CREATE);
-        } else {
-            StorageUtils storage = new StorageUtils(getApplicationContext());
-            storage.storeAudioIndex(position);
-            Intent broadcastIntent = new Intent(Broadcast_PLAY_NEW_AUDIO);
-            sendBroadcast(broadcastIntent);
-        }
+    private void initMediaBrowser(){
+        mediaBrowser = new MediaBrowserCompat(this, new ComponentName(this, MediaPlaybackService.class),
+                new MediaBrowserCallbacks(), null);
     }
 
     private void onRecord(boolean start){
@@ -288,85 +292,83 @@ public class PlayerActivity extends BaseActivity implements View.OnClickListener
         recordBtn.setImageResource(R.drawable.record);
         recordAnmi.setVisibility(View.INVISIBLE);
         recordAnimation.stop();
-        recordEditor.putString(fileName, fileUrl);
-        recordEditor.apply();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        savedInstanceState.putBoolean("ServiceState", serviceBound);
-        super.onSaveInstanceState(savedInstanceState);
-    }
-
-    public boolean checkAudioPermission() {
-        return ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
-                == PackageManager.PERMISSION_GRANTED;
-    }
-
-    private void requestAudioPermission() {
-        ActivityCompat.requestPermissions(this, new String[]
-                {Manifest.permission.RECORD_AUDIO}, PERM_REQ_CODE);
+        storageUtils.storeRecordings(fileUrl, fileName);
     }
 
     private void checkFavourite(String url){
-        if (sharedPreferences.contains(url)){
+        if (storageUtils.checkFavourites(url)){
             favBtn.setImageResource(R.drawable.love_ok);
         }else{
             favBtn.setImageResource(R.drawable.love);
         }
     }
 
+    class MediaControllerCallback extends MediaControllerCompat.Callback{
+        @Override
+        public void onPlaybackStateChanged(PlaybackStateCompat state) {
+            super.onPlaybackStateChanged(state);
+            updateUiViews(state.getState());
+            if (!mStartRecording){
+                stopRecording();
+                mStartRecording = !mStartRecording;
+            }
+        }
+
+        @Override
+        public void onMetadataChanged(MediaMetadataCompat metadata) {
+            super.onMetadataChanged(metadata);
+
+        }
+    }
+
+    class MediaBrowserCallbacks extends MediaBrowserCompat.ConnectionCallback{
+        @Override
+        public void onConnected() {
+            super.onConnected();
+            registerMediaController(mediaBrowser.getSessionToken());
+            playAgain();
+        }
+
+        @SuppressWarnings("EmptyMethod")
+        @Override
+        public void onConnectionSuspended() {
+            super.onConnectionSuspended();
+        }
+
+        @SuppressWarnings("EmptyMethod")
+        @Override
+        public void onConnectionFailed() {
+            super.onConnectionFailed();
+        }
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (serviceBound) {
-            unbindService(serviceConnection);
-            player.stopSelf();
+        if (MediaControllerCompat.getMediaController(this) != null){
+            if (mediaControllerCallback != null){
+                MediaControllerCompat.getMediaController(this).unregisterCallback(mediaControllerCallback);
+            }
         }
-        if (mVisualizer != null)
-            mVisualizer.release();
         if (!mStartRecording){
             stopRecording();
         }
-        handler.removeCallbacks(mRunnable);
+        handler.removeCallbacks(timeViewSetting);
     }
 
     @Override
     public void onBackPressed() {
-        Helper.reloadActivity = true;
-        super.onBackPressed();
-    }
-
-    private String convertMilliSecToTimeString(long time) {
-        int[] allTimes = Helper.getTimeFromMilliseconds(time);
-        Locale locale = Locale.getDefault();
-        return (String.format(locale, "%02d:%02d:%02d", allTimes[0], allTimes[1], allTimes[2]));
-    }
-
-    private void updateUi(){
-        long liveStreamTime = player.getMediaPosition();
-        timeText.setText(convertMilliSecToTimeString(liveStreamTime));
-        if (selectedStreamTime != 0) {
-            if (convertMilliSecToTimeString(liveStreamTime)
-                    .equals(convertMilliSecToTimeString(selectedStreamTime))) {
-                pauseStation();
-                liveStreamTime += 4000;
-            }
-        }
-        if (player.isPaused){
-            playBtn.setImageResource(R.drawable.play);
+        if (storageUtils.getPlayerType().equals(storageUtils.FAVOURITES_PLAYER)){
+            startActivity(new Intent(this, FavouriteActivity.class));
+        }else if (storageUtils.getPlayerType().equals(storageUtils.RECORDINGS_PLAYER)){
+            startActivity(new Intent(this, RecordsActivity.class));
         }else {
-            playBtn.setImageResource(R.drawable.pause);
+            startActivity(new Intent(this, StationsActivity.class));
         }
-        titleText.setText(player.getPlayingNow());
+        if (!mStartRecording){
+            stopRecording();
+        }
+        finish();
     }
 
-    private final Runnable mRunnable = new Runnable() {
-        @Override
-        public void run() {
-            updateUi();
-            handler.postDelayed(mRunnable, 100);
-        }
-    };
-
-}
+ }

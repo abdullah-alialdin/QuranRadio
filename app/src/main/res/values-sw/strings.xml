@@ -16,11 +16,10 @@
     <string name="toolbar_image_des">taswira ya mwambaa zana</string>
     <string name="recordings">Rekodi</string>
     <string name="no_internet">Hakuna Uunganisho wa Mtandaoni sasa, Tafadhali unganisha kwenye Mtandao kwanza Au</string>
-    <string name="go_to_recordings">nenda kwenye rekodi</string>
-    <string name="go_to_stations">nenda kwenye vituo</string>
+    <string name="go_to_recordings"><u>nenda kwenye rekodi</u></string>
+    <string name="go_to_stations"><u>nenda kwenye vituo</u></string>
     <string name="no_recordings">Hakuna rekodi sasa hivi, tafadhali rekodi kitu cha kwanza</string>
     <string name="no_fav">Hakuna vipendwa hivi sasa tafadhali ongeza vipendwa kwanza au</string>
-    <string name="maintenance_msg">Hifadhidata iko chini ya Matengenezo, Tafadhali jaribu tena baadaye wakati wa mchana.</string>
     <string name="remove_icon">ondoa ikoni</string>
     <string name="player_image_des">Picha ya Mchezaji</string>
     <string name="previous_button">kitufe kilichopita</string>
@@ -34,4 +33,5 @@
     <string name="record_animation">Rekodi uhuishaji</string>
     <string name="main_background">msingi kuu</string>
     <string name="app_name">Redio ya Quran (Dhahabu)</string>
+    <string name="change_time">Badilisha wakati wa kutiririsha kupitia mipangilio</string>
 </resources>

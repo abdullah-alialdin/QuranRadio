@@ -6,7 +6,6 @@
     <color name="color_secondary_variant">#757777</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="vis_color">#FFFFFF</color>
     <color name="logo_text_color">#FFFFFFFF</color>
     <color name="card_view_back">#56585A</color>
     <color name="list_item_color">#190230</color>

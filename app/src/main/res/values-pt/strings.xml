@@ -16,11 +16,10 @@
     <string name="recordings">Gravações</string>
     <string name="toolbar_image_des">imagem da barra de ferramentas</string>
     <string name="no_internet">Não há conexão com a Internet agora, conecte-se à Internet primeiro ou</string>
-    <string name="go_to_recordings">ir para as gravações</string>
-    <string name="go_to_stations">ir para as estações</string>
+    <string name="go_to_recordings"><u>ir para as gravações</u></string>
+    <string name="go_to_stations"><u>ir para as estações</u></string>
     <string name="no_recordings">Não há gravações no momento, grave algo primeiro</string>
     <string name="no_fav">Não há favoritos no momento, adicione favoritos primeiro ou</string>
-    <string name="maintenance_msg">O banco de dados está em manutenção, tente novamente mais tarde durante o dia.</string>
     <string name="remove_icon">remover ícone</string>
     <string name="player_image_des">Imagem do jogador</string>
     <string name="previous_button">botão anterior</string>
@@ -34,4 +33,5 @@
     <string name="record_animation">Gravar animação</string>
     <string name="splash_icon">ícone de respingo</string>
     <string name="app_name">Rádio Alcorão (Ouro)</string>
+    <string name="change_time">Alterar o tempo de transmissão por meio das configurações</string>
 </resources>

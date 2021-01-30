@@ -16,11 +16,10 @@
     <string name="toolbar_image_des">Symbolleistenbild</string>
     <string name="recordings">Aufnahmen</string>
     <string name="no_internet">Es besteht derzeit keine Internetverbindung. Bitte stellen Sie zuerst eine Verbindung zum Internet her</string>
-    <string name="go_to_recordings">gehe zu Aufnahmen</string>
-    <string name="go_to_stations">zu Stationen gehen</string>
+    <string name="go_to_recordings"><u>gehe zu Aufnahmen</u></string>
+    <string name="go_to_stations"><u>zu Stationen gehen</u></string>
     <string name="no_recordings">Derzeit gibt es keine Aufnahmen. Bitte nehmen Sie zuerst etwas auf</string>
     <string name="no_fav">Derzeit gibt es keine Favoriten. Bitte fügen Sie zuerst Favoriten hinzu oder</string>
-    <string name="maintenance_msg">Die Datenbank wird gerade gewartet. Bitte versuchen Sie es später am Tag erneut.</string>
     <string name="remove_icon">Symbol entfernen</string>
     <string name="player_image_des">Spielerbild</string>
     <string name="previous_button">vorherige Schaltfläche</string>
@@ -34,4 +33,5 @@
     <string name="record_animation">Animation aufnehmen</string>
     <string name="main_background">Haupthintergrund</string>
     <string name="app_name">Koran Radio (Gold)</string>
+    <string name="change_time">Ändern Sie die Streaming-Zeit aus den Einstellungen</string>
 </resources>

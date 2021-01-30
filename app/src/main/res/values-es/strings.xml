@@ -16,11 +16,10 @@
     <string name="toolbar_image_des">imagen de la barra de herramientas</string>
     <string name="recordings">Grabaciones</string>
     <string name="no_internet">Ahora no hay conexión a Internet, primero conéctese a Internet O</string>
-    <string name="go_to_recordings">ir a grabaciones</string>
-    <string name="go_to_stations">ir a las estaciones</string>
+    <string name="go_to_recordings"><u>ir a grabaciones</u></string>
+    <string name="go_to_stations"><u>ir a las estaciones</u></string>
     <string name="no_recordings">No hay grabaciones en este momento, primero grabe algo</string>
     <string name="no_fav">No hay favoritos en este momento, agregue favoritos primero o</string>
-    <string name="maintenance_msg">La base de datos está en mantenimiento. Vuelva a intentarlo más tarde durante el día.</string>
     <string name="remove_icon">eliminar icono</string>
     <string name="player_image_des">Imagen del jugador</string>
     <string name="previous_button">botón anterior</string>
@@ -34,4 +33,5 @@
     <string name="record_animation">Grabar animación</string>
     <string name="splash_icon">icono de bienvenida</string>
     <string name="app_name">Radio Corán (Oro)</string>
+    <string name="change_time">Cambiar el tiempo de transmisión a través de la configuración</string>
 </resources>

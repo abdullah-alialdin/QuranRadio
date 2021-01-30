@@ -4,11 +4,10 @@
     package="abdoroid.quranradio">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+
 
     <application
         android:allowBackup="true"
@@ -19,15 +18,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.QuranRadio"
-        android:usesCleartextTraffic="true"
+        android:targetSandboxVersion="2"
         tools:ignore="UnusedAttribute">
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-appId"/>
-        <activity
-            android:name=".ui.player.RecordsPlayerActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask"/>
+
         <activity
             android:name=".ui.recordings.RecordsActivity"
             android:parentActivityName=".ui.main.MainActivity"
@@ -35,6 +28,7 @@
             android:launchMode="singleTask"/>
         <activity
             android:name=".ui.player.PlayerActivity"
+            android:parentActivityName=".ui.stations.StationsActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTask"/>
         <activity
@@ -69,11 +63,21 @@
             android:launchMode="singleTask"/>
 
         <service
-            android:name=".services.MediaPlayerService"
-            android:screenOrientation="portrait" />
-        <service
-            android:name=".services.RecordsPlayerService"
-            android:screenOrientation="portrait" />
+            android:name=".services.MediaPlaybackService"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.media.browse.MediaBrowserService" />
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name="androidx.media.session.MediaButtonReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

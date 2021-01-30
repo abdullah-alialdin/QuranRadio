@@ -4,10 +4,9 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,12 +17,21 @@ import android.widget.TextView;
 
 import abdoroid.quranradio.R;
 import abdoroid.quranradio.adapter.RadioAdapter;
+import abdoroid.quranradio.ui.main.MainActivity;
 import abdoroid.quranradio.ui.recordings.RecordsActivity;
 import abdoroid.quranradio.utils.BaseActivity;
 import abdoroid.quranradio.utils.Helper;
 import abdoroid.quranradio.utils.LocaleHelper;
+import abdoroid.quranradio.utils.StorageUtils;
 
 public class FavouriteActivity extends BaseActivity {
+
+    private FavouriteViewModel viewModel;
+    private RecyclerView recyclerView;
+    private RadioAdapter adapter;
+    private ProgressBar progressBar;
+    private LinearLayout noConnectionLayout;
+    private TextView noFavTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,37 +41,46 @@ public class FavouriteActivity extends BaseActivity {
         Helper.setAnimation(FavouriteActivity.this);
         setContentView(R.layout.activity_favourite);
 
+        StorageUtils storageUtils = new StorageUtils(this);
+
         TextView toolbarTitle = findViewById(R.id.toolbar_title);
         toolbarTitle.setText(getString(R.string.favourites));
         ImageView toolbarImage = findViewById(R.id.toolbar_image);
         toolbarImage.setImageResource(R.drawable.ic_baseline_favorite_white);
-        LinearLayout noConnectionLayout = findViewById(R.id.no_connection_layout);
+
+        noConnectionLayout = findViewById(R.id.no_connection_layout);
+        noFavTxt = findViewById(R.id.no_fav_text);
         Button noConnectionBtn = findViewById(R.id.no_connection_btn);
         noConnectionBtn.setOnClickListener(v -> {
                 startActivity(new Intent(FavouriteActivity.this, RecordsActivity.class));
                 finish();
         });
-        ProgressBar progressBar = findViewById(R.id.my_progressBar);
+        progressBar = findViewById(R.id.my_progressBar);
         progressBar.setVisibility(View.VISIBLE);
-        SharedPreferences sharedPreferences = this.getSharedPreferences("StationList", Context.MODE_PRIVATE);
-        FavouriteViewModel viewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.
+
+        recyclerView = findViewById(R.id.recycler_view);
+        viewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.
                 getInstance(this.getApplication())).get(FavouriteViewModel.class);
-        viewModel.getFavouriteStations();
-        RecyclerView recyclerView = findViewById(R.id.recycler_view);
-        if (Helper.isNetworkConnected(this)){
-            noConnectionLayout.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.INVISIBLE);
-            progressBar.setVisibility(View.GONE);
-        }
-        TextView noFavTxt =findViewById(R.id.no_fav_text);
-        RadioAdapter adapter = new RadioAdapter(this, sharedPreferences);
+        adapter = new RadioAdapter(this, storageUtils.FAVOURITES_PLAYER);
+
+        checkConnectionAndSetLayout();
+        SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipe_refresh);
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            checkConnectionAndSetLayout();
+            swipeRefreshLayout.setRefreshing(false);
+        });
+    }
+
+    private void setRecyclerView(){
+        noConnectionLayout.setVisibility(View.INVISIBLE);
+        recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+        viewModel.getFavouriteStations();
         viewModel.radioStations.observe(this, radioDataModels -> {
             if (radioDataModels.size() == 0){
-                noConnectionLayout.setVisibility(View.VISIBLE);
+                setNoConnectionLayout();
                 noFavTxt.setText(R.string.no_fav);
-                recyclerView.setVisibility(View.INVISIBLE);
             }
             adapter.setRadiosList(radioDataModels);
             adapter.notifyDataSetChanged();
@@ -71,13 +88,23 @@ public class FavouriteActivity extends BaseActivity {
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (Helper.reloadActivity){
-            finish();
-            startActivity(getIntent());
+    private void setNoConnectionLayout(){
+        noConnectionLayout.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.INVISIBLE);
+        noFavTxt.setText(R.string.no_internet);
+    }
+
+    private void checkConnectionAndSetLayout(){
+        if (Helper.isNetworkConnected(this)){
+            setNoConnectionLayout();
+        }else {
+            setRecyclerView();
         }
-        Helper.reloadActivity = false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 }

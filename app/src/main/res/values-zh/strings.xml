@@ -15,11 +15,10 @@
     <string name="toolbar_image_des">工具栏图片</string>
     <string name="recordings">记录</string>
     <string name="no_internet">现在没有Internet连接，请先连接到Internet或</string>
-    <string name="go_to_recordings">去录音</string>
-    <string name="go_to_stations">去广播电台</string>
+    <string name="go_to_recordings"><u>去录音</u></string>
+    <string name="go_to_stations"><u>去广播电台</u></string>
     <string name="no_recordings">目前没有录音，请先录音</string>
     <string name="no_fav">目前没有收藏，请先添加收藏，否则</string>
-    <string name="maintenance_msg">该数据库位于“维护”下，请稍后再试。</string>
     <string name="remove_icon">删除图示</string>
     <string name="player_image_des">播放器图片</string>
     <string name="previous_button">上一个按钮</string>
@@ -34,4 +33,5 @@
     <string name="splash_icon">初始图标</string>
     <string name="main_background">主要背景</string>
     <string name="app_name">古兰经电台（黄金）</string>
+    <string name="change_time">通过设置更改流式传输时间</string>
 </resources>

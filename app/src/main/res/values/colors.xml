@@ -6,13 +6,11 @@
     <color name="color_secondary_variant">#111212</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="vis_color">#EEF0F3</color>
     <color name="logo_text_color">#FF000000</color>
-    <color name="card_view_back">#5B5B5C</color>
+    <color name="card_view_back">#838585</color>
     <color name="list_item_color">#D7DCDD</color>
     <color name="logo_text">#80CCC2C2</color>
-    <color name="holo_background">#00000000</color>
-    <color name="link_color">#084CF8</color>
+    <color name="link_color">#00695C</color>
     <color name="background_start">#ffffff</color>
     <color name="background_end">#414241</color>
 </resources>

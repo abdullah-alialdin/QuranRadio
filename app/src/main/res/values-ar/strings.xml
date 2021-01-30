@@ -15,11 +15,10 @@
     <string name="toolbar_image_des">صورة</string>
     <string name="recordings">التسجيلات</string>
     <string name="no_internet">لا يوجد اتصال إنترنت الآن الرجاء الاتصال بالإنترنت أولاً أو</string>
-    <string name="go_to_recordings">انتقل إلى التسجيلات</string>
-    <string name="go_to_stations">اذهب إلى محطات الراديو</string>
+    <string name="go_to_recordings"><u>انتقل إلى التسجيلات</u></string>
+    <string name="go_to_stations"><u>اذهب إلى محطات الراديو</u></string>
     <string name="no_recordings">لا توجد تسجيلات الآن ، يرجى تسجيل شيء ما أولاً</string>
     <string name="no_fav">لا توجد محطات مفضلة الآن الرجاء إضافة المحطات المفضلة أولاً أو</string>
-    <string name="maintenance_msg">عذرًا يتم إجراء اصلاحات فى قاعدة البيانات، يرجى المحاولة في وقت لاحق خلال اليوم.</string>
     <string name="remove_icon">مسح</string>
     <string name="player_image_des">صورة المشغل</string>
     <string name="previous_button">السابق</string>
@@ -34,5 +33,6 @@
     <string name="splash_icon">splash icon</string>
     <string name="main_background">main background</string>
     <string name="app_name">راديو القرآن (الذهبي)</string>
+    <string name="change_time">قم بتغيير وقت البث من الإعدادات</string>
 
 </resources>

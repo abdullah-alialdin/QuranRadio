@@ -15,11 +15,10 @@
     <string name="toolbar_image_des">araç çubuğu resmi</string>
     <string name="recordings">Kayıtlar</string>
     <string name="no_internet">Şu anda İnternet Bağlantısı yok, Lütfen önce İnternete bağlanın Veya</string>
-    <string name="go_to_recordings">kayıtlara git</string>
-    <string name="go_to_stations">istasyonlara git</string>
+    <string name="go_to_recordings"><u>kayıtlara git</u></string>
+    <string name="go_to_stations"><u>istasyonlara git</u></string>
     <string name="no_recordings">Şu anda kayıtlaryok, lütfen önce bir şeyler kaydedin</string>
     <string name="no_fav">Şu anda favori yok, lütfen önce favorileri ekleyin veya</string>
-    <string name="maintenance_msg">Veritabanı bakımda, lütfen gün içinde tekrar deneyin.</string>
     <string name="remove_icon">simgeyi kaldır</string>
     <string name="player_image_des">Oyuncu Resmi</string>
     <string name="previous_button">önceki düğme</string>
@@ -34,4 +33,5 @@
     <string name="splash_icon">sıçrama simgesi</string>
     <string name="main_background">ana arka plan</string>
     <string name="app_name">Kuran Radyosu (Altın)</string>
+    <string name="change_time">Akış süresini Ayarlar\'dan değiştirin</string>
 </resources>

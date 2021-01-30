@@ -2,7 +2,6 @@ package abdoroid.quranradio.utils;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkCapabilities;
 import android.os.Build;
@@ -16,8 +15,6 @@ import java.util.concurrent.TimeUnit;
 
 public class Helper {
 
-    public static boolean reloadActivity;
-
     public static void setAnimation(Activity activity) {
         Slide slide = new Slide();
         slide.setSlideEdge(Gravity.START);
@@ -28,8 +25,8 @@ public class Helper {
     }
 
     public static int setDarkMode(Context context){
-        SharedPreferences sharedPreferences = context.getSharedPreferences("Language", Context.MODE_PRIVATE);
-        boolean darkIsChecked = sharedPreferences.getBoolean("darkMode", true);
+        StorageUtils storageUtils = new StorageUtils(context);
+        boolean darkIsChecked = storageUtils.loadDarkMode();
         if (darkIsChecked){
             return AppCompatDelegate.MODE_NIGHT_YES;
         }else {

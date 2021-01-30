@@ -15,7 +15,7 @@
         android:layout_marginEnd="@dimen/dimen_36dp"
         android:layout_marginBottom="@dimen/dimen_8dp"
         app:cardBackgroundColor="@color/card_view_back"
-        app:cardCornerRadius="@dimen/dimen_20dp"
+        app:cardCornerRadius="@dimen/dimen_32dp"
         app:cardElevation="@dimen/dimen_2dp"
         app:cardUseCompatPadding="true"
         app:layout_constraintBottom_toTopOf="@id/station_title"
@@ -23,24 +23,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="@color/logo_text_color"
-        app:strokeWidth="@dimen/dimen_2dp">
+        app:strokeWidth="@dimen/dimen_4dp">
 
         <ImageView
+            android:id="@+id/player_animation_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/holo_background"
-            android:contentDescription="@string/player_image_des"
-            android:src="@drawable/quran" />
-
-        <com.gauravk.audiovisualizer.visualizer.CircleLineVisualizer
-            android:id="@+id/visualizer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:avColor="@color/vis_color"
-            app:avDensity="0.5"
-            app:avSpeed="normal"
-            app:avType="fill"
-            tools:ignore="RtlHardcoded" />
+            android:background="@drawable/player_animation"
+            android:contentDescription="@string/player_image_des"/>
     </com.google.android.material.card.MaterialCardView>
 
 
@@ -69,6 +59,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/station_title" />
 
+    <TextView
+        android:id="@+id/selected_time_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="casual"
+        android:visibility="gone"
+        android:gravity="center"
+        android:text="@string/change_time"
+        android:textColor="@android:color/holo_red_light"
+        android:textSize="@dimen/textSize_18sp"
+        app:layout_constraintBottom_toTopOf="@+id/mainView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/time_view" />
+
     <ImageView
         android:id="@+id/record_anmi_view"
         android:layout_width="@dimen/dimen_200dp"
@@ -91,6 +96,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:id="@+id/seek_bkd"
+            android:layout_width="@dimen/dimen_0dp"
+            android:layout_height="@dimen/dimen_50dp"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="fitCenter"
+            android:src="@drawable/seekb"
+            android:visibility="gone"
+            android:contentDescription="@string/seek_backward_btn"/>
 
         <ImageButton
             android:id="@+id/fav"
@@ -120,7 +136,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/play_button"
             android:scaleType="fitCenter"
-            android:src="@drawable/play" />
+            android:src="@drawable/toggle_play_pause" />
 
         <ImageButton
             android:id="@+id/next"
@@ -141,6 +157,17 @@
             android:contentDescription="@string/record_button"
             android:scaleType="fitCenter"
             android:src="@drawable/record"/>
+
+        <ImageButton
+            android:id="@+id/seek_frd"
+            android:layout_width="@dimen/dimen_0dp"
+            android:layout_height="@dimen/dimen_50dp"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="fitCenter"
+            android:visibility="gone"
+            android:src="@drawable/seekf"
+            android:contentDescription="@string/seek_forward_btn" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

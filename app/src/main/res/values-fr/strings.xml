@@ -15,11 +15,10 @@
     <string name="toolbar_image_des">image</string>
     <string name="recordings">Enregistrements</string>
     <string name="no_internet">Il n\'y a pas de connexion Internet maintenant Veuillez d\'abord vous connecter à Internet Ou</string>
-    <string name="go_to_recordings">Aller aux enregistrements</string>
-    <string name="go_to_stations">aller aux stations</string>
+    <string name="go_to_recordings"><u>Aller aux enregistrements</u></string>
+    <string name="go_to_stations"><u>aller aux stations</u></string>
     <string name="no_recordings">Il n\'y a aucun enregistrement pour le moment, veuillez d\'abord enregistrer quelque chose</string>
     <string name="no_fav">Il n\'y a pas de favoris pour le moment, veuillez d\'abord ajouter des favoris ou</string>
-    <string name="maintenance_msg">La base de données est en cours de maintenance, veuillez réessayer plus tard dans la journée.</string>
     <string name="remove_icon">supprimer l\'icône</string>
     <string name="player_image_des">Image du lecteur audio</string>
     <string name="previous_button">bouton précédent</string>
@@ -34,5 +33,6 @@
     <string name="splash_icon">splash icon</string>
     <string name="main_background">main background</string>
     <string name="app_name">Radio Coran (Or)</string>
+    <string name="change_time">Modifier l\'heure de diffusion via les paramètres</string>
 
 </resources>

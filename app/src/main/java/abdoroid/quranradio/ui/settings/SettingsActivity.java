@@ -4,8 +4,6 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -26,10 +24,10 @@ import abdoroid.quranradio.ui.main.MainActivity;
 import abdoroid.quranradio.utils.BaseActivity;
 import abdoroid.quranradio.utils.Helper;
 import abdoroid.quranradio.utils.LocaleHelper;
+import abdoroid.quranradio.utils.StorageUtils;
 
 public class SettingsActivity extends BaseActivity {
 
-    private SharedPreferences.Editor editor;
     private EditText timeInputHours, timeInputMinutes;
     private int hours, minutes;
     private LinearLayout customTimeView;
@@ -37,6 +35,7 @@ public class SettingsActivity extends BaseActivity {
     private boolean reload = false;
     private boolean isChecked;
     private String lang, newLang;
+    private StorageUtils storageUtils;
 
 
     @SuppressLint("CommitPrefEdits")
@@ -47,13 +46,13 @@ public class SettingsActivity extends BaseActivity {
         AppCompatDelegate.setDefaultNightMode(Helper.setDarkMode(this));
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_settings);
+
+        storageUtils = new StorageUtils(this);
         TextView toolbarTitle = findViewById(R.id.toolbar_title);
         toolbarTitle.setText(getString(R.string.settings));
         ImageView toolbarImage = findViewById(R.id.toolbar_image);
         toolbarImage.setImageResource(R.drawable.ic_baseline_settings);
-        SharedPreferences preferences = this.getSharedPreferences("Language", Context.MODE_PRIVATE);
-        editor = preferences.edit();
-        lang = preferences.getString(LocaleHelper.SELECTED_LANGUAGE, Locale.getDefault().getLanguage());
+        lang = storageUtils.loadLanguage();
         Spinner languageSpinner = findViewById(R.id.language_spinner);
         String[] languageSpinnerChoices = {getString(R.string.arabic), getString(R.string.english),
                 getString(R.string.german), getString(R.string.spanish),
@@ -121,7 +120,7 @@ public class SettingsActivity extends BaseActivity {
 
             }
         });
-        isChecked = preferences.getBoolean("darkMode", true);
+        isChecked = storageUtils.loadDarkMode();
         SwitchCompat switchCompat = findViewById(R.id.dark_mode_switch);
         switchCompat.setChecked(isChecked);
         switchCompat.setOnCheckedChangeListener((compoundButton, b) -> {
@@ -129,7 +128,7 @@ public class SettingsActivity extends BaseActivity {
             reload = true;
         });
 
-        streamingTime = preferences.getLong("StreamTime", 0);
+        streamingTime = storageUtils.loadSelectedTime();
         int[] timeInHours = Helper.getTimeFromMilliseconds(streamingTime);
 
         Spinner spinner = findViewById(R.id.spinner);
@@ -201,13 +200,11 @@ public class SettingsActivity extends BaseActivity {
     }
 
     private void selectLanguage(String lang){
-        editor.putString(LocaleHelper.SELECTED_LANGUAGE, lang);
-        editor.apply();
+        storageUtils.storeLanguage(lang);
     }
 
     private void darkModeIsChecked(boolean isChecked){
-        editor.putBoolean("darkMode", isChecked);
-        editor.apply();
+        storageUtils.storeDarkMode(isChecked);
     }
 
     private int getCheckedId(String lang){
@@ -238,8 +235,7 @@ public class SettingsActivity extends BaseActivity {
     }
 
     private void setStreamTime(long streamTime){
-        editor.putLong("StreamTime", streamTime);
-        editor.apply();
+        storageUtils.storeSelectedTime(streamTime);
     }
 
 }
