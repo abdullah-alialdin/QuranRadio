@@ -1,12 +1,16 @@
 package abdoroid.quranradio.services;
 
 import android.content.Context;
+import android.media.AudioAttributes;
+import android.media.AudioFocusRequest;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Bundle;
+import android.os.Build;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.util.Log;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,7 +18,8 @@ import java.util.ArrayList;
 import abdoroid.quranradio.pojo.RadioDataModel;
 import abdoroid.quranradio.utils.StorageUtils;
 
-public class MediaPlayerCallback extends MediaSessionCompat.Callback{
+public class MediaPlayerCallback extends MediaSessionCompat.Callback
+        implements AudioManager.OnAudioFocusChangeListener {
 
     private final Context context;
     private final MediaSessionCompat mediaSession;
@@ -23,6 +28,9 @@ public class MediaPlayerCallback extends MediaSessionCompat.Callback{
     private int stationsListPosition;
     private ArrayList<RadioDataModel> stations = new ArrayList<>();
     private StorageUtils storageUtils;
+    private AudioFocusRequest focusRequest;
+    private AudioManager audioManager;
+    private boolean paused = false;
 
     MediaPlayerCallback(Context context, MediaSessionCompat mediaSession) {
         this.context = context;
@@ -71,7 +79,7 @@ public class MediaPlayerCallback extends MediaSessionCompat.Callback{
     private void initializeMediaPlayer(){
         if (mediaPlayer == null){
             mediaPlayer = new MediaPlayer();
-            mediaPlayer.setOnCompletionListener(mp -> setState(PlaybackStateCompat.STATE_PAUSED));
+            mediaPlayer.setOnCompletionListener(mp -> Log.d("Abdullah", "state changed"));
         }
     }
 
@@ -79,8 +87,14 @@ public class MediaPlayerCallback extends MediaSessionCompat.Callback{
         if (mediaSession.getController().getMetadata() != null &&
                 getAudioUrl().equals(mediaSession.getController().getMetadata()
                         .getString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI))){
-            if (mediaSession.getController().getPlaybackState().getState() == PlaybackStateCompat.STATE_STOPPED){
+            if (mediaSession.getController().getPlaybackState() != null &&
+                    mediaSession.getController().getPlaybackState().getState() == PlaybackStateCompat.STATE_STOPPED){
                 prepare();
+            }else {
+                if (mediaPlayer != null){
+                    mediaPlayer.start();
+                    setState(PlaybackStateCompat.STATE_PLAYING);
+                }
             }
         } else {
             prepare();
@@ -141,15 +155,10 @@ public class MediaPlayerCallback extends MediaSessionCompat.Callback{
 
     @Override
     public void onPlay() {
+        requestAudioFocus();
         mediaSession.setActive(true);
         initializeMediaPlayer();
         prepareMedia();
-        startPlaying();
-    }
-
-    @Override
-    public void onPrepareFromUri(Uri uri, Bundle extras) {
-        super.onPrepareFromUri(uri, extras);
     }
 
     @Override
@@ -159,6 +168,7 @@ public class MediaPlayerCallback extends MediaSessionCompat.Callback{
 
     @Override
     public void onStop() {
+        removeAudioFocus();
         stopPlaying();
     }
 
@@ -205,6 +215,65 @@ public class MediaPlayerCallback extends MediaSessionCompat.Callback{
         }
     }
 
+    @Override
+    public void onAudioFocusChange(int focusChange) {
+        switch (focusChange) {
+            case AudioManager.AUDIOFOCUS_GAIN:
+                Log.d("Abdullah", "gain");
+                if (paused) {
+                    onPlay();
+                    paused = false;
+                }
+                if (mediaPlayer.isPlaying()){
+                    mediaPlayer.setVolume(1f, 1f);
+                }
+                break;
+            case AudioManager.AUDIOFOCUS_LOSS:
+                Log.d("Abdullah", "loss");
+                if (mediaPlayer.isPlaying()){
+                    onStop();
+                }
+                break;
+            case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+                Log.d("Abdullah", "loss trans");
+                if (mediaPlayer.isPlaying()){
+                    paused = true;
+                    onPause();
+                }
+                break;
+            case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
+                Log.d("Abdullah", "can duck");
+                if (mediaPlayer.isPlaying()){
+                    mediaPlayer.setVolume(0.1f, 0.1f);
+                }
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    private void requestAudioFocus() {
+        audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
+            focusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+                    .setAcceptsDelayedFocusGain(true)
+                    .setWillPauseWhenDucked(false)
+                    .setOnAudioFocusChangeListener(this)
+                    .setAudioAttributes(new AudioAttributes.Builder()
+                            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                            .setUsage(AudioAttributes.USAGE_MEDIA)
+                            .build())
+                    .build();
+            audioManager.requestAudioFocus(focusRequest);
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    private void removeAudioFocus() {
+        audioManager.abandonAudioFocus(this);
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
+            audioManager.abandonAudioFocusRequest(focusRequest);
+        }
+    }
 
     interface PlayerListener{
         void onStateChange();

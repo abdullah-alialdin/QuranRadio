@@ -10,7 +10,7 @@
     <color name="card_view_back">#838585</color>
     <color name="list_item_color">#D7DCDD</color>
     <color name="logo_text">#80CCC2C2</color>
-    <color name="link_color">#00695C</color>
+    <color name="link_color">#8CD1FA</color>
     <color name="background_start">#ffffff</color>
     <color name="background_end">#414241</color>
 </resources>

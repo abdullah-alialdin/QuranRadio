@@ -37,6 +37,7 @@
     <string name="record_animation">Record animation</string>
     <string name="splash_icon">splash icon</string>
     <string name="main_background">main background</string>
+    <string name="change_time">Change streaming time via settings</string>
     <string name="arabic" translatable="false">العربية</string>
     <string name="english" translatable="false">English</string>
     <string name="french" translatable="false">Français</string>
@@ -48,5 +49,5 @@
     <string name="swahili" translatable="false">Kiswahili</string>
     <string name="turkish" translatable="false">Türkçe</string>
     <string name="chinese" translatable="false">中文</string>
-    <string name="change_time">Change streaming time via settings</string>
+    <string name="search_title" translatable="false">Search</string>
 </resources>

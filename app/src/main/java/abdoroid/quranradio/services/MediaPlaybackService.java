@@ -10,13 +10,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.AudioAttributes;
-import android.media.AudioFocusRequest;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaDescriptionCompat;
 import android.support.v4.media.session.MediaSessionCompat;
@@ -30,13 +26,12 @@ import androidx.media.MediaBrowserServiceCompat;
 import androidx.media.session.MediaButtonReceiver;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import abdoroid.quranradio.R;
 import abdoroid.quranradio.ui.player.PlayerActivity;
 
 public class MediaPlaybackService extends MediaBrowserServiceCompat implements
-        MediaPlayerCallback.PlayerListener, AudioManager.OnAudioFocusChangeListener {
+        MediaPlayerCallback.PlayerListener {
 
     private static final String MEDIA_EMPTY_MEDIA_ROOT_ID = "empty_root_id";
     private static final String PLAYER_NOTIFICATION_CHANNEL_ID = "player_channel";
@@ -44,17 +39,12 @@ public class MediaPlaybackService extends MediaBrowserServiceCompat implements
     private static final String LOG_TAG = MediaBrowserServiceCompat.class.getName();
 
     private MediaSessionCompat mediaSession;
-    private AudioFocusRequest focusRequest;
-    private AudioManager audioManager;
-    private boolean paused = false;
-    private final Handler handler = new Handler(Looper.getMainLooper());
 
     @Override
     public void onCreate() {
         super.onCreate();
         createMediaSession();
         registerBecomingNoisyReceiver();
-        requestAudioFocus();
     }
 
 
@@ -108,7 +98,7 @@ public class MediaPlaybackService extends MediaBrowserServiceCompat implements
                 NotificationChannel notificationChannel =
                         new NotificationChannel(PLAYER_NOTIFICATION_CHANNEL_ID,
                                 "player",
-                                NotificationManager.IMPORTANCE_LOW);
+                                NotificationManager.IMPORTANCE_HIGH);
                 manager.createNotificationChannel(notificationChannel);
             }
         }
@@ -136,7 +126,7 @@ public class MediaPlaybackService extends MediaBrowserServiceCompat implements
                 .setShowActionsInCompactView(0,1,2)
                 .setShowCancelButton(true)
                 .setCancelButtonIntent(
-                        MediaButtonReceiver.buildMediaButtonPendingIntent(this,
+                        MediaButtonReceiver.buildMediaButtonPendingIntent(getApplicationContext(),
                                 PlaybackStateCompat.ACTION_STOP)))
                 .setShowWhen(false)
                 .setOnlyAlertOnce(true)
@@ -145,7 +135,7 @@ public class MediaPlaybackService extends MediaBrowserServiceCompat implements
                 .setContentIntent(notificationIntent)
                 .setLargeIcon(bitmap)
                 .setDeleteIntent(
-                        MediaButtonReceiver.buildMediaButtonPendingIntent(this,
+                        MediaButtonReceiver.buildMediaButtonPendingIntent(getApplicationContext(),
                                 PlaybackStateCompat.ACTION_STOP))
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .addAction(android.R.drawable.ic_media_previous, "back", MediaButtonReceiver.buildMediaButtonPendingIntent(MediaPlaybackService.this,
@@ -166,7 +156,7 @@ public class MediaPlaybackService extends MediaBrowserServiceCompat implements
             createNotificationChannel();
         }
         Bitmap largeIcon = BitmapFactory.decodeResource(getResources(),
-                R.drawable.largicon);
+                R.drawable.largeicon);
         Notification notification = createNotification(largeIcon);
         ContextCompat.startForegroundService(MediaPlaybackService.this,
                 new Intent(MediaPlaybackService.this, MediaPlaybackService.class));
@@ -186,57 +176,6 @@ public class MediaPlaybackService extends MediaBrowserServiceCompat implements
     }
 
     @Override
-    public void onAudioFocusChange(int focusChange) {
-        switch (focusChange) {
-            case AudioManager.AUDIOFOCUS_GAIN:
-                if (paused) {
-                    mediaSession.getController().getTransportControls().play();
-                    paused = false;
-                }
-                break;
-            case AudioManager.AUDIOFOCUS_LOSS:
-                if (isPlaying()){
-                    paused = true;
-                    mediaSession.getController().getTransportControls().pause();
-                }
-                handler.postDelayed(() -> mediaSession.getController().getTransportControls().stop(), TimeUnit.SECONDS.toMillis(60));
-                break;
-            case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
-                if (isPlaying()){
-                    paused = true;
-                    mediaSession.getController().getTransportControls().pause();
-                }
-                break;
-        }
-    }
-
-    @SuppressWarnings("deprecation")
-    private void requestAudioFocus() {
-        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
-            focusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
-                    .setAcceptsDelayedFocusGain(true)
-                    .setWillPauseWhenDucked(true)
-                    .setOnAudioFocusChangeListener(this)
-                    .setAudioAttributes(new AudioAttributes.Builder()
-                            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                            .setUsage(AudioAttributes.USAGE_MEDIA)
-                            .build())
-                    .build();
-            audioManager.requestAudioFocus(focusRequest);
-        }
-    }
-
-    @SuppressWarnings("deprecation")
-    private void removeAudioFocus() {
-        audioManager.abandonAudioFocus(this);
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
-            audioManager.abandonAudioFocusRequest(focusRequest);
-        }
-    }
-
-    @Override
     public void onTaskRemoved(Intent rootIntent) {
         super.onTaskRemoved(rootIntent);
         mediaSession.getController().getTransportControls().stop();
@@ -245,13 +184,13 @@ public class MediaPlaybackService extends MediaBrowserServiceCompat implements
     @Override
     public void onStateChange() {
         displayNotification();
+        registerBecomingNoisyReceiver();
     }
 
     @Override
     public void onStopPlaying() {
         stopSelf();
         stopForeground(true);
-        removeAudioFocus();
         unregisterReceiver(becomingNoisyReceiver);
     }
 

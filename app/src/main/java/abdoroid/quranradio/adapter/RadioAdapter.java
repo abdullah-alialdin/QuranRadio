@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,9 +23,10 @@ import abdoroid.quranradio.pojo.RadioDataModel;
 import abdoroid.quranradio.ui.player.PlayerActivity;
 import abdoroid.quranradio.utils.StorageUtils;
 
-public class RadioAdapter extends RecyclerView.Adapter<RadioAdapter.RadioViewHolder> {
+public class RadioAdapter extends RecyclerView.Adapter<RadioAdapter.RadioViewHolder> implements Filterable {
 
     private ArrayList<RadioDataModel> radiosList = new ArrayList<>();
+    private final ArrayList<RadioDataModel> fullRadioList;
     private final Context context;
     private StorageUtils storageUtils;
     private final String radioType;
@@ -31,6 +34,14 @@ public class RadioAdapter extends RecyclerView.Adapter<RadioAdapter.RadioViewHol
     public RadioAdapter(Context context, String radioType) {
         this.context = context;
         this.radioType = radioType;
+        fullRadioList = new ArrayList<>(radiosList);
+    }
+
+    public RadioAdapter(Context context, String radioType, ArrayList<RadioDataModel> radiosList) {
+        this.context = context;
+        this.radiosList = radiosList;
+        this.radioType = radioType;
+        fullRadioList = new ArrayList<>(radiosList);
     }
 
     @NonNull
@@ -77,6 +88,7 @@ public class RadioAdapter extends RecyclerView.Adapter<RadioAdapter.RadioViewHol
 
     }
 
+
     @Override
     public int getItemCount() {
         return radiosList.size();
@@ -86,6 +98,39 @@ public class RadioAdapter extends RecyclerView.Adapter<RadioAdapter.RadioViewHol
         this.radiosList = radiosList;
         notifyDataSetChanged();
     }
+
+    @Override
+    public Filter getFilter() {
+        return radioFilter;
+    }
+
+    private final Filter radioFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            ArrayList<RadioDataModel> filteredList = new ArrayList<>();
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(fullRadioList);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+                for (RadioDataModel item : fullRadioList) {
+                    if (item.getName().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(item);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+            return results;
+        }
+
+        @SuppressWarnings({"unchecked", "rawtypes"})
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            radiosList.clear();
+            radiosList.addAll((ArrayList) results.values);
+            notifyDataSetChanged();
+        }
+    };
 
     static class RadioViewHolder extends RecyclerView.ViewHolder{
         final TextView radioName;
