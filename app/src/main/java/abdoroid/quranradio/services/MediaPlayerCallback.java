@@ -7,14 +7,17 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
-import android.util.Log;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
+import abdoroid.quranradio.R;
 import abdoroid.quranradio.pojo.RadioDataModel;
 import abdoroid.quranradio.utils.StorageUtils;
 
@@ -31,6 +34,7 @@ public class MediaPlayerCallback extends MediaSessionCompat.Callback
     private AudioFocusRequest focusRequest;
     private AudioManager audioManager;
     private boolean paused = false;
+    private final Handler handler = new Handler(Looper.getMainLooper());
 
     MediaPlayerCallback(Context context, MediaSessionCompat mediaSession) {
         this.context = context;
@@ -79,7 +83,7 @@ public class MediaPlayerCallback extends MediaSessionCompat.Callback
     private void initializeMediaPlayer(){
         if (mediaPlayer == null){
             mediaPlayer = new MediaPlayer();
-            mediaPlayer.setOnCompletionListener(mp -> Log.d("Abdullah", "state changed"));
+            mediaPlayer.setOnCompletionListener(mp -> setState(PlaybackStateCompat.STATE_STOPPED));
         }
     }
 
@@ -91,10 +95,7 @@ public class MediaPlayerCallback extends MediaSessionCompat.Callback
                     mediaSession.getController().getPlaybackState().getState() == PlaybackStateCompat.STATE_STOPPED){
                 prepare();
             }else {
-                if (mediaPlayer != null){
-                    mediaPlayer.start();
-                    setState(PlaybackStateCompat.STATE_PLAYING);
-                }
+                startPlaying();
             }
         } else {
             prepare();
@@ -128,9 +129,21 @@ public class MediaPlayerCallback extends MediaSessionCompat.Callback
             if (!mediaPlayer.isPlaying()){
                 mediaPlayer.start();
                 setState(PlaybackStateCompat.STATE_PLAYING);
+                if (storageUtils.loadSelectedTime() != 0 && !storageUtils.getPlayerType().equals(storageUtils.RECORDINGS_PLAYER)) {
+                    handler.postDelayed(runnable, storageUtils.loadSelectedTime());
+                }
             }
         }
     }
+
+    private final Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            onStop();
+            Toast.makeText(context, context.getString(R.string.change_time), Toast.LENGTH_LONG).show();
+            handler.removeCallbacks(runnable);
+        }
+    };
 
     private void pausePlaying() {
         if (mediaPlayer != null){
@@ -219,7 +232,6 @@ public class MediaPlayerCallback extends MediaSessionCompat.Callback
     public void onAudioFocusChange(int focusChange) {
         switch (focusChange) {
             case AudioManager.AUDIOFOCUS_GAIN:
-                Log.d("Abdullah", "gain");
                 if (paused) {
                     onPlay();
                     paused = false;
@@ -229,20 +241,17 @@ public class MediaPlayerCallback extends MediaSessionCompat.Callback
                 }
                 break;
             case AudioManager.AUDIOFOCUS_LOSS:
-                Log.d("Abdullah", "loss");
                 if (mediaPlayer.isPlaying()){
                     onStop();
                 }
                 break;
             case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
-                Log.d("Abdullah", "loss trans");
                 if (mediaPlayer.isPlaying()){
                     paused = true;
                     onPause();
                 }
                 break;
             case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
-                Log.d("Abdullah", "can duck");
                 if (mediaPlayer.isPlaying()){
                     mediaPlayer.setVolume(0.1f, 0.1f);
                 }

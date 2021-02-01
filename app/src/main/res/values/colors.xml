@@ -13,4 +13,5 @@
     <color name="link_color">#8CD1FA</color>
     <color name="background_start">#ffffff</color>
     <color name="background_end">#414241</color>
+    <color name="time_view_color">#E60E27</color>
 </resources>

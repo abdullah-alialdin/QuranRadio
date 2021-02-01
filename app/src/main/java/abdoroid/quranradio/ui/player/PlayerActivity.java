@@ -17,8 +17,10 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.content.ContextCompat;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -50,7 +52,7 @@ public class PlayerActivity extends BaseActivity implements View.OnClickListener
     private MediaControllerCompat controller;
     private ArrayList<RadioDataModel> audioList = new ArrayList<>();
     private int position;
-    private TextView timeView, titleText, selectedTimeView;
+    private TextView timeView, titleText;
     private ImageButton favBtn, recordBtn, backwardBtn, forwardBtn, seekForward, seekBackward;
     private ImageView recordAnmi;
     private ImageButton playToggleButton;
@@ -62,7 +64,6 @@ public class PlayerActivity extends BaseActivity implements View.OnClickListener
     private InputStream inputStream;
     private Thread thread;
     private AnimationDrawable recordAnimation;
-    private long selectedStreamTime;
     private StorageUtils storageUtils;
     private AnimationDrawable playerAnimation;
 
@@ -81,7 +82,9 @@ public class PlayerActivity extends BaseActivity implements View.OnClickListener
         audioList = storageUtils.loadAudio();
         position = storageUtils.loadAudioIndex();
         timeView = findViewById(R.id.time_view);
-        selectedTimeView = findViewById(R.id.selected_time_view);
+        if(storageUtils.loadSelectedTime() != 0 && !storageUtils.getPlayerType().equals(storageUtils.RECORDINGS_PLAYER)){
+            timeView.setTextColor(ContextCompat.getColor(this, R.color.time_view_color));
+        }
         initMediaBrowser();
         if (mediaBrowser.isConnected()){
             if (MediaControllerCompat.getMediaController(this) == null){
@@ -90,7 +93,6 @@ public class PlayerActivity extends BaseActivity implements View.OnClickListener
         }else {
             mediaBrowser.connect();
         }
-        selectedStreamTime = storageUtils.loadSelectedTime();
         backwardBtn = findViewById(R.id.previous);
         forwardBtn = findViewById(R.id.next);
         playToggleButton = findViewById(R.id.play);
@@ -152,8 +154,10 @@ public class PlayerActivity extends BaseActivity implements View.OnClickListener
             }
         }else if (seekForward.equals(v)){
             seekBy(5);
+            Toast.makeText(this, "+5 sec", Toast.LENGTH_SHORT).show();
         }else if (seekBackward.equals(v)){
             seekBy(-5);
+            Toast.makeText(this, "-5 sec", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -211,14 +215,6 @@ public class PlayerActivity extends BaseActivity implements View.OnClickListener
         @Override
         public void run() {
             long time = controller.getPlaybackState().getPosition();
-            if (selectedStreamTime != 0) {
-                if (DateUtils.formatElapsedTime(time/1000)
-                        .equals(DateUtils.formatElapsedTime(selectedStreamTime/1000))) {
-                    controller.getTransportControls().stop();
-                    selectedTimeView.setVisibility(View.VISIBLE);
-                    handler.removeCallbacks(timeViewSetting);
-                }
-            }
             timeView.setText(DateUtils.formatElapsedTime(time/1000));
             handler.post(timeViewSetting);
         }
@@ -311,6 +307,9 @@ public class PlayerActivity extends BaseActivity implements View.OnClickListener
             if (!mStartRecording){
                 stopRecording();
                 mStartRecording = !mStartRecording;
+            }
+            if (state.getState() == PlaybackStateCompat.STATE_STOPPED){
+                finish();
             }
         }
 

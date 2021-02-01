@@ -69,7 +69,6 @@ public class RadioAdapter extends RecyclerView.Adapter<RadioAdapter.RadioViewHol
             storageUtils.storeAudio(radiosList);
             storageUtils.storeAudioIndex(position);
             activity.startActivity(intent);
-            activity.finish();
         });
 
         holder.favIcon.setImageResource(R.drawable.ic_baseline_favorite_white);

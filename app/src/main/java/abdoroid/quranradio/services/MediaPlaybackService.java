@@ -4,13 +4,10 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.media.MediaBrowserCompat;
@@ -37,14 +34,12 @@ public class MediaPlaybackService extends MediaBrowserServiceCompat implements
     private static final String PLAYER_NOTIFICATION_CHANNEL_ID = "player_channel";
     private static final int NOTIFICATION_ID = 1;
     private static final String LOG_TAG = MediaBrowserServiceCompat.class.getName();
-
     private MediaSessionCompat mediaSession;
 
     @Override
     public void onCreate() {
         super.onCreate();
         createMediaSession();
-        registerBecomingNoisyReceiver();
     }
 
 
@@ -163,18 +158,6 @@ public class MediaPlaybackService extends MediaBrowserServiceCompat implements
         startForeground(NOTIFICATION_ID, notification);
     }
 
-    private final BroadcastReceiver becomingNoisyReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            mediaSession.getController().getTransportControls().pause();
-        }
-    };
-
-    private void registerBecomingNoisyReceiver() {
-        IntentFilter intentFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
-        registerReceiver(becomingNoisyReceiver, intentFilter);
-    }
-
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         super.onTaskRemoved(rootIntent);
@@ -184,14 +167,12 @@ public class MediaPlaybackService extends MediaBrowserServiceCompat implements
     @Override
     public void onStateChange() {
         displayNotification();
-        registerBecomingNoisyReceiver();
     }
 
     @Override
     public void onStopPlaying() {
         stopSelf();
         stopForeground(true);
-        unregisterReceiver(becomingNoisyReceiver);
     }
 
     @Override

@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import abdoroid.quranradio.R;
 import abdoroid.quranradio.adapter.RadioAdapter;
@@ -61,7 +62,7 @@ public class StationsActivity extends BaseActivity {
         toolbarImage.setImageResource(R.drawable.ic_baseline_radio);
         Toolbar toolbar = findViewById(R.id.radio_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
         noConnectionLayout = findViewById(R.id.no_connection_layout);
         Button noConnectionBtn = findViewById(R.id.no_connection_btn);
