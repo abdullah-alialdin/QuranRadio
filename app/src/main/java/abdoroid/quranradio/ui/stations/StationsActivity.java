@@ -22,6 +22,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -53,6 +56,10 @@ public class StationsActivity extends BaseActivity {
         Helper.setAnimation(StationsActivity.this);
         LocaleHelper.setLocale(StationsActivity.this);
         setContentView(R.layout.activity_stations);
+
+        AdView mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         storageUtils = new StorageUtils(this);
 
