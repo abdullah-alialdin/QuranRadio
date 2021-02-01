@@ -83,7 +83,11 @@ public class MediaPlayerCallback extends MediaSessionCompat.Callback
     private void initializeMediaPlayer(){
         if (mediaPlayer == null){
             mediaPlayer = new MediaPlayer();
-            mediaPlayer.setOnCompletionListener(mp -> setState(PlaybackStateCompat.STATE_STOPPED));
+            mediaPlayer.setOnCompletionListener(mp -> {
+                setState(PlaybackStateCompat.STATE_STOPPED);
+                removeAudioFocus();
+                listener.onStopPlaying();
+            });
         }
     }
 
@@ -130,6 +134,7 @@ public class MediaPlayerCallback extends MediaSessionCompat.Callback
                 mediaPlayer.start();
                 setState(PlaybackStateCompat.STATE_PLAYING);
                 if (storageUtils.loadSelectedTime() != 0 && !storageUtils.getPlayerType().equals(storageUtils.RECORDINGS_PLAYER)) {
+                    handler.removeCallbacks(runnable);
                     handler.postDelayed(runnable, storageUtils.loadSelectedTime());
                 }
             }
