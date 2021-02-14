@@ -14,7 +14,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatDelegate;
-
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
@@ -31,7 +30,7 @@ import java.util.Objects;
 import abdoroid.quranradio.R;
 import abdoroid.quranradio.adapter.RadioAdapter;
 import abdoroid.quranradio.pojo.RadioDataModel;
-import abdoroid.quranradio.ui.main.MainActivity;
+import abdoroid.quranradio.ui.categories.Categories;
 import abdoroid.quranradio.ui.recordings.RecordsActivity;
 import abdoroid.quranradio.utils.BaseActivity;
 import abdoroid.quranradio.utils.Helper;
@@ -47,7 +46,8 @@ public class StationsActivity extends BaseActivity {
     private RadioAdapter adapter;
     private ArrayList<RadioDataModel> audioStations;
     private StorageUtils storageUtils;
-
+    private String queryString;
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +62,7 @@ public class StationsActivity extends BaseActivity {
         mAdView.loadAd(adRequest);
 
         storageUtils = new StorageUtils(this);
+        queryString = storageUtils.loadQueryString();
 
         TextView toolbarTitle = findViewById(R.id.toolbar_title);
         toolbarTitle.setText(getString(R.string.radio_stations));
@@ -90,15 +91,17 @@ public class StationsActivity extends BaseActivity {
             checkConnectionAndSetupViews();
             swipeRefreshLayout.setRefreshing(false);
         });
+
     }
 
     private void setAudioStations() {
         RadioStationsViewModel viewModel = new ViewModelProvider(this).get(RadioStationsViewModel.class);
-        viewModel.getRadioStations();
+        viewModel.getRadioStations(queryString);
         viewModel.radioStations.observe(this, radioDataModels -> {
             audioStations = new ArrayList<>(radioDataModels);
             adapter = new RadioAdapter(this, storageUtils.STATION_PLAYER, audioStations);
             adapter.notifyDataSetChanged();
+            setSearchFun();
             setUpRecyclerView();
         });
     }
@@ -124,12 +127,7 @@ public class StationsActivity extends BaseActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
-        MenuItem searchItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) searchItem.getActionView();
+    private void setSearchFun(){
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -142,12 +140,22 @@ public class StationsActivity extends BaseActivity {
                 return false;
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (!Helper.isNetworkConnected(getApplicationContext())){
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.main_menu, menu);
+            MenuItem searchItem = menu.findItem(R.id.action_search);
+            searchView = (SearchView) searchItem.getActionView();
+        }
         return true;
     }
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this, MainActivity.class));
+        startActivity(new Intent(this, Categories.class));
         finish();
     }
 }

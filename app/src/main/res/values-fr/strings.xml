@@ -34,5 +34,16 @@
     <string name="main_background">main background</string>
     <string name="app_name">Radio Coran (Or)</string>
     <string name="change_time">Modifier l\'heure de diffusion via les paramètres</string>
+    <string name="reciters_cat">Récitants_2</string>
+    <string name="general_cat">Radio générale</string>
+    <string name="world_cat">Stations du monde</string>
+    <string name="qiraat_cat">Qiraat</string>
+    <string name="reciters_des">Écoutez les stations de récitants</string>
+    <string name="qiraat_des">Écoutez les stations de récitants avec qiraat</string>
+    <string name="general_des">Écoutez les stations générales</string>
+    <string name="world_des">Écoutez les stations du monde</string>
+    <string name="translation_cat">Traductions</string>
+    <string name="reciters1_cat">Récitants_1</string>
+    <string name="translation_des">Écoutez le Coran avec plusieurs traductions</string>
 
 </resources>

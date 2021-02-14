@@ -34,4 +34,15 @@
     <string name="main_background">latar belakang utama</string>
     <string name="app_name">Radio Quran (Emas)</string>
     <string name="change_time">Ubah waktu siaran melalui pengaturan</string>
+    <string name="reciters_cat">Qari_2</string>
+    <string name="general_cat">Radio Umum</string>
+    <string name="world_cat">Stasiun Dunia</string>
+    <string name="qiraat_cat">Qiraat</string>
+    <string name="reciters_des">Dengarkan stasiun pelafal</string>
+    <string name="qiraat_des">Dengarkan stasiun pelafal dengan qiraat</string>
+    <string name="general_des">Dengarkan stasiun umum</string>
+    <string name="world_des">Dengarkan stasiun dunia</string>
+    <string name="translation_cat">Terjemahan</string>
+    <string name="reciters1_cat">Qari_1</string>
+    <string name="translation_des">Dengarkan Alquran dengan beberapa terjemahan</string>
 </resources>

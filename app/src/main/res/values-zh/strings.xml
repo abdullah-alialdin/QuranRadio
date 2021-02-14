@@ -34,4 +34,15 @@
     <string name="main_background">主要背景</string>
     <string name="app_name">古兰经电台（黄金）</string>
     <string name="change_time">通过设置更改流式传输时间</string>
+    <string name="reciters_cat">朗诵者_2</string>
+    <string name="general_cat">通用电台</string>
+    <string name="world_cat">世界站</string>
+    <string name="qiraat_cat">奇拉特</string>
+    <string name="reciters_des">听朗诵台</string>
+    <string name="qiraat_des">用奇拉特收听朗诵台</string>
+    <string name="general_des">收听一般电台</string>
+    <string name="world_des">听世界电台</string>
+    <string name="translation_cat">翻译</string>
+    <string name="reciters1_cat">朗诵者_1</string>
+    <string name="translation_des">听听古兰经的几种翻译</string>
 </resources>

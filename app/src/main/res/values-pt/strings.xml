@@ -34,4 +34,15 @@
     <string name="splash_icon">ícone de respingo</string>
     <string name="app_name">Rádio Alcorão (Ouro)</string>
     <string name="change_time">Alterar o tempo de transmissão por meio das configurações</string>
+    <string name="reciters_cat">Reciters_2</string>
+    <string name="general_cat">Rádio Geral</string>
+    <string name="world_cat">Estações mundiais</string>
+    <string name="qiraat_cat">Qiraat</string>
+    <string name="reciters_des">Ouça estações de recitadores</string>
+    <string name="qiraat_des">Ouça estações de recitadores com qiraat</string>
+    <string name="general_des">Ouça estações gerais</string>
+    <string name="world_des">Ouça estações mundiais</string>
+    <string name="translation_cat">Traduções</string>
+    <string name="reciters1_cat">Reciters_1</string>
+    <string name="translation_des">Ouça o Alcorão com várias traduções</string>
 </resources>

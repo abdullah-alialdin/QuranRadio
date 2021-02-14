@@ -34,4 +34,15 @@
     <string name="main_background">ana arka plan</string>
     <string name="app_name">Kuran Radyosu (Altın)</string>
     <string name="change_time">Akış süresini Ayarlar\'dan değiştirin</string>
+    <string name="reciters_cat">Okuyucular_2</string>
+    <string name="general_cat">Genel Radyo</string>
+    <string name="world_cat">Dünya İstasyonları</string>
+    <string name="qiraat_cat">Qiraat</string>
+    <string name="reciters_des">Okuyucu istasyonlarını dinleyin</string>
+    <string name="qiraat_des">Qiraat ile reciters istasyonlarını dinleyin</string>
+    <string name="general_des">Genel istasyonları dinleyin</string>
+    <string name="world_des">Dünya istasyonlarını dinleyin</string>
+    <string name="translation_cat">Çeviriler</string>
+    <string name="reciters1_cat">Okuyucular_1</string>
+    <string name="translation_des">Kuran\'ı birkaç çeviriyle dinleyin</string>
 </resources>

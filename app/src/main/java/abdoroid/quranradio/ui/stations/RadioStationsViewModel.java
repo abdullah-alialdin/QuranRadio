@@ -16,8 +16,8 @@ import retrofit2.Response;
 public class RadioStationsViewModel extends ViewModel {
     public final MutableLiveData<ArrayList<RadioDataModel>> radioStations = new MutableLiveData<>();
 
-    public void getRadioStations(){
-        RadioStationClient.getINSTANCE().getRadioStations().enqueue(new Callback<Radios>() {
+    public void getRadioStations(String query){
+        RadioStationClient.getINSTANCE(query).getRadioStations().enqueue(new Callback<Radios>() {
             @Override
             public void onResponse(Call<Radios> call, Response<Radios> response) {
                 if (response.body() != null) {

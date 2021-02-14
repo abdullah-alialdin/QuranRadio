@@ -34,4 +34,15 @@
     <string name="main_background">основной фон</string>
     <string name="app_name">Коран Радио (золото)</string>
     <string name="change_time">Измените время потоковой передачи в настройках.</string>
+    <string name="reciters_cat">Чтецы_2</string>
+    <string name="general_cat">Общее радио</string>
+    <string name="world_cat">Мировые станции</string>
+    <string name="qiraat_cat">Кираат</string>
+    <string name="reciters_des">Слушайте чтецов станций</string>
+    <string name="qiraat_des">Слушайте радиостанции чтецов с кираатом</string>
+    <string name="general_des">Слушайте общие станции</string>
+    <string name="world_des">Слушайте мировые станции</string>
+    <string name="translation_cat">Переводы</string>
+    <string name="reciters1_cat">Чтецы_1</string>
+    <string name="translation_des">Слушайте Коран с несколькими переводами</string>
 </resources>

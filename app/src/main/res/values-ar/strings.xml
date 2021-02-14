@@ -34,5 +34,16 @@
     <string name="main_background">main background</string>
     <string name="app_name">راديو القرآن (الذهبي)</string>
     <string name="change_time">قم بتغيير وقت البث من الإعدادات</string>
+    <string name="reciters_cat">إذاعات القراء_2</string>
+    <string name="general_cat">إذاعات عامة</string>
+    <string name="world_cat">إذاعات عالمية</string>
+    <string name="qiraat_cat">قراءات</string>
+    <string name="reciters_des">استمع إلى إذاعات القراء</string>
+    <string name="general_des">استمع إلى إذاعات عامة</string>
+    <string name="world_des">استمع إلى اذاعات البلدان</string>
+    <string name="qiraat_des">استمع إلى إذاعات القراء بالقراءات المختلفة</string>
+    <string name="translation_cat">الترجمات</string>
+    <string name="reciters1_cat">إذاعات القراء_1</string>
+    <string name="translation_des">استمع إلى القرآن مع عدة تراجم</string>
 
 </resources>

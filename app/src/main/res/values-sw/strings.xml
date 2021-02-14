@@ -34,4 +34,15 @@
     <string name="main_background">msingi kuu</string>
     <string name="app_name">Redio ya Quran (Dhahabu)</string>
     <string name="change_time">Badilisha wakati wa kutiririsha kupitia mipangilio</string>
+    <string name="reciters_cat">Wasomaji_2</string>
+    <string name="general_cat">Redio Mkuu</string>
+    <string name="world_cat">Vituo vya Ulimwenguni</string>
+    <string name="qiraat_cat">Qiraat</string>
+    <string name="reciters_des">Sikiliza vituo vya wasomaji</string>
+    <string name="qiraat_des">Sikiliza vituo vya wasomaji na qiraat</string>
+    <string name="general_des">Sikiliza vituo vya jumla</string>
+    <string name="world_des">Sikiliza vituo vya ulimwengu</string>
+    <string name="translation_cat">Tafsiri</string>
+    <string name="reciters1_cat">Wasomaji_1</string>
+    <string name="translation_des">Sikiliza Quran na tafsiri kadhaa</string>
 </resources>

@@ -161,5 +161,17 @@ public class StorageUtils {
         preferences = context.getSharedPreferences(LANGUAGE_KEY, Context.MODE_PRIVATE);
         return preferences.getBoolean("darkMode", true);
     }
+
+    public void storeQueryString(String query){
+        preferences = context.getSharedPreferences(LANGUAGE_KEY, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("query", query);
+        editor.apply();
+    }
+
+    public String loadQueryString(){
+        preferences = context.getSharedPreferences(LANGUAGE_KEY, Context.MODE_PRIVATE);
+        return preferences.getString("query", "server2/");
+    }
 }
 

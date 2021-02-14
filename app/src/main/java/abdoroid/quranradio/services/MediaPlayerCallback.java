@@ -35,6 +35,7 @@ public class MediaPlayerCallback extends MediaSessionCompat.Callback
     private AudioManager audioManager;
     private boolean paused = false;
     private final Handler handler = new Handler(Looper.getMainLooper());
+    private String currentUrl = "";
 
     MediaPlayerCallback(Context context, MediaSessionCompat mediaSession) {
         this.context = context;
@@ -91,41 +92,35 @@ public class MediaPlayerCallback extends MediaSessionCompat.Callback
         }
     }
 
-    private void prepareMedia(){
-        if (mediaSession.getController().getMetadata() != null &&
-                getAudioUrl().equals(mediaSession.getController().getMetadata()
-                        .getString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI))){
-            if (mediaSession.getController().getPlaybackState() != null &&
-                    mediaSession.getController().getPlaybackState().getState() == PlaybackStateCompat.STATE_STOPPED){
-                prepare();
-            }else {
-                startPlaying();
+    private void prepare(){
+        if (!currentUrl.equals(getAudioUrl())){
+            if (mediaPlayer != null){
+                mediaPlayer.setOnPreparedListener(mp -> startPlaying());
+                mediaPlayer.reset();
+                try {
+                    mediaPlayer.setDataSource(context, Uri.parse(getAudioUrl()));
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+                try{
+                    mediaPlayer.prepareAsync();
+                }catch (IllegalStateException e){
+                    e.printStackTrace();
+                }
             }
-        } else {
-            prepare();
+            currentUrl = getAudioUrl();
+        }else {
+            startPlaying();
         }
+
     }
 
-    private void prepare(){
-        if (mediaPlayer != null){
-            mediaPlayer.setOnPreparedListener(mp -> startPlaying());
-            mediaPlayer.reset();
-            try {
-                mediaPlayer.setDataSource(context, Uri.parse(getAudioUrl()));
-            }catch (IOException e){
-                e.printStackTrace();
-            }
-            try{
-                mediaPlayer.prepareAsync();
-            }catch (IllegalStateException e){
-                e.printStackTrace();
-            }
-            mediaSession.setMetadata(new MediaMetadataCompat.Builder()
-                    .putString(MediaMetadataCompat.METADATA_KEY_TITLE,
-                            getAudioTitle())
-                    .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI, getAudioUrl())
-                    .build());
-        }
+    private void updateMetaData(){
+        mediaSession.setMetadata(new MediaMetadataCompat.Builder()
+                .putString(MediaMetadataCompat.METADATA_KEY_TITLE,
+                        getAudioTitle())
+                .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI, getAudioUrl())
+                .build());
     }
 
     private void startPlaying(){
@@ -176,7 +171,8 @@ public class MediaPlayerCallback extends MediaSessionCompat.Callback
         requestAudioFocus();
         mediaSession.setActive(true);
         initializeMediaPlayer();
-        prepareMedia();
+        updateMetaData();
+        prepare();
     }
 
     @Override

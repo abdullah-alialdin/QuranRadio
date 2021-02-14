@@ -29,4 +29,5 @@
     <dimen name="textSize_56sp">56sp</dimen>
     <dimen name="textSize_60sp">60sp</dimen>
     <dimen name="textSize_120sp">120sp</dimen>
+    <dimen name="textSize_14sp">14sp</dimen>
 </resources>

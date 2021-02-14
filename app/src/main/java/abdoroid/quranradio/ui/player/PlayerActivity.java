@@ -139,10 +139,14 @@ public class PlayerActivity extends BaseActivity implements View.OnClickListener
         if (playToggleButton.equals(v)) {
             togglePlayPause();
         } else if (forwardBtn.equals(v)) {
+            handler.removeCallbacks(timeViewSetting);
+            timeView.setText(DateUtils.formatElapsedTime(0));
             if (controller != null){
                 controller.getTransportControls().skipToNext();
             }
         } else if (backwardBtn.equals(v)) {
+            handler.removeCallbacks(timeViewSetting);
+            timeView.setText(DateUtils.formatElapsedTime(0));
             if (controller != null){
                 controller.getTransportControls().skipToPrevious();
             }
@@ -213,6 +217,7 @@ public class PlayerActivity extends BaseActivity implements View.OnClickListener
         boolean isPlaying = (state == PlaybackStateCompat.STATE_PLAYING);
         playToggleButton.setActivated(isPlaying);
         startPlayerAnimator(isPlaying);
+        handler.removeCallbacks(timeViewSetting);
         handler.post(timeViewSetting);
         titleText.setText(controller.getMetadata().getString(MediaMetadataCompat.METADATA_KEY_TITLE));
         position = storageUtils.loadAudioIndex();

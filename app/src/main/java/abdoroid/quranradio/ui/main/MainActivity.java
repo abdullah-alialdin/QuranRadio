@@ -1,11 +1,9 @@
 package abdoroid.quranradio.ui.main;
 
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowInsets;
 import android.view.WindowInsetsController;
@@ -24,11 +22,11 @@ import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 
 import abdoroid.quranradio.R;
+import abdoroid.quranradio.ui.categories.Categories;
 import abdoroid.quranradio.ui.favourites.FavouriteActivity;
 import abdoroid.quranradio.ui.recordings.RecordsActivity;
 import abdoroid.quranradio.ui.settings.SettingsActivity;
 import abdoroid.quranradio.ui.splash.SplashScreen;
-import abdoroid.quranradio.ui.stations.StationsActivity;
 import abdoroid.quranradio.utils.BaseActivity;
 import abdoroid.quranradio.utils.Helper;
 import abdoroid.quranradio.utils.LocaleHelper;
@@ -81,7 +79,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (stationsBtn.equals(v)) {
-            Intent stationIntent = new Intent(MainActivity.this, StationsActivity.class);
+            Intent stationIntent = new Intent(MainActivity.this, Categories.class);
             showAd(stationIntent);
         } else if (favBtn.equals(v)) {
             Intent favIntent = new Intent(MainActivity.this, FavouriteActivity.class);

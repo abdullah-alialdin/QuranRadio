@@ -34,4 +34,15 @@
     <string name="main_background">Haupthintergrund</string>
     <string name="app_name">Koran Radio (Gold)</string>
     <string name="change_time">Ändern Sie die Streaming-Zeit aus den Einstellungen</string>
+    <string name="reciters_cat">Rezitatoren_2</string>
+    <string name="general_cat">Allgemeines Radio</string>
+    <string name="world_cat">Weltstationen</string>
+    <string name="qiraat_cat">Qiraat</string>
+    <string name="reciters_des">Hören Sie sich Rezitatoren an</string>
+    <string name="qiraat_des">Hören Sie mit qiraat Rezitatorstationen</string>
+    <string name="general_des">Hören Sie allgemeine Sender</string>
+    <string name="world_des">Hören Sie Weltsender</string>
+    <string name="translation_cat">Übersetzungen</string>
+    <string name="reciters1_cat">Rezitatoren_1</string>
+    <string name="translation_des">Hören Sie den Koran mit mehreren Übersetzungen</string>
 </resources>

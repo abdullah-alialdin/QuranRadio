@@ -34,4 +34,15 @@
     <string name="splash_icon">icono de bienvenida</string>
     <string name="app_name">Radio Corán (Oro)</string>
     <string name="change_time">Cambiar el tiempo de transmisión a través de la configuración</string>
+    <string name="reciters_cat">Recitadores_2</string>
+    <string name="general_cat">Radio General</string>
+    <string name="world_cat">Estaciones del mundo</string>
+    <string name="qiraat_cat">Qiraat</string>
+    <string name="reciters_des">Escuchar emisoras de reciters</string>
+    <string name="qiraat_des">Escuchar emisoras de recitadores con qiraat</string>
+    <string name="general_des">Escuchar emisoras generales</string>
+    <string name="world_des">Escuche las estaciones del mundo</string>
+    <string name="translation_cat">Traducciones</string>
+    <string name="reciters1_cat">Recitadores_1</string>
+    <string name="translation_des">Escuche el Corán con varias traducciones</string>
 </resources>
