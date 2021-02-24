@@ -17,7 +17,7 @@
         android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_0dp"
-        app:layout_constraintBottom_toTopOf="@id/adView"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" >
@@ -60,19 +60,6 @@
             android:textSize="@dimen/textSize_24sp" />
 
     </LinearLayout>
-
-    <com.google.android.gms.ads.AdView
-        xmlns:ads="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/adView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        ads:adSize="SMART_BANNER"
-        ads:adUnitId="@string/ad_banner_id"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

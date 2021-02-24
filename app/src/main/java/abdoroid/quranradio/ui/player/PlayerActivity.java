@@ -22,9 +22,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -78,10 +75,6 @@ public class PlayerActivity extends BaseActivity implements View.OnClickListener
         AppCompatDelegate.setDefaultNightMode(Helper.setDarkMode(this));
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         setContentView(R.layout.activity_player);
-
-        AdView mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
 
         ImageView playerAnim = findViewById(R.id.player_animation_view);
         playerAnimation = (AnimationDrawable) playerAnim.getBackground();
@@ -157,6 +150,7 @@ public class PlayerActivity extends BaseActivity implements View.OnClickListener
             onRecord(mStartRecording);
             mStartRecording = !mStartRecording;
         } else if (favBtn.equals(v)) {
+            audio_url = audioList.get(storageUtils.loadAudioIndex()).getUrl();
             if (!storageUtils.checkFavourites(audio_url)) {
                 favBtn.setImageResource(R.drawable.love_ok);
                 storageUtils.storeFavourite(audio_url, audio_title);

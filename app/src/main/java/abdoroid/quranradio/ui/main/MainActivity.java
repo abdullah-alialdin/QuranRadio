@@ -1,5 +1,6 @@
 package abdoroid.quranradio.ui.main;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
@@ -11,15 +12,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
-
-import com.google.android.gms.ads.AdError;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.FullScreenContentCallback;
-import com.google.android.gms.ads.LoadAdError;
-import com.google.android.gms.ads.interstitial.InterstitialAd;
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 
 import abdoroid.quranradio.R;
 import abdoroid.quranradio.ui.categories.Categories;
@@ -35,7 +28,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     public static boolean needReloaded = false;
     private Button stationsBtn, favBtn, settingBtn, recordsBtn;
-    private InterstitialAd mInterstitialAd;
 
     @Override
     @SuppressWarnings("deprecation")
@@ -57,8 +49,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             );
         }
 
-        loadAd();
-
         ImageView background = findViewById(R.id.gifImageView);
         background.setBackgroundResource(R.drawable.main_background);
         AnimationDrawable animationDrawable = (AnimationDrawable) background.getBackground();
@@ -78,59 +68,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        ActivityOptions options =
+                ActivityOptions.makeSceneTransitionAnimation(MainActivity.this);
         if (stationsBtn.equals(v)) {
             Intent stationIntent = new Intent(MainActivity.this, Categories.class);
-            showAd(stationIntent);
+            startActivity(stationIntent, options.toBundle());
         } else if (favBtn.equals(v)) {
             Intent favIntent = new Intent(MainActivity.this, FavouriteActivity.class);
-            showAd(favIntent);
+            startActivity(favIntent, options.toBundle());
         } else if (recordsBtn.equals(v)) {
             Intent recordsIntent = new Intent(MainActivity.this, RecordsActivity.class);
-            showAd(recordsIntent);
+            startActivity(recordsIntent, options.toBundle());
         } else if (settingBtn.equals(v)) {
             startActivity(new Intent(MainActivity.this, SettingsActivity.class));
         }
-    }
-
-    private void showAd(Intent intent){
-
-        if (mInterstitialAd != null) {
-            mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback(){
-                @Override
-                public void onAdDismissedFullScreenContent() {
-                    startActivity(intent);
-                }
-
-                @Override
-                public void onAdFailedToShowFullScreenContent(AdError adError) {
-                    startActivity(intent);
-                }
-
-                @Override
-                public void onAdShowedFullScreenContent() {
-                    mInterstitialAd = null;
-                    loadAd();
-                }
-            });
-            mInterstitialAd.show(MainActivity.this);
-        } else {
-            startActivity(intent);
-        }
-    }
-
-    private void loadAd(){
-        AdRequest adRequest = new AdRequest.Builder().build();
-        InterstitialAd.load(this,getString(R.string.ad_interstitial_id), adRequest, new InterstitialAdLoadCallback() {
-            @Override
-            public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
-                mInterstitialAd = interstitialAd;
-            }
-
-            @Override
-            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                mInterstitialAd = null;
-            }
-        });
     }
 
 

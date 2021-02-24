@@ -90,6 +90,7 @@
         app:strokeColor="@color/logo_text_color"
         app:strokeWidth="2dp" />
 
+
     <TextView
         android:id="@+id/version"
         android:layout_width="wrap_content"

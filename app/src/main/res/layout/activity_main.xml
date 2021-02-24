@@ -96,11 +96,10 @@
         android:layout_marginBottom="@dimen/dimen_4dp"
         android:text="@string/v1_0_from"
         android:textColor="@color/logo_text"
-        app:layout_constraintBottom_toBottomOf="@+id/gifImageView"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/settings_btn"
-        app:layout_constraintVertical_bias="0.78" />
+        app:layout_constraintTop_toBottomOf="@id/settings_btn" />
 
     <TextView
         android:id="@+id/textView"
@@ -110,7 +109,7 @@
         android:text="@string/abdoroid"
         android:textColor="@color/logo_text"
         android:textSize="@dimen/textSize_24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/gifImageView"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/version" />

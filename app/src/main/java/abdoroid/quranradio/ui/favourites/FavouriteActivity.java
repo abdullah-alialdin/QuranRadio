@@ -15,9 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-
 import abdoroid.quranradio.R;
 import abdoroid.quranradio.adapter.RadioAdapter;
 import abdoroid.quranradio.ui.main.MainActivity;
@@ -43,10 +40,6 @@ public class FavouriteActivity extends BaseActivity {
         AppCompatDelegate.setDefaultNightMode(Helper.setDarkMode(this));
         Helper.setAnimation(FavouriteActivity.this);
         setContentView(R.layout.activity_favourite);
-
-        AdView mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
 
         StorageUtils storageUtils = new StorageUtils(this);
 

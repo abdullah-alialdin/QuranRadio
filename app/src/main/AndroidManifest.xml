@@ -22,11 +22,6 @@
         android:usesCleartextTraffic="true"
         tools:ignore="UnusedAttribute">
 
-
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/ad_app_id" />
-
         <activity
             android:name=".ui.recordings.RecordsActivity"
             android:launchMode="singleTask"
